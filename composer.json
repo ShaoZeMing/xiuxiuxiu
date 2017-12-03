@@ -13,7 +13,8 @@
         "predis/predis": "^1.1",
         "prettus/l5-repository": "^2.6",
         "ixudra/curl": "6.*",
-        "vinkla/hashids": "^3.1"
+        "vinkla/hashids": "^3.1",
+        "shaozeming/lumen-postgis" : "dev-master"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

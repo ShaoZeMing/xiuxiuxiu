@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
+use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
 
 class Order extends Model implements Transformable
 {
-    use TransformableTrait,SequenceTrait;
+    use TransformableTrait,PostgisTrait,SequenceTrait;
 
     protected $fillable = [];
     public $incrementing = false;

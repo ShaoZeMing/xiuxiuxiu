@@ -6,13 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
-use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
 
-class User extends Model implements Transformable
+class MerchantCategorie extends Model implements Transformable
 {
-    use TransformableTrait,PostgisTrait,SequenceTrait;
+    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
-    public $incrementing = false;
 
 }
