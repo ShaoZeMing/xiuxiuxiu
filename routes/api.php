@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,19 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+
+Route::group([
+    'namespace'  => "WX",
+    'prefix' => 'wx',
+//    'middleware' => [
+//        'web',
+//    ],
+], function ($api) {
+    //公众号授权及操作路由
+    Route::any('user/order/index', 'UserController@userOrderAuthCallback');//授权事件
+    Route::any('user/order/auth', 'UserController@userOrderAuthCallback');//授权事件
+
 });

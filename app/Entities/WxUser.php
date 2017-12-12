@@ -14,4 +14,11 @@ class WxUser extends Model implements Transformable
     protected $fillable = [];
     public $incrementing = false;
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user(){
+       return  $this->hasOne(User::class,'wx_user_id','id');
+    }
 }

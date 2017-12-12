@@ -2,224 +2,199 @@
 
 namespace App\Http\Controllers\WX;
 
+use App\Entities\Customer;
+use App\Entities\Order;
 use App\Http\Controllers\Controller;
-use App\Repositories\WxUserRepositoryEloquent;
+use App\Repositories\CompanyRepositoryEloquent;
+use App\Repositories\CustomerRepositoryEloquent;
+use App\Repositories\OrderRepositoryEloquent;
 use EasyWeChat\OpenPlatform\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+
 class AuthController extends Controller
 {
 
+    protected $app;
 
-    protected $_sms_type = [
-        'forget',
-        'repwd'
-    ];
-
-    protected $wxUserRepository;
-    protected $wx;
-
-    public function __construct(WxUserRepositoryEloquent $wxUserRepository)
+    public function __construct()
     {
-        $this->wxUserRepository = $wxUserRepository;
-        $this->wx = app('wechat')->server;
+        $this->app = app('wechat');
     }
 
     /**
-     * Show the application dashboard.
+     * 微信公众号授权事件接口
      *
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * 微信的事件触发接口
+     * @author zhangjun@xiaobaiyoupin.com
      *
-     * @return string
+     * @param mixed Request $request
+     *
+     * @return mixed
      */
-    public function event(Request $request)
+    public function auth(Request $request)
     {
-
-        Log::info('获取请求数据', [$request, __METHOD__]);
-        $app = app('wechat')->server;
-        $msgArr = $app->getMessage();
-        Log::info('请求message',$msgArr);
-        $app->setMessageHandler(function ($message) {
-            switch ($message->MsgType) {
-                case 'event':
-                    return '收到事件消息';
-                    break;
-                case 'text':
-                    return '收到文字消息';
-                    break;
-                case 'image':
-                    return '收到图片消息';
-                    break;
-                case 'voice':
-                    return '收到语音消息';
-                    break;
-                case 'video':
-                    return '收到视频消息';
-                    break;
-                case 'location':
-                    return '收到坐标消息';
-                    break;
-                case 'link':
-                    return '收到链接消息';
-                    break;
-                // ... 其它消息
-                default:
-                    return '收到其它消息';
-                    break;
-            }
-        });
-        return $app->serve();
-    }
-
-
-    //创建微信自定义菜单
-    public function createMenu(Request $request)
-    {
-
         $context = [
-            'request' => $request->all(),
+            '$request' => $request->all(),
             'method' => __METHOD__,
         ];
         try {
-            $jsonmenu = '{
-                            "button": [
-                                {
-                                    "name": "我的博客", 
-                                    "sub_button": [
-                                        {
-                                            "type": "view", 
-                                            "name": "微信下单", 
-                                            "url": "http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/VKLX2MVeAwez/index"
-                                        }, 
-                                        {
-                                            "type": "view", 
-                                            "name": "PHP", 
-                                            "url": "http://blog.4d4k.com/category/php/"
-                                        }, 
-                                        {
-                                            "type": "view", 
-                                            "name": "SQL", 
-                                            "url": "http://blog.4d4k.com/category/sql/"
-                                        }
-                                    ]
-                                }, 
-                                {
-                                    "name": "扫一扫", 
-                                    "sub_button": [
-                                        {
-                                            "type": "scancode_waitmsg", 
-                                            "name": "扫码带提示", 
-                                            "key": "sao_ma_ti_shi", 
-                                            "sub_button": [ ]
-                                        }, 
-                                        {
-                                            "type": "scancode_push", 
-                                            "name": "扫码推事件", 
-                                            "key": "sao_ma_tui", 
-                                            "sub_button": [ ]
-                                        }, 
-                                        {
-                                            "type": "click", 
-                                            "name": "今日歌曲", 
-                                            "key": "V1001_TODAY_MUSIC"
-                                        }
-                                    ]
-                                }, 
-                                {
-                                    "name": "发图", 
-                                    "sub_button": [
-                                        {
-                                            "type": "pic_sysphoto", 
-                                            "name": "拍照发图", 
-                                            "key": "pai_zhao", 
-                                            "sub_button": [ ]
-                                        }, 
-                                        {
-                                            "type": "pic_photo_or_album", 
-                                            "name": "拍照or相册", 
-                                            "key": "pai_zhao_or_photos", 
-                                            "sub_button": [ ]
-                                        }, 
-                                        {
-                                            "type": "pic_weixin", 
-                                            "name": "微信相册发图", 
-                                            "key": "wixin_photos"
-                                        }, 
-                                        {
-                                            "type": "location_select", 
-                                            "name": "发送位置", 
-                                            "key": "address"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }';
+            Log::info('微信授权接收接口', $context);
+            $this->app->server->setMessageHandler(function ($event) {
+                // 事件类型常量定义在 \EasyWeChat\OpenPlatform\Guard 类里
+                switch ($event->InfoType) {
+                    case Guard::EVENT_AUTHORIZED: // 授权成功
+                        $authorizationInfo = $this->app->getAuthorizationInfo($event->AuthorizationCode);
+                        // 保存数据库操作等...
+                        Log::info('授权成功', [$authorizationInfo]);
+                        break;
+                    case Guard::EVENT_UPDATE_AUTHORIZED: // 更新授权
+                        // 更新数据库操作等...
+                        Log::info('授权更新', [__METHOD__]);
+                        break;
+                    case Guard::EVENT_UNAUTHORIZED: // 授权取消
+                        // 更新数据库操作等...
+                        Log::info('授权取消', [__METHOD__]);
+                        break;
+                }
+            });
+            return $this->app->server->serve();
         } catch (\Exception $e) {
-            Log::info($e, $context);
+            Log::error($e, $context);
+            return 'success';
+        }
+
+    }
+
+
+    //授权成功跳转页面
+    public function targetAuth(Request $request, CompanyRepositoryEloquent $companyRepository, $cid)
+    {
+
+        $companyId = hashidsDecode($cid);
+        $context = [
+            '$request' => $request->all(),
+            'companyId' => $companyId,
+            'method' => __METHOD__,
+        ];
+        Log::info('授权成功跳转方法', $context);
+        $openPlatform = $this->openPlatform;
+        $info = $openPlatform->getAuthorizationInfo();
+        Log::info('凭证+更新状态:', [$info->toArray()]);
+        $date = [
+            'app_id' => $info->get('authorization_info.authorizer_appid'),
+            'refresh_token' => $info->get('authorization_info.authorizer_refresh_token'),
+        ];
+        $company = $companyRepository->update($date, $companyId);
+        Log::info('凭证+更新状态:', [$company, $date]);
+        return redirect('/');
+    }
+
+
+    /**
+     * 微信公众号事件触发接口
+     *
+     * @author shaozeming@xiaobaiyoupin.com
+     *
+     * @param mixed Request $request
+     *
+     * @return mixed
+     */
+    public function callbackEvent(Request $request, $id)
+    {
+        Log::info('获取请求数据', [$request, 'app_id' => $id, __METHOD__]);
+        try {
+            $server = $this->app->server;
+            $msgArr = $server->getMessage();
+            Log::info('请求message', [$msgArr]);
+            $server->setMessageHandler(function ($message) {
+                switch ($message->MsgType) {
+                    case 'event':
+                        if ($message->Event = 'click') {
+                            switch ($message->EventKey) {
+                                case 'my_orders':
+                                    break;
+                                case 'now_activity':
+                                    return '新活动正在筹划中，敬请期待！';
+                                    break;
+                            };
+                        }
+                        Log::info('收到xiu事件消息', [__METHOD__]);
+                        return '收到xiu事件消息';
+                        break;
+                    case 'text':
+                        Log::info('收到xiu文字消息', [__METHOD__]);
+                        return '收到xiu文字消息';
+                        break;
+                    case 'image':
+                        Log::info('收到xiu图片消息', [__METHOD__]);
+                        return '收到xiu图片消息';
+                        break;
+                    case 'voice':
+                        Log::info('收到xiu语音消息', [__METHOD__]);
+                        return '收到xiu语音消息';
+                        break;
+                    case 'video':
+                        Log::info('收到xiu视频消息', [__METHOD__]);
+                        return '收到xiu视频消息';
+                        break;
+                    case 'location':
+                        Log::info('收到xiu坐标消息', [__METHOD__]);
+                        return '收到xiu坐标消息';
+                        break;
+                    case 'link':
+                        Log::info('收到xiu链接消息', [__METHOD__]);
+                        return '收到xiu链接消息';
+                        break;
+                    default:
+                        Log::info('收到xiu其它消息', [__METHOD__]);
+                        return '收到xiu其它消息';
+                        break;
+                }
+            });
+            return $server->serve();
+        } catch (\Exception $e) {
+            Log::error($e, [__METHOD__]);
+            return 'success';
         }
     }
 
 
 
+    /**
+     * 创建微信菜单
+     * @return string
+     */
+    public function createMenu()
+    {
+        try {
+            Log::info('微信创建菜单start'[__METHOD__]);
+            $buttons = [
+                [
+                    "type" => "view",
+                    "name" => "我是用户",
+                    "url" => "http://xiu.4d4k.com/api/wx/order/index"
+                ],
+                [
+                    "type" => "click",
+                    "name" => "我是商家",
+                    "key" => "now_activity"
 
+                ],
+                [
+                    "type" => "click",
+                    "name" => "我是师傅",
+                    "key" => "my_orders"
+                ],
+            ];
 
-    public function orderCreate(){
+            $res = $this->app->menu->add($buttons);
+            Log::info('微信创建菜单', [$res, __METHOD__]);
+            return 'success';
+        } catch (\Exception $e) {
+            Log::error($e, ['微信创建菜单失败！', __METHOD__]);
+            return $e->getMessage();
+        }
 
-        return view('weixin.order_create');
     }
-
-
-
-
-    public function sendNotice(){
-        $app = app('wechat');
-        $notice = $app->notice;
-//        $templateId = $notice->addTemplate('模板公共ID');
-//        Log::info('创建模板ID',[$templateId,__METHOD__]);
-        $templateArr = $notice->getPrivateTemplates();
-        Log::info('模板列表',[$templateArr,__METHOD__]);
-        $messageId = $notice->send([
-            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
-            'template_id' => 'MhTmjXb8TT9Ec40EpeE3xZcVzE8hHqPEIJZtJOj3ozw',
-            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536969186711176198/show',
-            'data' => [
-                "title"    => array("下单成功！", '#555555'),
-                "desc" => array("我们会尽快与您取得联系确认上门维修时间，请保持电话畅通。", "#336699"),
-                "order_no" => array("171201100201302634", "#FF0000"),
-                "service_mode" => array("邮寄", "#888888"),
-            ],
-        ]);
-        Log::info('模板消息ID',[$messageId,__METHOD__]);
-        $messageId = $notice->send([
-            'touser' => 'oYzfov2raQuxOG0S_Mv4eoX69Cps',
-            'template_id' => 'E5FVz2OunMtIp9aEje3bF3n9dpZSX_McBuv2rGVTMbM',
-            'url' => 'http://shouhou.yipinxiaobai.com/api/v1/weixin/orders/536880791171367940/show',
-            'data' => [
-                "title"    => array("下单成功！", '#555555'),
-                "desc" => array("已安排工程师上门", "#336699"),
-                "order_no" => array("171130103701752935", "#FF0000"),
-                "service_mode" => array("上门", "#888888"),
-                "worker_name" => array("国强师傅-18513117316", "#888888"),
-                "booked_at" => array("2017-11-30 12:00:00", "#888888"),
-                "remark" => array("请保持电话畅通，等待上门。", "#888888"),
-            ],
-        ]);
-        Log::info('模板消息ID',[$messageId,__METHOD__]);
-        return '模板消息发送成功';
-    }
-
-    public function createNotice(){
-        $notice = "	{{ title.DATA }}\n {{ desc.DATA }}\n 工单号：{{ order_no.DATA }}\n 服务方式：{{ service_mode.DATA }}";
-        $app = app('wechat');
-//        $app = new Application([]);
-        $notice = $app->notice;
-        $templateId = $notice->addTemplate(6);
-        $templateArr = $notice->getPrivateTemplates();
-    }
-
 }

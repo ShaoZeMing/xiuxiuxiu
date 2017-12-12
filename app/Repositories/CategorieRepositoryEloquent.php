@@ -33,4 +33,9 @@ class CategorieRepositoryEloquent extends BaseRepository implements CategorieRep
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+
+    public function getCats(){
+        return $this->findByField('parent_id',0);
+    }
 }
