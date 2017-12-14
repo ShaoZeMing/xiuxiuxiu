@@ -20,15 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-//Route::group([
-//    'namespace'  => "WX",
-//    'prefix' => 'wx',
-////    'middleware' => [
-////        'web',
-////    ],
-//], function ($api) {
-//    //公众号授权及操作路由
-//    Route::any('user/order/index', 'UserController@userOrderAuthCallback');//授权事件
-//    Route::any('user/order/auth', 'UserController@userOrderAuthCallback');//授权事件
-//
-//});
+Route::group([
+//    'middleware' => [
+//        'web',
+//    ],
+], function ($api) {
+    //公众号授权及操作路由
+    Route::any('user/order/index', 'UserController@userOrderAuthCallback');//授权事件
+    Route::any('user/order/auth', 'UserController@userOrderAuthCallback');//授权事件
+
+});

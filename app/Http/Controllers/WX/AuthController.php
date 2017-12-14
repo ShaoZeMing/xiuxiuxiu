@@ -32,6 +32,7 @@ class AuthController extends Controller
      *
      * @return mixed
      */
+
     public function auth(Request $request)
     {
         $context = [
@@ -158,7 +159,6 @@ class AuthController extends Controller
             return 'success';
         }
     }
-
 
 
     /**
