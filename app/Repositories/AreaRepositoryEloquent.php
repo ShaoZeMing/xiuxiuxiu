@@ -33,4 +33,20 @@ class AreaRepositoryEloquent extends BaseRepository implements AreaRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+
+    public function districtsToTree($pid = 0)
+    {
+
+        $where = [
+            'parent_id' => $pid,
+        ];
+
+        $provinces = $this->with('sub')->findWhere($where);
+        $provinces->each(function ($province) {
+            $province->sub->each->sub;
+        });
+
+        return $provinces;
+    }
 }

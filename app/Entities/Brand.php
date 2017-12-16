@@ -7,6 +7,29 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+/**
+ * App\Entities\Brand
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $desc
+ * @property int $cat_id
+ * @property int $parent_id
+ * @property int $level
+ * @property int $sort
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereCatId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Brand extends Model implements Transformable
 {
     use TransformableTrait,SequenceTrait;

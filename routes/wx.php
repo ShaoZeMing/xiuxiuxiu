@@ -25,8 +25,10 @@ Route::group([
 //        'web',
 //    ],
 ], function ($api) {
-    //公众号授权及操作路由
-    Route::any('user/order/index', 'UserController@userOrderAuthCallback');//授权事件
-    Route::any('user/order/auth', 'UserController@userOrderAuthCallback');//授权事件
+    Route::get('create/menu', 'AuthController@createMenu');//微信自动触发事件
+    Route::any('event', 'AuthController@event');//微信自动触发事件
+    Route::any('auth/{type}', 'AuthController@auth');//微信授权成功后跳转路由
+
+    Route::get('user/order/index', 'UserOrderController@index');//授权事件
 
 });

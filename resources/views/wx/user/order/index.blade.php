@@ -1,95 +1,34 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+@extends('wx.layout.app')
+@section('title')
+    修修咻，瞬间就好！
+@endsection
+@section('content')
+    <div class="page__bd">
+        @foreach($data as $k=>$v)
+            <div class="weui-cells__title">{{$v['name']}}</div>
+            <div class="weui-cells">
+                @foreach($v->brands()->get() as $vv)
+                    <a class="weui-cell weui-cell_access" href="{{url('wx/user/order/select/product')."?cat_id={$v['id']}&cat_name={$v['name']}&brand_id={$vv['id']}&brand_name={$vv['name']}"}}">
+                        <div class="weui-cell__bd">
+                            <p>{{$vv['name']}}</p>
+                        </div>
+                        <div class="weui-cell__ft"></div>
+                    </a>
+                @endforeach
             </div>
-        </div>
-    </body>
-</html>
+        @endforeach
+    </div>
+@endsection
+@section('myjs')
+
+    <script>
+        var window_height = $(window).height();
+        var document_height =$(document).height();
+        console.log('window_height',window_height);
+        console.log('document_height',document_height);
+
+        if(document_height > window_height  ){
+            $('#weui_footer').removeClass('weui-footer_fixed-bottom');
+        }
+    </script>
+@endsection

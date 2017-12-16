@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\WX;
 
-use App\Entities\Customer;
-use App\Entities\Order;
 use App\Http\Controllers\Controller;
-use App\Repositories\CompanyRepositoryEloquent;
-use App\Repositories\CustomerRepositoryEloquent;
-use App\Repositories\OrderRepositoryEloquent;
-use EasyWeChat\OpenPlatform\Guard;
+use App\Repositories\WxUserRepositoryEloquent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-
+/**
+ * Class AuthController
+ * @package App\Http\Controllers\WX
+ */
 class AuthController extends Controller
 {
 
@@ -23,87 +21,18 @@ class AuthController extends Controller
         $this->app = app('wechat');
     }
 
-    /**
-     * 微信公众号授权事件接口
-     *
-     * @author zhangjun@xiaobaiyoupin.com
-     *
-     * @param mixed Request $request
-     *
-     * @return mixed
-     */
-
-    public function auth(Request $request)
-    {
-        $context = [
-            '$request' => $request->all(),
-            'method' => __METHOD__,
-        ];
-        try {
-            Log::info('微信授权接收接口', $context);
-            $this->app->server->setMessageHandler(function ($event) {
-                // 事件类型常量定义在 \EasyWeChat\OpenPlatform\Guard 类里
-                switch ($event->InfoType) {
-                    case Guard::EVENT_AUTHORIZED: // 授权成功
-                        $authorizationInfo = $this->app->getAuthorizationInfo($event->AuthorizationCode);
-                        // 保存数据库操作等...
-                        Log::info('授权成功', [$authorizationInfo]);
-                        break;
-                    case Guard::EVENT_UPDATE_AUTHORIZED: // 更新授权
-                        // 更新数据库操作等...
-                        Log::info('授权更新', [__METHOD__]);
-                        break;
-                    case Guard::EVENT_UNAUTHORIZED: // 授权取消
-                        // 更新数据库操作等...
-                        Log::info('授权取消', [__METHOD__]);
-                        break;
-                }
-            });
-            return $this->app->server->serve();
-        } catch (\Exception $e) {
-            Log::error($e, $context);
-            return 'success';
-        }
-
-    }
-
-
-    //授权成功跳转页面
-    public function targetAuth(Request $request, CompanyRepositoryEloquent $companyRepository, $cid)
-    {
-
-        $companyId = hashidsDecode($cid);
-        $context = [
-            '$request' => $request->all(),
-            'companyId' => $companyId,
-            'method' => __METHOD__,
-        ];
-        Log::info('授权成功跳转方法', $context);
-        $openPlatform = $this->openPlatform;
-        $info = $openPlatform->getAuthorizationInfo();
-        Log::info('凭证+更新状态:', [$info->toArray()]);
-        $date = [
-            'app_id' => $info->get('authorization_info.authorizer_appid'),
-            'refresh_token' => $info->get('authorization_info.authorizer_refresh_token'),
-        ];
-        $company = $companyRepository->update($date, $companyId);
-        Log::info('凭证+更新状态:', [$company, $date]);
-        return redirect('/');
-    }
 
 
     /**
-     * 微信公众号事件触发接口
-     *
-     * @author shaozeming@xiaobaiyoupin.com
-     *
-     * @param mixed Request $request
-     *
-     * @return mixed
+     * 微信事件自动触发接口
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param Request $request
+     * @return string
      */
-    public function callbackEvent(Request $request, $id)
+    public function event(Request $request)
     {
-        Log::info('获取请求数据', [$request, 'app_id' => $id, __METHOD__]);
+        Log::info('获取请求数据', [$request, __METHOD__]);
         try {
             $server = $this->app->server;
             $msgArr = $server->getMessage();
@@ -162,18 +91,54 @@ class AuthController extends Controller
 
 
     /**
+     * 网页授权方法
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param Request $request
+     * @param WxUserRepositoryEloquent $wxUserRepository
+     * @param $type
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function auth(Request $request, WxUserRepositoryEloquent $wxUserRepository, $type)
+    {
+        $context = [
+            '$request' => $request,
+            'method' => __METHOD__,
+            'type' => $type,
+        ];
+        Log::info('获取请求数据',$context);
+        try {
+            // 获取 OAuth 授权结果用户信息
+            $user = $this->app->oauth->user()->toArray();
+            Log::info('微信用户授权成功后用户数据', [$user, __METHOD__]);
+            $data['openid'] = $user['id'];
+            $data['refresh_token'] = $user['original']['refresh_token'];
+            //创建用户
+            $wxUser = $wxUserRepository->firstOrCreate(['openid' => $user['id']]);
+            session(['user' => $user]);
+            Log::info('$wxUser用户', [$wxUser]);
+            return redirect('api/wx/user/order/index');
+        } catch (\Exception $e) {
+            Log::error($e, [__METHOD__]);
+            return $this->response('1009', '微信登陆失败');
+        }
+
+
+    }
+
+    /**
      * 创建微信菜单
      * @return string
      */
     public function createMenu()
     {
         try {
-            Log::info('微信创建菜单start'[__METHOD__]);
+            Log::info('微信创建菜单start',[__METHOD__]);
             $buttons = [
                 [
                     "type" => "view",
                     "name" => "我是用户",
-                    "url" => "http://xiu.4d4k.com/api/wx/order/index"
+                    "url" => "http://xiu.4d4k.com/wx/user/order/index"
                 ],
                 [
                     "type" => "click",
