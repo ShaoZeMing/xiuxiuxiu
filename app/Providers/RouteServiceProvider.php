@@ -51,10 +51,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
+
+        //前台网站接口
         Route::middleware('web')
              ->namespace($this->namespace.'\Web')
              ->group(base_path('routes/web.php'));
 
+        //后台网站接口
         Route::prefix('admin')
             ->middleware('web')
              ->namespace($this->namespace.'\Admin')
@@ -70,11 +73,21 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
+        //app 接口
+        Route::prefix('app')
+             ->middleware('api')
+             ->namespace($this->namespace.'\App')
+             ->group(base_path('routes/api.php'));
+
+
+        //公用接口
         Route::prefix('api')
              ->middleware('api')
              ->namespace($this->namespace.'\Api')
              ->group(base_path('routes/api.php'));
 
+
+        //微信接口
         Route::prefix('wx')
              ->middleware('api')
              ->namespace($this->namespace.'\WX')

@@ -24,7 +24,7 @@ class AreaRepositoryEloquent extends BaseRepository implements AreaRepository
         return Area::class;
     }
 
-    
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -35,14 +35,13 @@ class AreaRepositoryEloquent extends BaseRepository implements AreaRepository
     }
 
 
-    public function districtsToTree($pid = 0)
+    public function getAreaTree($pid = 0)
     {
 
         $where = [
             'parent_id' => $pid,
         ];
-
-        $provinces = $this->with('sub')->findWhere($where);
+        $provinces = $this->makeModel()->with('sub')->where($where)->orderBy('id','asc')->get(['id','name']);
         $provinces->each(function ($province) {
             $province->sub->each->sub;
         });

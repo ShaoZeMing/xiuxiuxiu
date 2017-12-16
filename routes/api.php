@@ -14,21 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+/**
+ * 全局使用接口
+ */
+Route::group([
+//    'middleware' => [
+//        'web',
+//    ],
+], function ($api) {
+    Route::get('area', 'AreaController@area');//获取地理位置
 });
-
-
-
-//Route::group([
-//    'namespace'  => "WX",
-//    'prefix' => 'wx',
-////    'middleware' => [
-////        'web',
-////    ],
-//], function ($api) {
-//    //公众号授权及操作路由
-//    Route::any('user/order/index', 'UserController@userOrderAuthCallback');//授权事件
-//    Route::any('user/order/auth', 'UserController@userOrderAuthCallback');//授权事件
-//
-//});
