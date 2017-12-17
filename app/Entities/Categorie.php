@@ -47,8 +47,38 @@ class Categorie extends Model implements Transformable
 
 
 
-    public function  transform(){
+    /**
+     * 获取分类下所有的产品
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products(){
+        return $this->hasMany(Product::class,'cat_id');
+    }
 
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent(){
+        return $this->belongsTo(Categorie::class,'parent_id');
+    }
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children(){
+        return $this->hasMany(Categorie::class,'parent_id','id');
+    }
+
+
+
+
+
+    public function  transform(){
 
     }
 

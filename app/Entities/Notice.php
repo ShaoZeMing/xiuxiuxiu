@@ -35,4 +35,13 @@ class Notice extends Model implements Transformable
     protected $fillable = [];
     public $incrementing = false;
 
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order(){
+        return $this->belongsTo(Order::class);
+    }
 }

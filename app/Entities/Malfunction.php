@@ -36,4 +36,34 @@ class Malfunction extends Model implements Transformable
 
     protected $fillable = [];
 
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent(){
+        return $this->belongsTo(Malfunction::class,'parent_id');
+
+    }
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children(){
+        return $this->hasMany(Malfunction::class,'parent_id');
+    }
+
 }

@@ -40,4 +40,34 @@ class Comment extends Model implements Transformable
 
     protected $fillable = [];
 
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function worker(){
+        return $this->belongsTo(Worker::class);
+    }
+
+    /**
+     *
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order(){
+        return $this->belongsTo(Order::class);
+    }
+
+
+    /**
+     * 评价关联
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function commentable(){
+        return $this->morphTo();
+    }
 }

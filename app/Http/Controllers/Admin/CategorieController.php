@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entities\Categorie;
+
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -10,7 +11,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class ExampleController extends Controller
+class CategorieController extends Controller
 {
     use ModelForm;
 
@@ -70,12 +71,19 @@ class ExampleController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(YourModel::class, function (Grid $grid) {
+        return Admin::grid(Categorie::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-
-            $grid->created_at();
-            $grid->updated_at();
+//            dump($grid->model()->id);
+            $grid->column('name','名称');
+            $grid->column('parent.name','父级分类');
+            $grid->desc('描述');
+            $grid->created_at('创建时间');
+            $grid->updated_at('修改时间');
+            $grid->filter(function ($filter) {
+                // 设置created_at字段的范围查询
+                $filter->between('created_at', 'Created Time')->datetime();
+            });
         });
     }
 
@@ -86,12 +94,21 @@ class ExampleController extends Controller
      */
     protected function form()
     {
-        return Admin::form(YourModel::class, function (Form $form) {
-
+        return Admin::form(Categorie::class, function (Form $form) {
             $form->display('id', 'ID');
+            $form->text('name', '名称');
+            $cats = Categorie::where(['parent_id'=>0])->get();
+           $catData['0'] = '无';
+            $cats->each(function ($cat)use(&$catData){
+                 $catData[$cat->id] =  $cat->name;
+            });
+//            dd($catData);
+            $form->select('parent_id', '父级')->options($catData);
+            $form->textarea('desc', '描述');
+            $form->number('sort', '排序');
+            $form->display('created_at', '创建时间');
+            $form->display('updated_at', '修改时间');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
         });
     }
 }

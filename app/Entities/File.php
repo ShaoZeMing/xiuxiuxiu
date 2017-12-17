@@ -45,4 +45,14 @@ class File extends Model implements Transformable
     protected $fillable = [];
     public $incrementing = false;
 
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function uploadable(){
+        return $this->morphTo();
+    }
+
 }

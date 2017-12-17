@@ -34,4 +34,19 @@ class NoticeReceiver extends Model implements Transformable
 
     protected $fillable = [];
 
+
+
+
+    public function notice(){
+        return $this->belongsTo(Notice::class);
+    }
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function noticeable(){
+        return $this->morphTo();
+    }
 }

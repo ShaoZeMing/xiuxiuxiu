@@ -28,11 +28,21 @@ class Area extends Model implements Transformable
     public $timestamps= false;
 
 
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function parent()
     {
         return $this->belongsTo(Area::class, 'parent_id');
     }
 
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function sub()
     {
         return $this->hasMany(Area::class, 'parent_id');

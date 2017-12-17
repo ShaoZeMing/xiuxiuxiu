@@ -54,13 +54,13 @@ class RouteServiceProvider extends ServiceProvider
 
         //前台网站接口
         Route::middleware('web')
-//             ->namespace($this->namespace.'\Web')
+             ->namespace('')
              ->group(base_path('routes/web.php'));
 
         //后台网站接口
         Route::prefix('')
             ->middleware('web')
-//             ->namespace($this->namespace.'\Admin')
+             ->namespace('')
              ->group(base_path('routes/admin.php'));
     }
 

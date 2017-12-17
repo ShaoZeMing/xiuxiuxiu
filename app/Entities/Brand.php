@@ -36,4 +36,34 @@ class Brand extends Model implements Transformable
 
     protected $fillable = [];
 
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent(){
+        return $this->belongsTo(Brand::class,'parent_id');
+
+    }
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children(){
+        return $this->hasMany(Brand::class,'parent_id');
+    }
+
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function cat(){
+        return $this->belongsTo(Categorie::class,'cat_id');
+    }
+
 }

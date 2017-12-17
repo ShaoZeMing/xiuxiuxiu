@@ -28,11 +28,8 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @property int $pay_price
  * @property string $order_desc
  * @property string $verify_code
- * @property int $created_type
  * @property int $pay_state
- * @property int $created_id
  * @property string $created_name
- * @property string $created_mobile
  * @property string $created_logo
  * @property int $worker_id
  * @property string $worker_name
@@ -120,4 +117,64 @@ class Order extends Model implements Transformable
     protected $fillable = [];
     public $incrementing = false;
 
+
+    /**
+     * 产品
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * 分类
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function cat(){
+        return $this->belongsTo(Categorie::class);
+    }
+
+    /**
+     * 品牌
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
+
+    /**
+     * 师傅
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function worker(){
+        return $this->belongsTo(Worker::class);
+    }
+
+    /**
+     * 故障
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function malfunction(){
+        return $this->belongsTo(Malfunction::class);
+    }
+
+    /**
+     * 创建者
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function createdable(){
+        return $this->morphTo();
+    }
 }
