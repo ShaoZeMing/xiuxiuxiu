@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Exceptions;
-
+use Encore\Admin\Reporter\Reporter;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -36,9 +38,12 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
-    }
+        if ($this->shouldReport($exception)) {
+            Reporter::report($exception);
+        }
 
+//        parent::report($exception);
+    }
     /**
      * Render an exception into an HTTP response.
      *

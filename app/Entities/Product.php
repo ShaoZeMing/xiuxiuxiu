@@ -36,4 +36,5 @@ class Product extends Model implements Transformable
 
     protected $fillable = [];
 
+
 }

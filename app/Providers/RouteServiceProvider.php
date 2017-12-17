@@ -58,9 +58,9 @@ class RouteServiceProvider extends ServiceProvider
              ->group(base_path('routes/web.php'));
 
         //后台网站接口
-        Route::prefix('admin')
+        Route::prefix('')
             ->middleware('web')
-             ->namespace($this->namespace.'\Admin')
+//             ->namespace($this->namespace.'\Admin')
              ->group(base_path('routes/admin.php'));
     }
 
@@ -77,7 +77,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('app')
              ->middleware('api')
              ->namespace($this->namespace.'\App')
-             ->group(base_path('routes/api.php'));
+             ->group(base_path('routes/app.php'));
 
 
         //公用接口
