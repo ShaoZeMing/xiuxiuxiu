@@ -12943,6 +12943,192 @@ namespace Encore\Admin\Facades {
  
 }
 
+namespace ShaoZeMing\Merchant\Facades { 
+
+    class Merchant {
+        
+        /**
+         * 
+         *
+         * @param $model
+         * @param \Closure $callable
+         * @return \ShaoZeMing\Merchant\Grid 
+         * @static 
+         */ 
+        public static function grid($model, $callable)
+        {
+            return \ShaoZeMing\Merchant\Merchant::grid($model, $callable);
+        }
+        
+        /**
+         * 
+         *
+         * @param $model
+         * @param \Closure $callable
+         * @return \ShaoZeMing\Merchant\Form 
+         * @static 
+         */ 
+        public static function form($model, $callable)
+        {
+            return \ShaoZeMing\Merchant\Merchant::form($model, $callable);
+        }
+        
+        /**
+         * Build a tree.
+         *
+         * @param $model
+         * @return \ShaoZeMing\Merchant\Tree 
+         * @static 
+         */ 
+        public static function tree($model, $callable = null)
+        {
+            return \ShaoZeMing\Merchant\Merchant::tree($model, $callable);
+        }
+        
+        /**
+         * 
+         *
+         * @param \Closure $callable
+         * @return \ShaoZeMing\Merchant\Layout\Content 
+         * @static 
+         */ 
+        public static function content($callable = null)
+        {
+            return \ShaoZeMing\Merchant\Merchant::content($callable);
+        }
+        
+        /**
+         * 
+         *
+         * @param $model
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getModel($model)
+        {
+            return \ShaoZeMing\Merchant\Merchant::getModel($model);
+        }
+        
+        /**
+         * Add css or get all css.
+         *
+         * @param null $css
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
+         * @static 
+         */ 
+        public static function css($css = null)
+        {
+            return \ShaoZeMing\Merchant\Merchant::css($css);
+        }
+        
+        /**
+         * Add js or get all js.
+         *
+         * @param null $js
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
+         * @static 
+         */ 
+        public static function js($js = null)
+        {
+            return \ShaoZeMing\Merchant\Merchant::js($js);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $script
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
+         * @static 
+         */ 
+        public static function script($script = '')
+        {
+            return \ShaoZeMing\Merchant\Merchant::script($script);
+        }
+        
+        /**
+         * Left sider-bar menu.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function menu()
+        {
+            return \ShaoZeMing\Merchant\Merchant::menu();
+        }
+        
+        /**
+         * Get merchant title.
+         *
+         * @return \Config 
+         * @static 
+         */ 
+        public static function title()
+        {
+            return \ShaoZeMing\Merchant\Merchant::title();
+        }
+        
+        /**
+         * Get current login user.
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function user()
+        {
+            return \ShaoZeMing\Merchant\Merchant::user();
+        }
+        
+        /**
+         * Set navbar.
+         *
+         * @param \Closure|null $builder
+         * @return \ShaoZeMing\Merchant\Navbar 
+         * @static 
+         */ 
+        public static function navbar($builder = null)
+        {
+            return \ShaoZeMing\Merchant\Merchant::navbar($builder);
+        }
+        
+        /**
+         * Get navbar object.
+         *
+         * @return \ShaoZeMing\Merchant\Widgets\Navbar 
+         * @static 
+         */ 
+        public static function getNavbar()
+        {
+            return \ShaoZeMing\Merchant\Merchant::getNavbar();
+        }
+        
+        /**
+         * Register the auth routes.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function registerAuthRoutes()
+        {
+            \ShaoZeMing\Merchant\Merchant::registerAuthRoutes();
+        }
+        
+        /**
+         * Extend a extension.
+         *
+         * @param string $name
+         * @param string $class
+         * @return void 
+         * @static 
+         */ 
+        public static function extend($name, $class)
+        {
+            \ShaoZeMing\Merchant\Merchant::extend($name, $class);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -15065,6 +15251,8 @@ namespace  {
     class EasyWeChat extends \Overtrue\LaravelWechat\Facade {}
 
     class Admin extends \Encore\Admin\Facades\Admin {}
+
+    class Merchant extends \ShaoZeMing\Merchant\Facades\Merchant {}
  
 }
 

@@ -22,6 +22,7 @@
         "overtrue/laravel-wechat": "~3.0",
         "predis/predis": "^1.1",
         "prettus/l5-repository": "^2.6",
+        "shaozeming/laravel-merchant": "dev-master",
         "shaozeming/lumen-postgis": "dev-master",
         "vinkla/hashids": "^3.1"
     },

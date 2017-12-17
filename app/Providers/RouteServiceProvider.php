@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider
 
         //前台网站接口
         Route::middleware('web')
-             ->namespace($this->namespace.'\Web')
+//             ->namespace($this->namespace.'\Web')
              ->group(base_path('routes/web.php'));
 
         //后台网站接口

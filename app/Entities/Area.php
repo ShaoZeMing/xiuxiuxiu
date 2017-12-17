@@ -16,6 +16,8 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Area whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Area whereParentId($value)
  * @mixin \Eloquent
+ * @property-read \App\Entities\Area $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Area[] $sub
  */
 class Area extends Model implements Transformable
 {

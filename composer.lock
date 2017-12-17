@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3d64f317c0cc8f07a3e9bb026af6b915",
-    "content-hash": "d12df2140c6f292acb552dbeefae20fe",
+    "hash": "74aac6620ddba8bcd8bfd9a6abe33f89",
+    "content-hash": "77b857eeb188a547d0c4178fed69808e",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -2946,6 +2946,76 @@
             "time": "2017-09-22 20:46:04"
         },
         {
+            "name": "shaozeming/laravel-merchant",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ShaoZeMing/laravel-merchant.git",
+                "reference": "f8119c8d06c3ea3de8e3232a8b1970404caa28e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/ShaoZeMing/laravel-merchant/f8119c8d06c3ea3de8e3232a8b1970404caa28e7.zip",
+                "reference": "f8119c8d06c3ea3de8e3232a8b1970404caa28e7",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.5",
+                "php": ">=7.0.0",
+                "symfony/dom-crawler": "~3.1"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "intervention/image": "~2.3",
+                "laravel/browser-kit-testing": "^2.0",
+                "laravel/laravel": "~5.5",
+                "phpunit/phpunit": "~6.0",
+                "symfony/css-selector": "~3.1"
+            },
+            "suggest": {
+                "intervention/image": "Required to handling and manipulation upload images (~2.3).",
+                "spatie/eloquent-sortable": "Required to built orderable gird."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ShaoZeMing\\Merchant\\AdminServiceProvider"
+                    ],
+                    "aliases": {
+                        "Merchant": "ShaoZeMing\\Merchant\\Facades\\Merchant"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ShaoZeMing\\Merchant\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ShaoZeMing",
+                    "email": "szm19920426@gmail.com"
+                }
+            ],
+            "description": "laravel merchant",
+            "homepage": "https://github.com/ShaoZeMing/laravel-merchant",
+            "keywords": [
+                "form",
+                "grid",
+                "laravel",
+                "merchant"
+            ],
+            "time": "2017-12-17 11:46:02"
+        },
+        {
             "name": "shaozeming/lumen-postgis",
             "version": "dev-master",
             "source": {
@@ -5098,16 +5168,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.4",
+            "version": "6.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c"
+                "reference": "83d27937a310f2984fd575686138597147bdc7df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/sebastianbergmann/phpunit/1b2f933d5775f9237369deaa2d2bfbf9d652be4c.zip",
-                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
+                "url": "https://files.phpcomposer.com/files/sebastianbergmann/phpunit/83d27937a310f2984fd575686138597147bdc7df.zip",
+                "reference": "83d27937a310f2984fd575686138597147bdc7df",
                 "shasum": ""
             },
             "require": {
@@ -5178,7 +5248,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-12-10 08:06:19"
+            "time": "2017-12-17 06:31:19"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -5892,6 +5962,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "shaozeming/laravel-merchant": 20,
         "shaozeming/lumen-postgis": 20
     },
     "prefer-stable": false,
