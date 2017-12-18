@@ -22,5 +22,6 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
     $router->resource('cats', CategorieController::class);
+    $router->resource('brands', BrandController::class);
 
 });
