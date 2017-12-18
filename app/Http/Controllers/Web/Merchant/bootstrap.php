@@ -19,3 +19,5 @@
  */
 
 ShaoZeMing\Merchant\Form::forget(['map', 'editor']);
+
+app('view')->prependNamespace('merchant', resource_path('views/web/merchant'));
