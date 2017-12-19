@@ -37,14 +37,6 @@ class Categorie extends Model implements Transformable
     public $incrementing = false;
 
 
-    /**
-     * 获取分类下所有的品牌
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function brands(){
-        return $this->hasMany(Brand::class,'cat_id');
-    }
-
 
 
     /**
@@ -62,7 +54,7 @@ class Categorie extends Model implements Transformable
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent(){
-        return $this->belongsTo(Categorie::class,'parent_id');
+        return $this->belongsTo(Categorie::class);
     }
 
     /**
@@ -74,6 +66,18 @@ class Categorie extends Model implements Transformable
         return $this->hasMany(Categorie::class,'parent_id','id');
     }
 
+
+
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function files()
+    {
+        return $this->morphMany(File::class, 'uploadable');
+    }
 
 
 

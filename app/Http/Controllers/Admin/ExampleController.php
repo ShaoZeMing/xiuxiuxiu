@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Entities\Area;
 use App\Entities\Categorie;
+use App\Entities\Order;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -70,7 +72,7 @@ class ExampleController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(YourModel::class, function (Grid $grid) {
+        return Admin::grid(Order::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
 
@@ -86,12 +88,28 @@ class ExampleController extends Controller
      */
     protected function form()
     {
-        return Admin::form(YourModel::class, function (Form $form) {
+        return Admin::form(Order::class, function (Form $form) {
 
             $form->display('id', 'ID');
-
+            $area = Area::where('parent_id',0)->get();
+            $province=[];
+            $area->each(function ($provinces)use(&$province){
+                $province[$provinces->id] = $provinces->name;
+            });
+            $form->hasMany('sub','城市', function (Form\NestedForm $form) {
+                $form->text('name');
+                $form->image('parent_id');
+                $form->datetime('completed_at');
+            });
+            $form->select('province')->options($province)->load('city', '/api/city');
+            $form->select('city');
+            $form->color('color')->default('#ccc');
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });
     }
+
+
+
+
 }

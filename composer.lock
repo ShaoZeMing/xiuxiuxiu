@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "74aac6620ddba8bcd8bfd9a6abe33f89",
-    "content-hash": "77b857eeb188a547d0c4178fed69808e",
+    "hash": "e00cb5179b3b7f0faab7dc49704532c9",
+    "content-hash": "195b39e405b2e63e44427e37397a0c7c",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1622,6 +1622,61 @@
                 "log"
             ],
             "time": "2017-08-15 08:43:48"
+        },
+        {
+            "name": "laravel-admin-ext/media-manager",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/media-manager.git",
+                "reference": "b7d1635fa151cb8cf73e6c9f5e5a12b876ad7e75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/laravel-admin-extensions/media-manager/b7d1635fa151cb8cf73e6c9f5e5a12b876ad7e75.zip",
+                "reference": "b7d1635fa151cb8cf73e6c9f5e5a12b876ad7e75",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "1.5.*",
+                "laravel/framework": "5.5.*",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "laravel/laravel": "5.*",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Admin\\Media\\MediaServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Admin\\Media\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "z-song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Media manager for laravel",
+            "homepage": "https://github.com/laravel-admin-extensions/media-manager",
+            "keywords": [
+                "laravel-admin",
+                "manager",
+                "media"
+            ],
+            "time": "2017-08-09 09:06:25"
         },
         {
             "name": "laravel-admin-ext/reporter",

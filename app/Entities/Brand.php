@@ -43,7 +43,7 @@ class Brand extends Model implements Transformable
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent(){
-        return $this->belongsTo(Brand::class,'parent_id');
+        return $this->belongsTo(Brand::class);
 
     }
 
@@ -60,10 +60,24 @@ class Brand extends Model implements Transformable
     /**
      * @author ShaoZeMing
      * @email szm19920426@gmail.com
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function cat(){
-        return $this->belongsTo(Categorie::class,'cat_id');
+    public function products(){
+        return $this->hasMany(Product::class);
     }
+
+
+
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function files()
+    {
+        return $this->morphMany(File::class, 'uploadable');
+    }
+
 
 }
