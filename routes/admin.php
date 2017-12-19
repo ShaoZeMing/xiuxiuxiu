@@ -24,6 +24,8 @@ Route::group([
     $router->resource('cats', CategorieController::class);
     $router->resource('brands', BrandController::class);
     $router->resource('products', ProductController::class);
+    $router->resource('malfunctions', MalfunctionController::class);
+    $router->resource('service-types', ServiceTypeController::class);
     $router->resource('test', ExampleController::class);
 
 });

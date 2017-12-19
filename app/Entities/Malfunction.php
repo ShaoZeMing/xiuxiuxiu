@@ -42,8 +42,8 @@ class Malfunction extends Model implements Transformable
      * @email szm19920426@gmail.com
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function product(){
-        return $this->belongsTo(Product::class);
+    public function cat(){
+        return $this->belongsTo(Categorie::class);
     }
 
 
@@ -52,18 +52,10 @@ class Malfunction extends Model implements Transformable
      * @email szm19920426@gmail.com
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function parent(){
-        return $this->belongsTo(Malfunction::class,'parent_id');
+    public function serviceType(){
+        return $this->belongsTo(ServiceType::class,'service_type_id');
 
     }
 
-    /**
-     * @author ShaoZeMing
-     * @email szm19920426@gmail.com
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function children(){
-        return $this->hasMany(Malfunction::class,'parent_id');
-    }
 
 }

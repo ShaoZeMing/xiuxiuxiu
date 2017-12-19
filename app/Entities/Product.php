@@ -50,10 +50,10 @@ class Product extends Model implements Transformable
     }
 
     /**
-     * @author ShaoZeMing
-     * @email szm19920426@gmail.com
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+ * @author ShaoZeMing
+ * @email szm19920426@gmail.com
+ * @return \Illuminate\Database\Eloquent\Relations\HasMany
+ */
     public function children(){
         return $this->hasMany(Brand::class,'parent_id');
     }

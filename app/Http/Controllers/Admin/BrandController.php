@@ -110,7 +110,7 @@ class BrandController extends Controller
             });
             $form->select('parent_id', '父级')->options($brandData);
             $form->textarea('desc', '描述');
-            $form->radio('state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(0);
+            $form->radio('state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(1);
             $form->number('sort', '排序');
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '修改时间');

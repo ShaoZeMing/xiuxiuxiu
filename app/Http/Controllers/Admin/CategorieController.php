@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entities\Categorie;
-
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Facades\Admin;
+use Encore\Admin\Form;
+use Encore\Admin\Grid;
+use Encore\Admin\Layout\Content;
 
 class CategorieController extends Controller
 {
@@ -75,8 +74,8 @@ class CategorieController extends Controller
 
             $grid->id('ID')->sortable();
 //            dump($grid->model()->id);
-            $grid->column('name','名称');
-            $grid->column('parent.name','父级分类');
+            $grid->column('name', '名称');
+            $grid->column('parent.name', '父级分类');
             $grid->desc('描述');
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
@@ -97,14 +96,14 @@ class CategorieController extends Controller
         return Admin::form(Categorie::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('name', '名称');
-            $cats = Categorie::where(['parent_id'=>0])->get();
-           $catData['0'] = '无';
-            $cats->each(function ($cat)use(&$catData){
-                 $catData[$cat->id] =  $cat->name;
+            $cats = Categorie::where(['parent_id' => 0])->get();
+            $catData['0'] = '无';
+            $cats->each(function ($cat) use (&$catData) {
+                $catData[$cat->id] = $cat->name;
             });
-//            dd($catData);
             $form->select('parent_id', '父级')->options($catData);
             $form->textarea('desc', '描述');
+            $form->radio('state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(1);
             $form->number('sort', '排序');
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '修改时间');

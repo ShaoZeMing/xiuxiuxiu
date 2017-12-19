@@ -47,6 +47,14 @@ class Categorie extends Model implements Transformable
         return $this->hasMany(Product::class,'cat_id');
     }
 
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function malfunctions(){
+        return $this->hasMany(Malfunction::class,'cat_id');
+    }
 
     /**
      * @author ShaoZeMing

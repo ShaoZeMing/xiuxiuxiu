@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Entities\Brand;
 use App\Entities\Categorie;
+use App\Entities\Malfunction;
 use App\Entities\Product;
+use App\Entities\ServiceType;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Encore\Admin\Facades\Admin;
@@ -12,7 +14,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 
-class ProductController extends Controller
+class MalfunctionController extends Controller
 {
     use ModelForm;
 
@@ -72,12 +74,13 @@ class ProductController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Product::class, function (Grid $grid) {
+        return Admin::grid(Malfunction::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
             $grid->model()->orderBy('sort');
             $grid->column('name', '名称');
             $grid->column('cat.name', '分类');
+            $grid->column('serviceType.name', '服务类型');
             $grid->desc('描述');
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
@@ -94,7 +97,7 @@ class ProductController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Product::class, function (Form $form) {
+        return Admin::form(Malfunction::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('name', '名称');
             $data = Categorie::orderBy('sort', 'desc')->get();
@@ -103,6 +106,12 @@ class ProductController extends Controller
                 $selectData[$data->id] = $data->name;
             });
             $form->select('cat_id', '分类')->options($selectData);
+            $data = ServiceType::orderBy('sort', 'desc')->get();
+            $selectData = [];
+            $data->each(function ($data) use (&$selectData) {
+                $selectData[$data->id] = $data->name;
+            });
+            $form->select('service_type_id', '服务类型')->options($selectData);
             $form->textarea('desc', '描述');
             $form->radio('state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(1);
             $form->number('sort', '排序');
