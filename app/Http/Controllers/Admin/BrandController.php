@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Support\Facades\Request;
 
 class BrandController extends Controller
 {
@@ -23,8 +24,8 @@ class BrandController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-            $content->header('header');
-            $content->description('description');
+            $content->header('品牌管理');
+            $content->description('企业自己添加，后台添加');
             $content->body($this->grid());
 
         });
@@ -39,10 +40,11 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
+        dd($id);
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header('品牌编辑');
+            $content->description('编辑品牌');
 
             $content->body($this->form()->edit($id));
         });
@@ -77,7 +79,6 @@ class BrandController extends Controller
             $grid->model()->orderBy('sort');
             $grid->column('name', '名称');
             $grid->column('parent.name', '父级品牌');
-            $grid->column('cat.name', '分类');
             $grid->desc('描述');
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');

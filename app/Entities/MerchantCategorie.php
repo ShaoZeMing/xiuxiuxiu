@@ -22,9 +22,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\MerchantCategorie whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class MerchantCategorie extends Model implements Transformable
+class MerchantCategorie extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
 

@@ -21,9 +21,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\MerchantBrand whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class MerchantBrand extends Model implements Transformable
+class MerchantBrand extends BaseModel
 {
-    use TransformableTrait;
 
     protected $fillable = [];
 

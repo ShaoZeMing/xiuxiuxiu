@@ -125,10 +125,7 @@ if (!function_exists('hashidsDecode')) {
     {
         // 字符串的数字也会导致解码
         $encodeStr = is_numeric($encodeStr) ? intval($encodeStr) : $encodeStr;
-
         $decode = Hashids::decode($encodeStr);
-
-//        return isset($decode[0]) ? $decode[0] : false;
         return isset($decode[0]) ? $decode[0] : $encodeStr;
     }
 }
@@ -137,7 +134,7 @@ if (!function_exists('hashIdEncode')) {
     function hashIdEncode($id)
     {
         $encodeStr = is_numeric($id) ? intval($id) : $id;
-
+//        dd($encodeStr);
         return Hashids::encode($encodeStr);
     }
 }
@@ -207,48 +204,6 @@ if (!function_exists('getAuthName')) {
     }
 }
 
-/*是否为经销商*/
-if (!function_exists('isDealer')) {
-    function isDealer()
-    {
-        $user = getAuthInfo();
-        return ($user->parent_id != 0) ? 1 : 0;
-    }
-}
-
-/*获取账户资金数*/
-if (!function_exists('getMerchantAccount')) {
-    function getMerchantAccount($field = 'balance')
-    {
-        if (auth()->check()) {
-            $account = auth()->user()->account()->first();
-            if (count($account)) {
-                $fee = $account->$field;
-            } else {
-                $fee = 0;
-            }
-        } else {
-            $fee = 0;
-        }
-
-        return fenToYuan($fee);
-    }
-}
-
-/*获取GET参数添加active*/
-if (!function_exists('getUrlState')) {
-    function getUrlState($key, $val)
-    {
-        if (isset($_GET[$key]) && $_GET[$key] == $val && !isset($_GET['fix_fee'])) {
-            return true;
-        } elseif (isset($_GET[$key]) && $_GET[$key] == $val && $key == 'fix_fee') {
-            return true;
-        } elseif (!isset($_GET['state']) && !isset($_GET['is_add_part']) && $key == 'all') {
-            return true;
-        }
-        return false;
-    }
-}
 
 /*格式化金额*/
 if (!function_exists('formatMoney')) {
@@ -278,152 +233,12 @@ if (!function_exists('formatMoney')) {
     }
 }
 
-/*获取商家状态*/
-if (!function_exists('getAuthState')) {
-    function getAuthState()
-    {
-        return auth()->check() ? auth()->user()->state : -2;
-    }
-}
 
-/*获取商家头像*/
-if (!function_exists('getAuthImg')) {
-    function getAuthImg($is_rand = false)
-    {
-        if (auth()->check()) {
-            if ($img = auth()->user()->logo) {
-                $img = parse_url($img)['path'];
-                $host = rtrim(config('saas.image_url'), '/');
-                if ($is_rand) {
-                    return $host . $img . '?number=' . rand(0, 100000);
-                }
-                return $host . $img;
-            }
-            return asset('/images/avatar.png');
-        }
-        return asset('/images/avatar.png');
-    }
 
-}
 
-/*获取侧边栏样式class*/
-if (!function_exists('getUrlToLeftActive')) {
-    function getUrlToLeftActive($active)
-    {
-        $url_arr = parse_url($_SERVER['REQUEST_URI']);
-        $path = explode('/', $url_arr['path']);
-        $_path = [];
-        foreach ($path as $k => $v) {
-            if ($v == 'index.php' || $v === '') {
-                unset($path[$k]);
-                continue;
-            }
-            $_path[] = $v;
-        }
-        $repos = isset($_path[0]) ? $_path[0] : 'home';
-        return $repos == $active ? 'active' : '';
-    }
-
-}
-
-if (!function_exists('getUrlToMainOpen')) {
-    function getUrlToMainOpen($open)
-    {
-        $url_arr = parse_url($_SERVER['REQUEST_URI']);
-        $path = explode('/', $url_arr['path']);
-        $_path = [];
-        foreach ($path as $k => $v) {
-            if ($v == 'index.php' || $v === '') {
-                unset($path[$k]);
-                continue;
-            }
-            $_path[] = $v;
-        }
-        $repos = isset($_path[0]) ? $_path[0] : 'home';
-        return $repos == $open ? 'open' : '';
-    }
-
-}
-
-/*基础设置中间菜单栏样式class*/
-if (!function_exists('getUrlToMenuActive')) {
-    function getUrlToMenuActive($active)
-    {
-        $url_arr = parse_url($_SERVER['REQUEST_URI']);
-        $path = explode('/', $url_arr['path']);
-        $_path = [];
-        foreach ($path as $k => $v) {
-            if ($v == 'index.php' || $v === '') {
-                unset($path[$k]);
-                continue;
-            }
-            $_path[] = $v;
-        }
-        $pathMuch = count($_path);
-        $requestArr = explode('/', $active);
-        $arrMuch = count($requestArr);
-        $route = '';
-        $show = '';
-        if($pathMuch == 3 && $arrMuch == 3){
-            if (isset($_path[0]) && isset($_path[1]) && isset($_path[2])) {
-                $route = $_path[0] . '/' . $_path[1] . '/' . $_path[2];
-            }
-            if (isset($requestArr[0]) && isset($requestArr[1])  && isset($requestArr[2])) {
-                $show = $requestArr[0] . '/' . $requestArr[1] . '/' . $requestArr[2];
-            }
-        }else{
-            if (isset($_path[0]) && isset($_path[1])) {
-                $route = $_path[0] . '/' . $_path[1];
-            }
-            if (isset($requestArr[0]) && isset($requestArr[1])) {
-                $show = $requestArr[0] . '/' . $requestArr[1];
-            }
-        }
-
-        if ($route && $show) {
-            if ($route == $show) {
-                return 'active';
-            }
-        }
-        return '';
-    }
-}
-
-/*根据时间提示*/
-if (!function_exists('getTimeText')) {
-    function getTimeText()
-    {
-        $hour = date('Hi');
-
-        switch ($hour) {
-            case $hour < 459:
-                return "晚上好";
-            case $hour < 900:
-                return "早上好";
-            case $hour < 1130:
-                return "上午好";
-            case $hour < 1300:
-                return "中午好";
-            case $hour < 1900:
-                return "下午好";
-            case $hour >= 1900:
-                return "晚上好";
-        }
-    }
-}
-
+//截取字符
 if (!function_exists('strLimit')) {
-    /**
-     *
-     * @author gengzhiguo@xiongmaojinfu.com
-     *
-     * @param        $value
-     * @param int $limit
-     *
-     * @param string $end
-     *
-     * @return string
-     */
+
     function strLimit($value, $limit = 100, $end = '...')
     {
         $strlen = mb_strlen($value, 'UTF-8');
@@ -555,65 +370,3 @@ if (!function_exists('formatDate')) {
     }
 }
 
-if (!function_exists('getOrderNumber')) {
-
-    //获取工单对应数据
-    function getOrderNumber($key = '')
-    {
-        try {
-            if (!$key) {
-                $key = \App\Entities\Statistic::ORDER_TOTAL;
-            }
-            $companyId = getCompanyId();
-            $time = formatDate(date('Y-m-d'));
-            $where = ['key' => $key, 'company_id' => $companyId];
-            if ($key == 'new_created') {
-                $where['time'] = $time;
-            }
-            $rus = \App\Entities\Statistic::where($where)->orderBy('time', 'desc')->first();
-            $num = $rus ? $rus->value : 0;
-            return $num;
-        } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error($e);
-            return 0;
-        }
-
-    }
-}
-
-
-if (!function_exists('getAdminCount')) {
-
-    //管理后台统计数据
-    function getAdminCount($type = 'company_total')
-    {
-        try {
-
-            $time = date('Y-m-d') . ' 00:00:00';
-            $num = 0;
-            switch ($type) {
-                //总注册企业
-                case 'company_total':
-                    $num = \App\Entities\Company::count();
-                    break;
-                //新注册企业
-                case 'company_new':
-                    $num = \App\Entities\Company::where('created_at', '>=', $time)->count();
-                    break;
-                //使用人数
-                case 'personnel_total':
-                    $num = \App\Entities\User::count();
-                    break;
-                //七天后到期人数
-                case 'expire':
-                    $num = \App\Entities\Company::where('end_time', '<=', date('Y-m-d', strtotime('+7 day')))->where('end_time', '>=', date('Y-m-d'))->count();
-                    break;
-            }
-            return $num;
-        } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error($e);
-            return 0;
-        }
-
-    }
-}

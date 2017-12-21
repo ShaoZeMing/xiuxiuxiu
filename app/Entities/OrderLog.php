@@ -24,9 +24,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\OrderLog whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class OrderLog extends Model implements Transformable
+class OrderLog extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
     protected $fillable = [];
 
 }

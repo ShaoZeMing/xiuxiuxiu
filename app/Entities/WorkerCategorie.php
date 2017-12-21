@@ -22,10 +22,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WorkerCategorie whereWorkerId($value)
  * @mixin \Eloquent
  */
-class WorkerCategorie extends Model implements Transformable
+class WorkerCategorie extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
-
     protected $fillable = [];
     public $incrementing = false;
 

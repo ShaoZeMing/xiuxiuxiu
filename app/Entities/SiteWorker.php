@@ -20,11 +20,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteWorker whereWorkerId($value)
  * @mixin \Eloquent
  */
-class SiteWorker extends Model implements Transformable
-{
-    use TransformableTrait,SequenceTrait;
+class SiteWorker extends BaseModel{
 
     protected $fillable = [];
-    public $incrementing = false;
 
 }

@@ -6,13 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
-class ServiceType extends Model implements Transformable
+
+class ServiceType extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
-
-
 
 
     /**

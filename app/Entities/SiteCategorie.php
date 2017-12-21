@@ -21,9 +21,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteCategorie whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class SiteCategorie extends Model implements Transformable
+class SiteCategorie extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
     public $incrementing = false;

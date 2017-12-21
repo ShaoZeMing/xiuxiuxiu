@@ -34,9 +34,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Comment whereWorkerId($value)
  * @mixin \Eloquent
  */
-class Comment extends Model implements Transformable
+class Comment extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
 

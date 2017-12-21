@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Traits\HashIdsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
@@ -30,13 +31,11 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Brand extends Model implements Transformable
+class Brand extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
-
-
+    
     /**
      * @author ShaoZeMing
      * @email szm19920426@gmail.com

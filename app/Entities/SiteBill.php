@@ -41,12 +41,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteBill whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class SiteBill extends Model implements Transformable
+class SiteBill extends BaseModel
 {
-    use TransformableTrait;
-    use TransformableTrait,SequenceTrait;
-
     protected $fillable = [];
-    public $incrementing = false;
 
 }

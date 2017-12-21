@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Entities\Brand;
 use App\Entities\Categorie;
 use App\Entities\Malfunction;
+use App\Entities\Merchant;
 use App\Entities\Product;
 use App\Entities\ServiceType;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 
-class MalfunctionController extends Controller
+class MerchantController extends Controller
 {
     use ModelForm;
 
@@ -26,8 +27,8 @@ class MalfunctionController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-            $content->header('header');
-            $content->description('description');
+            $content->header('商家列表');
+            $content->description('这些都是老板，好生对待');
             $content->body($this->grid());
 
         });
@@ -44,8 +45,8 @@ class MalfunctionController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header('编辑商家');
+            $content->description('注意哈，有些不能修改的要注意哈');
 
             $content->body($this->form()->edit($id));
         });
@@ -74,34 +75,54 @@ class MalfunctionController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Malfunction::class, function (Grid $grid) {
-            $grid->id('ID')->sortable();
-            $grid->model()->orderBy('sort');
-            $grid->column('name', '名称')->display(function($name) {
-                return "<a href='".url('admin/malfunctions/'.$this->id)."'>$name</a>";
-            });
-            $grid->column('cat.name', '分类')->display(function($name) {
-                return "<a href='".url('admin/cats/'.$this->cat_id)."'>$name</a>";
-            });
-            $grid->column('serviceType.name', '服务类型');
-            $grid->desc('描述');
-            $grid->created_at('创建时间');
-            $grid->updated_at('修改时间');
-            $grid->filter(function ($filter) {
-                $filter->disableIdFilter();
-                // 设置created_at字段的范围查询
-                $datas = [];
-                ServiceType::get(['id','name'])->each(function ($data)use(&$datas){
-                    return $datas[$data->id] = $data->name;
-                });
-                $filter->equal('service_type_id','服务类型')->select($datas);
+        return Admin::grid(Merchant::class, function (Grid $grid) {
 
-                $datas = [];
-                Categorie::get(['id','name'])->each(function ($data)use(&$datas){
-                    return $datas[$data->id] = $data->name;
-                });
-                $filter->equal('cat_id','分类')->select($datas);
-                $filter->between('created_at', '创建时间')->datetime();
+            $grid->id('ID')->sortable();
+            $grid->name('名称');
+            $grid->mobile('手机号');
+            $grid->nickname('昵称');
+            $grid->full_name();
+            $grid->face()->display(function ($avatar) {
+                return "<img src='{$avatar}' />";
+            });
+            $grid->profile()->postcode('Post code');
+            $grid->profile()->address();
+            $grid->position('Position');
+            $grid->profile()->color();
+            $grid->profile()->start_at('开始时间');
+            $grid->profile()->end_at('结束时间');
+
+            $grid->column('column1_not_in_table')->display(function () {
+                return 'full name:'.$this->full_name;
+            });
+
+            $grid->column('column2_not_in_table')->display(function () {
+                return $this->email.'#'.$this->profile['color'];
+            });
+
+            $grid->tags()->display(function ($tags) {
+                $tags = collect($tags)->map(function ($tag) {
+                    return "<code>{$tag['name']}</code>";
+                })->toArray();
+
+                return implode('', $tags);
+            });
+
+            $grid->created_at();
+            $grid->updated_at();
+
+            $grid->filter(function ($filter) {
+                $filter->like('username');
+                $filter->like('email');
+                $filter->like('profile.postcode');
+                $filter->between('profile.start_at')->datetime();
+                $filter->between('profile.end_at')->datetime();
+            });
+
+            $grid->actions(function ($actions) {
+                if ($actions->getKey() % 2 == 0) {
+                    $actions->append('<a href="/" class="btn btn-xs btn-danger">detail</a>');
+                }
             });
         });
     }
@@ -113,8 +134,9 @@ class MalfunctionController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Malfunction::class, function (Form $form) {
+        return Admin::form(Merchant::class, function (Form $form) {
             $form->display('id', 'ID');
+            $form->mobile('mobile', '电话');
             $form->text('name', '名称');
             $data = Categorie::orderBy('sort', 'desc')->get();
             $selectData = [];

@@ -9,6 +9,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
@@ -109,5 +110,20 @@ class CategorieController extends Controller
             $form->display('updated_at', '修改时间');
 
         });
+    }
+
+
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param Request $request
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function apiSearch(Request $request)
+    {
+        $q = $request->get('q');
+        $data =  Categorie::where('name', 'like', "%$q%")->get(['id', 'name as text']);
+        return $data;
     }
 }

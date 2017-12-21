@@ -38,12 +38,9 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\File whereUploadableType($value)
  * @mixin \Eloquent
  */
-class File extends Model implements Transformable
+class File extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
-
     protected $fillable = [];
-    public $incrementing = false;
 
 
     /**

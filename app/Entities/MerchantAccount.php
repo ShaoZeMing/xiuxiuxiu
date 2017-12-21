@@ -32,9 +32,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\MerchantAccount whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class MerchantAccount extends Model implements Transformable
+class MerchantAccount extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
     public $incrementing = false;

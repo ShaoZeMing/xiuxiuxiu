@@ -31,11 +31,9 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteAccount whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class SiteAccount extends Model implements Transformable
+class SiteAccount extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
-    public $incrementing = false;
 
 }

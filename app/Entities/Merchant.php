@@ -61,9 +61,9 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereWxUserId($value)
  * @mixin \Eloquent
  */
-class Merchant extends Model implements Transformable
+class Merchant extends BaseModel
 {
-    use TransformableTrait,PostgisTrait,SequenceTrait;
+    use PostgisTrait;
 
     protected $fillable = [];
     public $incrementing = false;

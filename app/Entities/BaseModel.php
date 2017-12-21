@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Traits\HashIdsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
@@ -38,9 +39,14 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Admin whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Admin extends BaseModel
+class BaseModel extends Model implements Transformable
 {
-    protected $fillable = [];
+    use TransformableTrait, SequenceTrait,HashIdsTrait;
+
     public $incrementing = false;
+
+    protected $casts = [
+        'id' => 'string',
+    ];
 
 }

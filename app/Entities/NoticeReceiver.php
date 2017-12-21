@@ -28,10 +28,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\NoticeReceiver whereWxMsgId($value)
  * @mixin \Eloquent
  */
-class NoticeReceiver extends Model implements Transformable
+class NoticeReceiver extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
-
     protected $fillable = [];
 
 

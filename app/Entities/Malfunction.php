@@ -30,9 +30,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Malfunction extends Model implements Transformable
+class Malfunction extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
 

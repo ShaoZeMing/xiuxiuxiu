@@ -61,11 +61,10 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Worker whereWxUserId($value)
  * @mixin \Eloquent
  */
-class Worker extends Model implements Transformable
+class Worker extends BaseModel
 {
-    use TransformableTrait,PostgisTrait,SequenceTrait;
+    use PostgisTrait;
 
     protected $fillable = [];
-    public $incrementing = false;
 
 }

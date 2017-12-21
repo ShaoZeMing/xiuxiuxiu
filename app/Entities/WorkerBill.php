@@ -42,11 +42,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WorkerBill whereWorkerId($value)
  * @mixin \Eloquent
  */
-class WorkerBill extends Model implements Transformable
+class WorkerBill extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
-
     protected $fillable = [];
-    public $incrementing = false;
 
 }

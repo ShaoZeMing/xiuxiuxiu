@@ -12,9 +12,8 @@ use App\Traits\SequenceTrait;
  *
  * @mixin \Eloquent
  */
-class MessageReceiver extends Model implements Transformable
+class MessageReceiver extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
 

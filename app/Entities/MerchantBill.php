@@ -42,10 +42,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\MerchantBill whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class MerchantBill extends Model implements Transformable
+class MerchantBill extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
-
     protected $fillable = [];
     public $incrementing = false;
 

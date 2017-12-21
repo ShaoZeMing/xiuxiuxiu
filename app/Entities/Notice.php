@@ -28,12 +28,10 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Notice whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Notice extends Model implements Transformable
+class Notice extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
-    public $incrementing = false;
 
 
     /**

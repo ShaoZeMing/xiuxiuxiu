@@ -110,12 +110,11 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedableType($value)
  */
-class Order extends Model implements Transformable
+class Order extends BaseModel
 {
-    use TransformableTrait,PostgisTrait,SequenceTrait;
+    use PostgisTrait;
 
     protected $fillable = [];
-    public $incrementing = false;
 
 
     /**

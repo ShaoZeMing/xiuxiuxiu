@@ -30,9 +30,8 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Product extends Model implements Transformable
+class Product extends BaseModel
 {
-    use TransformableTrait,SequenceTrait;
 
     protected $fillable = [];
 

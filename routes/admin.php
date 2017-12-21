@@ -22,10 +22,18 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
     $router->resource('cats', CategorieController::class);
+    $router->get('api/cats','CategorieController@apiSearch');
+
     $router->resource('brands', BrandController::class);
+
     $router->resource('products', ProductController::class);
+    $router->get('api/products','ProductController@apiSearch');
+
     $router->resource('malfunctions', MalfunctionController::class);
+
     $router->resource('service-types', ServiceTypeController::class);
+
+    $router->resource('merchants', MerchantController::class);
     $router->resource('test', ExampleController::class);
 
 });
