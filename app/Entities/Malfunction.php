@@ -57,4 +57,18 @@ class Malfunction extends BaseModel
     }
 
 
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class,'product_malfunctions');
+
+    }
+
+
+    public function resolvents()
+    {
+        return $this->hasMany(Resolvent::class);
+
+    }
+
 }

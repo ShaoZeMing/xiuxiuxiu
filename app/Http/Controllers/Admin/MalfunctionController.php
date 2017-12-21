@@ -89,18 +89,9 @@ class MalfunctionController extends Controller
             $grid->updated_at('修改时间');
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
-                // 设置created_at字段的范围查询
-                $datas = [];
-                ServiceType::get(['id','name'])->each(function ($data)use(&$datas){
-                    return $datas[$data->id] = $data->name;
-                });
-                $filter->equal('service_type_id','服务类型')->select($datas);
-
-                $datas = [];
-                Categorie::get(['id','name'])->each(function ($data)use(&$datas){
-                    return $datas[$data->id] = $data->name;
-                });
-                $filter->equal('cat_id','分类')->select($datas);
+                $filter->like('name','名称');
+                $filter->equal('service_type_id','服务类型')->select(ServiceType::all()->pluck('name', 'id'));
+                $filter->equal('cat_id','分类')->select(Categorie::all()->pluck('name', 'id'));
                 $filter->between('created_at', '创建时间')->datetime();
             });
         });
@@ -116,18 +107,9 @@ class MalfunctionController extends Controller
         return Admin::form(Malfunction::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('name', '名称');
-            $data = Categorie::orderBy('sort', 'desc')->get();
-            $selectData = [];
-            $data->each(function ($data) use (&$selectData) {
-                $selectData[$data->id] = $data->name;
-            });
-            $form->select('cat_id', '分类')->options($selectData);
-            $data = ServiceType::orderBy('sort', 'desc')->get();
-            $selectData = [];
-            $data->each(function ($data) use (&$selectData) {
-                $selectData[$data->id] = $data->name;
-            });
-            $form->select('service_type_id', '服务类型')->options($selectData);
+            $form->select('cat_id', '分类')->options(Categorie::all()->pluck('name', 'id'));
+            $form->select('service_type_id', '服务类型')->options(ServiceType::all()->pluck('name', 'id'));
+            $form->multipleSelect('products', '适用产品')->options(Product::all()->pluck('name', 'id'));
             $form->textarea('desc', '描述');
             $form->radio('state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(1);
             $form->number('sort', '排序');

@@ -83,8 +83,9 @@ class BrandController extends Controller
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
             $grid->filter(function ($filter) {
-                // 设置created_at字段的范围查询
-                $filter->between('created_at', 'Created Time')->datetime();
+                $filter->disableIdFilter();
+                $filter->like('name','名称');
+                $filter->between('created_at', '创建时间')->datetime();
             });
         });
     }
@@ -99,17 +100,7 @@ class BrandController extends Controller
         return Admin::form(Brand::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('name', '名称');
-            $cats = Categorie::where(['parent_id' => 0])->orderBy('sort', 'desc')->get();
-            $catsData = $brandData = [];
-            $cats->each(function ($cat) use (&$catsData) {
-                $catsData[$cat->id] = $cat->name;
-            });
-            $form->select('cat_id', '分类')->options($catsData);
-            $brands = Brand::where(['parent_id' => 0])->orderBy('sort', 'desc')->get();
-            $brands->each(function ($brand) use (&$brandData) {
-                $brandData[$brand->id] = $brand->name;
-            });
-            $form->select('parent_id', '父级')->options($brandData);
+            $form->select('parent_id', '父级')->options(Brand::all()->pluck('name', 'id'));
             $form->textarea('desc', '描述');
             $form->radio('state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(1);
             $form->number('sort', '排序');

@@ -18,9 +18,9 @@ trait SequenceTrait
      */
     protected static function boot()
     {
-        parent::boot();
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = app('sequence')->generate();
+            \Illuminate\Support\Facades\Log::info($model);
         });
 
 
@@ -32,5 +32,7 @@ trait SequenceTrait
                 $model->id = $originalId;
             }
         });
+
+        parent::boot();
     }
 }

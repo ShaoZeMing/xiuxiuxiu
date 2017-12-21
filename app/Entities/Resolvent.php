@@ -5,11 +5,17 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
-use App\Traits\SequenceTrait;
 
-class ProductMalfunction extends Model implements Transformable
+class Resolvent extends BaseModel
 {
-    use TransformableTrait;
+
     protected $fillable = [];
+
+
+
+    public function malfunction(){
+
+        return $this->belongsTo(Malfunction::class);
+    }
 
 }

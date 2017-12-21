@@ -20,8 +20,9 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\MerchantSite whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class MerchantSite extends BaseModel
+class MerchantSite extends Model implements Transformable
 {
+    use TransformableTrait;
 
     protected $fillable = [];
 

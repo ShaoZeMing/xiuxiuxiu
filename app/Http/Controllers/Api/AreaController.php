@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Entities\Area;
 use App\Http\Controllers\Controller;
+use App\Repositories\AreaRepository;
 use App\Repositories\AreaRepositoryEloquent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -37,5 +40,20 @@ class AreaController extends Controller
 
         }
     }
+
+
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param Request $request
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function city(Request $request)
+    {
+        $provinceId = $request->get('q')?:0;
+        return Area::where('parent_id', $provinceId)->get(['id', DB::raw('name as text')]);
+    }
+
 
 }

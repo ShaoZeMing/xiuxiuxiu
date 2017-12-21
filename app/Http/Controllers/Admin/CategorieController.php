@@ -81,8 +81,9 @@ class CategorieController extends Controller
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
             $grid->filter(function ($filter) {
-                // 设置created_at字段的范围查询
-                $filter->between('created_at', 'Created Time')->datetime();
+                $filter->disableIdFilter();
+                $filter->like('name','名称');
+                $filter->between('created_at', '创建时间')->datetime();
             });
         });
     }

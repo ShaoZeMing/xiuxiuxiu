@@ -23,4 +23,5 @@ Route::group([
 //    ],
 ], function ($api) {
     Route::get('area', 'AreaController@area');//获取地理位置
+    Route::get('city', 'AreaController@city');//获取地理位置
 });

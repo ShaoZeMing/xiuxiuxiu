@@ -81,48 +81,20 @@ class MerchantController extends Controller
             $grid->name('名称');
             $grid->mobile('手机号');
             $grid->nickname('昵称');
-            $grid->full_name();
             $grid->face()->display(function ($avatar) {
                 return "<img src='{$avatar}' />";
             });
-            $grid->profile()->postcode('Post code');
-            $grid->profile()->address();
-            $grid->position('Position');
-            $grid->profile()->color();
-            $grid->profile()->start_at('开始时间');
-            $grid->profile()->end_at('结束时间');
-
-            $grid->column('column1_not_in_table')->display(function () {
-                return 'full name:'.$this->full_name;
-            });
-
-            $grid->column('column2_not_in_table')->display(function () {
-                return $this->email.'#'.$this->profile['color'];
-            });
-
-            $grid->tags()->display(function ($tags) {
-                $tags = collect($tags)->map(function ($tag) {
-                    return "<code>{$tag['name']}</code>";
-                })->toArray();
-
-                return implode('', $tags);
-            });
-
-            $grid->created_at();
-            $grid->updated_at();
-
-            $grid->filter(function ($filter) {
-                $filter->like('username');
-                $filter->like('email');
-                $filter->like('profile.postcode');
-                $filter->between('profile.start_at')->datetime();
-                $filter->between('profile.end_at')->datetime();
-            });
-
-            $grid->actions(function ($actions) {
-                if ($actions->getKey() % 2 == 0) {
-                    $actions->append('<a href="/" class="btn btn-xs btn-danger">detail</a>');
-                }
+            $grid->full_address('地址')->limit(30);
+            $grid->column('state','状态')->switch();
+            $grid->created_at('注册时间');
+            $grid->updated_at('修改时间');
+            $grid->filter(function ($filter) {// 设置created_at字段的范围查询
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                $filter->like('name','名称');
+                $filter->like('mobile','手机');
+                $filter->like('full_address','地址');
+                $filter->between('created_at', '注册时间')->datetime();
             });
         });
     }
@@ -135,24 +107,15 @@ class MerchantController extends Controller
     protected function form()
     {
         return Admin::form(Merchant::class, function (Form $form) {
-            $form->display('id', 'ID');
+            $form->display('id', 'id');
             $form->mobile('mobile', '电话');
             $form->text('name', '名称');
-            $data = Categorie::orderBy('sort', 'desc')->get();
-            $selectData = [];
-            $data->each(function ($data) use (&$selectData) {
-                $selectData[$data->id] = $data->name;
-            });
-            $form->select('cat_id', '分类')->options($selectData);
-            $data = ServiceType::orderBy('sort', 'desc')->get();
-            $selectData = [];
-            $data->each(function ($data) use (&$selectData) {
-                $selectData[$data->id] = $data->name;
-            });
-            $form->select('service_type_id', '服务类型')->options($selectData);
-            $form->textarea('desc', '描述');
-            $form->radio('state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(1);
-            $form->number('sort', '排序');
+            $form->text('nickname', '昵称');
+            $form->image('face', '头像');
+            $form->multipleSelect('cats', '分类')->options(Categorie::all()->pluck('name', 'id'));
+            $form->select('province')->options(...)->load('city', '/api/city');
+            $form->select('city');
+            $form->switch('state','状态')->default(1);
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '修改时间');
         });

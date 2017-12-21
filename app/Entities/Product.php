@@ -77,4 +77,11 @@ class Product extends BaseModel
     }
 
 
+
+
+    public function malfunctions()
+    {
+        return $this->belongsToMany(Malfunction::class,'product_malfunctions');
+    }
+
 }

@@ -66,6 +66,30 @@ class Merchant extends BaseModel
     use PostgisTrait;
 
     protected $fillable = [];
-    public $incrementing = false;
+
+
+
+    public function cats()
+    {
+        return $this->belongsToMany(Categorie::class, 'merchant_categories');
+
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+
+    }
+
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class);
+
+    }
+
+    public function sites()
+    {
+        return $this->belongsToMany(Site::class);
+    }
 
 }
