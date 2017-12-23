@@ -52,6 +52,10 @@ class Categorie extends BaseModel
 
 
 
+    public function brands(){
+        return $this->belongsToMany(Brand::class,'brand_categories','cat_id','brand_id');
+    }
+
     /**
      * 获取分类下所有的产品
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -85,19 +89,6 @@ class Categorie extends BaseModel
      */
     public function children(){
         return $this->hasMany(Categorie::class,'cat_parent_id');
-    }
-
-
-
-
-    /**
-     * @author ShaoZeMing
-     * @email szm19920426@gmail.com
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function files()
-    {
-        return $this->morphMany(File::class, 'uploadable');
     }
 
 

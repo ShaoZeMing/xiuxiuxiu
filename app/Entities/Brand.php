@@ -82,16 +82,13 @@ class Brand extends BaseModel
     }
 
 
-
-
     /**
      * @author ShaoZeMing
      * @email szm19920426@gmail.com
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function files()
-    {
-        return $this->morphMany(File::class, 'uploadable');
+    public function cats(){
+        return $this->belongsToMany(Categorie::class,'brand_categories','brand_id','cat_id');
     }
 
 
