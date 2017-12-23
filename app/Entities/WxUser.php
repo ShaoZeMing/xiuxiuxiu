@@ -34,10 +34,29 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereUnionid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $wx_unionid
+ * @property string $wx_openid
+ * @property string $wx_nickname
+ * @property string $wx_face
+ * @property int $wx_sex
+ * @property string $wx_province
+ * @property string $wx_city
+ * @property string $wx_country
+ * @property-read \App\Entities\Merchant $merchant
+ * @property-read \App\Entities\Site $site
+ * @property-read \App\Entities\Worker $worker
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereWxCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereWxCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereWxFace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereWxNickname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereWxOpenid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereWxProvince($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereWxSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\WxUser whereWxUnionid($value)
  */
 class WxUser extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
 
     /**
@@ -45,5 +64,23 @@ class WxUser extends BaseModel
      */
     public function user(){
        return  $this->hasOne(User::class,'wx_user_id','id');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function merchant(){
+       return  $this->hasOne(Merchant::class,'wx_user_id','id');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function site(){
+       return  $this->hasOne(Site::class,'wx_user_id','id');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function worker(){
+       return  $this->hasOne(Worker::class,'wx_user_id','id');
     }
 }

@@ -29,14 +29,30 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $product_name
+ * @property string $product_desc
+ * @property int $brand_id
+ * @property int $product_parent_id
+ * @property int $product_level
+ * @property int $product_state
+ * @property int $product_sort
+ * @property-read \App\Entities\Brand $brand
+ * @property-read \App\Entities\Categorie $cat
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Brand[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Malfunction[] $malfunctions
+ * @property-read \App\Entities\Brand $parent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereBrandId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereProductDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereProductLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereProductName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereProductParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereProductSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Product whereProductState($value)
  */
 class Product extends BaseModel
 {
 
-    protected $fillable = [];
-
-
-
+    protected $guarded = [];
 
     /**
      * @author ShaoZeMing
@@ -44,7 +60,7 @@ class Product extends BaseModel
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent(){
-        return $this->belongsTo(Brand::class,'parent_id');
+        return $this->belongsTo(Brand::class,'parent_parent_id');
 
     }
 
@@ -54,7 +70,7 @@ class Product extends BaseModel
  * @return \Illuminate\Database\Eloquent\Relations\HasMany
  */
     public function children(){
-        return $this->hasMany(Brand::class,'parent_id');
+        return $this->hasMany(Brand::class,'parent_parent_id');
     }
 
 
@@ -73,7 +89,7 @@ class Product extends BaseModel
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function brand(){
-        return $this->belongsTo(Brand::class,'brand_id');
+        return $this->belongsTo(Brand::class);
     }
 
 

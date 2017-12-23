@@ -25,6 +25,6 @@ use App\Traits\SequenceTrait;
 class MerchantCategorie extends Model implements Transformable
 {
     use TransformableTrait;
-    protected $fillable = [];
+    protected $guarded = [];
 
 }

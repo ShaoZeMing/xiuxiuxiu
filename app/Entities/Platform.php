@@ -29,9 +29,35 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Platform wherePwd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Platform whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $platform_mobile
+ * @property string $platform_name
+ * @property string $platform_nickname
+ * @property string $platform_face
+ * @property string $platform_pwd
+ * @property string $platform_pay_pwd
+ * @property-read \App\Entities\PlatformAccount $account
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\PlatformBill[] $bills
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Platform wherePlatformFace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Platform wherePlatformMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Platform wherePlatformName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Platform wherePlatformNickname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Platform wherePlatformPayPwd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Platform wherePlatformPwd($value)
  */
 class Platform extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
+
+
+
+    public function account()
+    {
+        return $this->hasOne(PlatformAccount::class,'id','id');
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(PlatformBill::class);
+    }
 }

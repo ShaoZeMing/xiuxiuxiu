@@ -44,6 +44,6 @@ use App\Traits\SequenceTrait;
  */
 class UserBill extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
 }

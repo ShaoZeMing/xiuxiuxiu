@@ -27,11 +27,12 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Notice whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Notice whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Entities\Order $order
  */
 class Notice extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
 
 
     /**

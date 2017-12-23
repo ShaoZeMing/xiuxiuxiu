@@ -60,12 +60,61 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereWxUserId($value)
  * @mixin \Eloquent
+ * @property string $merchant_mobile
+ * @property string $merchant_name
+ * @property string $merchant_nickname
+ * @property string $merchant_face
+ * @property string $merchant_pwd
+ * @property string $merchant_pay_pwd
+ * @property string $merchant_birthday
+ * @property int $merchant_sex
+ * @property int $merchant_state
+ * @property int $merchant_is_notice
+ * @property float $merchant_lat
+ * @property float $merchant_lng
+ * @property string $merchant_province
+ * @property string $merchant_city
+ * @property string $merchant_district
+ * @property string $merchant_address
+ * @property string $merchant_full_address
+ * @property int $merchant_cancel_cnt
+ * @property int $merchant_success_cnt
+ * @property int $merchant_doing_cnt
+ * @property int $merchant_brokerage_percent
+ * @property-read \App\Entities\MerchantAccount $account
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\MerchantBill[] $bills
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Brand[] $brands
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Categorie[] $cats
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Product[] $products
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Site[] $sites
+ * @property-read \App\Entities\WxUser $wxUser
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantBirthday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantBrokeragePercent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantCancelCnt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantDistrict($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantDoingCnt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantFace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantFullAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantIsNotice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantNickname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantPayPwd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantProvince($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantPwd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantSuccessCnt($value)
  */
 class Merchant extends BaseModel
 {
     use PostgisTrait;
 
-    protected $fillable = [];
+    protected $guarded = [];
 
 
 
@@ -90,6 +139,22 @@ class Merchant extends BaseModel
     public function sites()
     {
         return $this->belongsToMany(Site::class);
+    }
+
+
+    public function account()
+    {
+        return $this->hasOne(MerchantAccount::class,'id','id');
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(MerchantBill::class);
+    }
+
+    public function wxUser()
+    {
+        return $this->belongsTo(WxUser::class);
     }
 
 }

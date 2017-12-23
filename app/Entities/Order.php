@@ -109,12 +109,18 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @property string $createdable_type
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedableType($value)
+ * @property int $site_id
+ * @property string $site_name
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $createdable
+ * @property-read \App\Entities\Worker $worker
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereSiteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereSiteName($value)
  */
 class Order extends BaseModel
 {
     use PostgisTrait;
 
-    protected $fillable = [];
+    protected $guarded = [];
 
 
     /**

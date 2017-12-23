@@ -31,11 +31,16 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\MerchantAccount wherePaid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\MerchantAccount whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Entities\Merchant $merchant
  */
 class MerchantAccount extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
     public $incrementing = false;
+
+    public function merchant(){
+      return $this->belongsTo(Merchant::class,'id','id');
+    }
 
 }

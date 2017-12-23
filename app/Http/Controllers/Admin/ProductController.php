@@ -74,21 +74,19 @@ class ProductController extends Controller
 
             $catId = request()->get('cat_id');//搜索分类下的产品
             $where = $catId ? ['cat_id' => $catId] : [];
-            $grid->model()->where($where)->orderBy('sort');
+            $grid->model()->where($where)->orderBy('product_sort');
             $grid->id('ID')->sortable();
-            $grid->column('name', '名称')->display(function($name) {
+            $grid->column('product_name', '名称')->display(function($name) {
                 return "<a href='".url('admin/products/'.$this->id)."'>$name</a>";
             });
             $grid->column('cat.name', '分类');
-            $grid->desc('描述')->limit(30);
-            $grid->column('state','状态')->switch();
+            $grid->product_desc('描述')->limit(30);
+            $grid->column('product_state','状态')->switch();
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
-
-            $grid->filter(function ($filter) {// 设置created_at字段的范围查询
-                // 去掉默认的id过滤器
+            $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
-                $filter->like('name','名称');
+                $filter->like('product_name','名称');
                 $filter->equal('cat_id','分类')->select(Categorie::all()->pluck('name', 'id'));
                 $filter->between('created_at', '创建时间')->datetime();
             });
@@ -105,12 +103,12 @@ class ProductController extends Controller
     {
         return Admin::form(Product::class, function (Form $form) {
             $form->display('id', 'ID');
-            $form->text('name', '名称');
-            $form->select('cat_id', '分类')->options(Categorie::all()->pluck('name', 'id'));
-            $form->multipleSelect('malfunctions', '故障类型')->options(Malfunction::all()->pluck('name', 'id'));
-            $form->textarea('desc', '描述');
-            $form->switch('state','状态')->default(1);
-            $form->number('sort', '排序');
+            $form->text('product_name', '名称');
+            $form->select('cat_id', '分类')->options(Categorie::all()->pluck('cat_name', 'id'));
+            $form->multipleSelect('malfunctions', '故障类型')->options(Malfunction::all()->pluck('malfunction_name', 'id'));
+            $form->textarea('product_desc', '描述');
+            $form->switch('product_state','状态')->default(1);
+            $form->number('product_sort', '排序')->setWidth(2);
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '修改时间');
         });

@@ -15,6 +15,6 @@ use App\Traits\SequenceTrait;
 class MessageReceiver extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
 
 }

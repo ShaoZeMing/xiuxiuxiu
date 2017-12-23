@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-12-19.
+    * Generated on 2017-12-22.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -46,7 +46,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -182,7 +182,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -318,7 +318,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -454,7 +454,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -590,7 +590,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -726,7 +726,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -862,7 +862,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,

@@ -26,6 +26,6 @@ use App\Traits\SequenceTrait;
  */
 class OrderLog extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
 }

@@ -27,10 +27,12 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\NoticeReceiver whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\NoticeReceiver whereWxMsgId($value)
  * @mixin \Eloquent
+ * @property-read \App\Entities\Notice $notice
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $noticeable
  */
 class NoticeReceiver extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
 
 

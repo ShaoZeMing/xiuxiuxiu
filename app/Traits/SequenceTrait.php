@@ -20,6 +20,12 @@ trait SequenceTrait
     {
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = app('sequence')->generate();
+
+            foreach ($model as $k =>$v){
+                if(is_null($v)){
+                    unset($model->{$k});
+                }
+            }
             \Illuminate\Support\Facades\Log::info($model);
         });
 

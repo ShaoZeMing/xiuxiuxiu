@@ -30,11 +30,27 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $brand_name
+ * @property string $brand_desc
+ * @property int $brand_parent_id
+ * @property int $brand_level
+ * @property int $brand_state
+ * @property int $brand_sort
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Brand[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\File[] $files
+ * @property-read \App\Entities\Brand $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Product[] $products
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereBrandDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereBrandLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereBrandName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereBrandParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereBrandSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereBrandState($value)
  */
 class Brand extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
     
     /**
      * @author ShaoZeMing
@@ -52,7 +68,7 @@ class Brand extends BaseModel
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children(){
-        return $this->hasMany(Brand::class,'parent_id');
+        return $this->hasMany(Brand::class,'brand_parent_id');
     }
 
 
@@ -62,7 +78,7 @@ class Brand extends BaseModel
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products(){
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class,'brand_parent_id');
     }
 
 

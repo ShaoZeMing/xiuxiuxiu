@@ -9,7 +9,6 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "barryvdh/laravel-ide-helper": "^2.4",
         "doctrine/dbal": "^2.6",
         "encore/laravel-admin": "1.5.*",
         "fideloper/proxy": "~3.3",
@@ -20,6 +19,7 @@
         "laravel-admin-ext/reporter": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "overtrue/laravel-lang": "~3.0",
         "overtrue/laravel-wechat": "~3.0",
         "predis/predis": "^1.1",
         "prettus/l5-repository": "^2.6",
@@ -28,6 +28,7 @@
         "vinkla/hashids": "^3.1"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.4",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",

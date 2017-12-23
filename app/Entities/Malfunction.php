@@ -29,11 +29,29 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $malfunction_name
+ * @property string $malfunction_desc
+ * @property int $cat_id
+ * @property int $service_type_id
+ * @property int $malfunction_state
+ * @property int $malfunction_level
+ * @property int $malfunction_sort
+ * @property-read \App\Entities\Categorie $cat
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Product[] $products
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Resolvent[] $resolvents
+ * @property-read \App\Entities\ServiceType $serviceType
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereCatId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereMalfunctionDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereMalfunctionLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereMalfunctionName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereMalfunctionSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereMalfunctionState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Malfunction whereServiceTypeId($value)
  */
 class Malfunction extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
 
 
     /**

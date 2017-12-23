@@ -40,7 +40,7 @@ use App\Traits\SequenceTrait;
  */
 class Admin extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
     public $incrementing = false;
 
 }

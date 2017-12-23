@@ -44,7 +44,7 @@ use App\Traits\SequenceTrait;
  */
 class MerchantBill extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
     public $incrementing = false;
 
 }

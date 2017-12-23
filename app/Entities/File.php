@@ -37,10 +37,11 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\File whereUploadableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\File whereUploadableType($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $uploadable
  */
 class File extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
 
     /**

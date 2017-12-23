@@ -43,6 +43,6 @@ use App\Traits\SequenceTrait;
  */
 class SiteBill extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
 }

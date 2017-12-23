@@ -76,15 +76,15 @@ class BrandController extends Controller
         return Admin::grid(Brand::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->model()->orderBy('sort');
-            $grid->column('name', '名称');
-            $grid->column('parent.name', '父级品牌');
-            $grid->desc('描述');
+            $grid->model()->orderBy('brand_sort');
+            $grid->column('brand_name', '名称');
+            $grid->column('parent.brand_name', '父级品牌');
+            $grid->brand_desc('描述');
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
-                $filter->like('name','名称');
+                $filter->like('brand_name','名称');
                 $filter->between('created_at', '创建时间')->datetime();
             });
         });
@@ -99,11 +99,11 @@ class BrandController extends Controller
     {
         return Admin::form(Brand::class, function (Form $form) {
             $form->display('id', 'ID');
-            $form->text('name', '名称');
-            $form->select('parent_id', '父级')->options(Brand::all()->pluck('name', 'id'));
-            $form->textarea('desc', '描述');
-            $form->radio('state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(1);
-            $form->number('sort', '排序');
+            $form->text('brand_name', '名称')->rules('required');
+            $form->select('brand_parent_id', '父级')->options(Brand::all()->pluck('name', 'id'))->default([0=>'IE打卡福']);
+            $form->textarea('brand_desc', '描述')->rules('required');;
+            $form->radio('brand_state', '状态')->options(['0' => '非公开', '1' => '公开'])->default(1);
+            $form->number('brand_sort', '排序');
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '修改时间');
 

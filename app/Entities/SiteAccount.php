@@ -34,6 +34,6 @@ use App\Traits\SequenceTrait;
 class SiteAccount extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
 
 }

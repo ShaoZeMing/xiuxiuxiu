@@ -35,6 +35,6 @@ use App\Traits\SequenceTrait;
 class WorkerAccount extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
 
 }

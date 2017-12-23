@@ -33,11 +33,14 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Comment whereWorkerId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $commentable
+ * @property-read \App\Entities\Order $order
+ * @property-read \App\Entities\Worker $worker
  */
 class Comment extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
 
 
     /**

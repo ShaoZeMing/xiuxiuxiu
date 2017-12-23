@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Entities\Area;
 use App\Entities\Brand;
 use App\Entities\Categorie;
 use App\Entities\Malfunction;
@@ -44,10 +45,8 @@ class MerchantController extends Controller
     public function edit($id)
     {
         return Admin::content(function (Content $content) use ($id) {
-
             $content->header('编辑商家');
             $content->description('注意哈，有些不能修改的要注意哈');
-
             $content->body($this->form()->edit($id));
         });
     }
@@ -78,22 +77,22 @@ class MerchantController extends Controller
         return Admin::grid(Merchant::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->name('名称');
-            $grid->mobile('手机号');
-            $grid->nickname('昵称');
-            $grid->face()->display(function ($avatar) {
+            $grid->merchant_name('名称');
+            $grid->merchant_mobile('手机号');
+            $grid->merchant_nickname('昵称');
+            $grid->merchant_face()->display(function ($avatar) {
                 return "<img src='{$avatar}' />";
             });
-            $grid->full_address('地址')->limit(30);
-            $grid->column('state','状态')->switch();
+            $grid->merchant_full_address('地址')->limit(30);
+            $grid->column('merchant_state','状态')->switch();
             $grid->created_at('注册时间');
             $grid->updated_at('修改时间');
             $grid->filter(function ($filter) {// 设置created_at字段的范围查询
                 // 去掉默认的id过滤器
                 $filter->disableIdFilter();
-                $filter->like('name','名称');
-                $filter->like('mobile','手机');
-                $filter->like('full_address','地址');
+                $filter->like('merchant_name','名称');
+                $filter->like('merchant_mobile','手机');
+                $filter->like('merchant_full_address','地址');
                 $filter->between('created_at', '注册时间')->datetime();
             });
         });
@@ -108,16 +107,18 @@ class MerchantController extends Controller
     {
         return Admin::form(Merchant::class, function (Form $form) {
             $form->display('id', 'id');
-            $form->mobile('mobile', '电话');
-            $form->text('name', '名称');
-            $form->text('nickname', '昵称');
-            $form->image('face', '头像');
-            $form->multipleSelect('cats', '分类')->options(Categorie::all()->pluck('name', 'id'));
-            $form->select('province')->options(...)->load('city', '/api/city');
-            $form->select('city');
-            $form->switch('state','状态')->default(1);
+            $form->mobile('merchant_mobile', '电话');
+            $form->text('merchant_name', '名称');
+            $form->text('merchant_nickname', '昵称');
+            $form->image('merchant_face', '头像');
+            $form->multipleSelect('cats', '分类')->options(Categorie::all()->pluck('cat_name', 'id'));
+            $form->select('merchant_province','省')->options(Area::where('parent_id',0)->get()->pluck('name', 'id'))->load('city', '/api/city');
+            $form->select('merchant_city','市')->load('merchant_district', '/api/city');
+            $form->select('merchant_district','区');
+            $form->switch('merchant_state','状态')->default(1);
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '修改时间');
+            $form->hidden('merchant_geom');
         });
     }
 

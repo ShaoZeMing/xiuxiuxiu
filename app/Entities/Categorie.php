@@ -28,10 +28,27 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $cat_name
+ * @property string $cat_desc
+ * @property int $cat_parent_id
+ * @property int $cat_level
+ * @property int $cat_state
+ * @property int $cat_sort
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Categorie[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\File[] $files
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Malfunction[] $malfunctions
+ * @property-read \App\Entities\Categorie $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Product[] $products
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatDesc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatState($value)
  */
 class Categorie extends BaseModel
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
 
 
@@ -58,7 +75,7 @@ class Categorie extends BaseModel
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent(){
-        return $this->belongsTo(Categorie::class);
+        return $this->belongsTo(Categorie::class,'cat_parent_id');
     }
 
     /**
@@ -67,7 +84,7 @@ class Categorie extends BaseModel
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children(){
-        return $this->hasMany(Categorie::class,'parent_id','id');
+        return $this->hasMany(Categorie::class,'cat_parent_id');
     }
 
 

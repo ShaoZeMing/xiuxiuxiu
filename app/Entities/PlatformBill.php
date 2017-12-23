@@ -45,7 +45,7 @@ use App\Traits\SequenceTrait;
 class PlatformBill extends BaseModel
 {
 
-    protected $fillable = [];
+    protected $guarded = [];
     public $incrementing = false;
 
 }
