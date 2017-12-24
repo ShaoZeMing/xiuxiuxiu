@@ -115,12 +115,13 @@ class Merchant extends BaseModel
     use PostgisTrait;
 
     protected $guarded = [];
-
-
+    protected $postgisFields = [
+        'merchant_geom',
+    ];
 
     public function cats()
     {
-        return $this->belongsToMany(Categorie::class, 'merchant_categories');
+        return $this->belongsToMany(Categorie::class, 'merchant_categories','merchant_id','cat_id');
 
     }
 

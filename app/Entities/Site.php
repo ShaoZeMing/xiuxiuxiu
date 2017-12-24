@@ -111,7 +111,9 @@ class Site extends BaseModel
     use PostgisTrait;
 
     protected $guarded = [];
-
+    protected $postgisFields = [
+        'site_geom',
+    ];
 
 
     public function account()

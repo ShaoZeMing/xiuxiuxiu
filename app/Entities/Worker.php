@@ -109,7 +109,9 @@ class Worker extends BaseModel
     use PostgisTrait;
 
     protected $guarded = [];
-
+    protected $postgisFields = [
+        'worker_geom',
+    ];
 
 
     public function account()

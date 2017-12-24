@@ -101,7 +101,9 @@ class User extends BaseModel
     use PostgisTrait;
 
     protected $guarded = [];
-
+    protected $postgisFields = [
+        'user_geom',
+    ];
 
 
     public function account()

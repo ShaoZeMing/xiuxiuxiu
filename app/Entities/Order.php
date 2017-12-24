@@ -121,7 +121,9 @@ class Order extends BaseModel
     use PostgisTrait;
 
     protected $guarded = [];
-
+    protected $postgisFields = [
+        'geom',
+    ];
 
     /**
      * 产品

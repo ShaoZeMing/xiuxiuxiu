@@ -1,8 +1,7 @@
 <?php
 namespace App\Services\Vendor;
 
-// use Illuminate\Foundation\Application;
-use Laravel\Lumen\Application;
+ use Illuminate\Foundation\Application;
 use Ixudra\Curl\Facades\Curl;
 
 class Amap
