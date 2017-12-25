@@ -158,4 +158,21 @@ class Merchant extends BaseModel
         return $this->belongsTo(WxUser::class);
     }
 
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * 企业客户
+     */
+    public function customers(){
+        return $this->belongsToMany(Customer::class);
+    }
+
+
+
+    public function orders(){
+        return $this->morphToMany(Order::class,'createdable');
+    }
+
 }

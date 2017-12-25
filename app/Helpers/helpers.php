@@ -139,15 +139,24 @@ if (!function_exists('hashIdEncode')) {
     }
 }
 
-/*获取登陆商家id*/
+/*获取登陆者商家*/
 if (!function_exists('getMerchantInfo')) {
     function getMerchantInfo()
     {
         $user = getAuthInfo();
-        if ($user->parent_id != 0) {
-            $user = $user->parent()->first();
+        if ($user->merchant_id != 0) {
+            $user = $user->merchant()->first();
         }
         return $user;
+    }
+}
+
+/*获取登陆者商家ID*/
+if (!function_exists('getMerchantInfo')) {
+    function getMerchantId()
+    {
+        $user = getAuthInfo();
+        return $user->merchant_id;
     }
 }
 
@@ -155,11 +164,6 @@ if (!function_exists('getMerchantInfo')) {
 if (!function_exists('getAuthInfo')) {
     function getAuthInfo()
     {
-
-//        $user = auth('api')->user();
-        //        if ($user) {
-        //            return $user;
-        //        }
         $user = auth()->user();
         if ($user) {
             return $user;
@@ -168,18 +172,7 @@ if (!function_exists('getAuthInfo')) {
     }
 }
 
-/*获取登陆企业id*/
-if (!function_exists('getCompanyId')) {
-    function getCompanyId()
-    {
-        $user = getAuthInfo();
-        if ($user) {
-            return $user->company_id;
-        } else {
-            return 0;
-        }
-    }
-}
+
 /*获取登陆id*/
 if (!function_exists('getAuthId')) {
     function getAuthId()

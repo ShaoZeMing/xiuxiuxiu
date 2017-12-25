@@ -124,6 +124,12 @@ class Order extends BaseModel
     protected $postgisFields = [
         'geom',
     ];
+    protected $postgisTypes = [
+        'geom' => [
+            'geomtype' => 'geometry',
+            'srid' => 4326
+        ],
+    ];
 
     /**
      * 产品

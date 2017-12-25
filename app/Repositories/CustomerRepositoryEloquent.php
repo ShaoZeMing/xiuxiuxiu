@@ -2,20 +2,17 @@
 
 namespace App\Repositories;
 
-use App\Entities\Order;
-use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\order_logRepository;
-use App\Entities\OrderLog;
-use App\Validators\OrderLogValidator;
-use Shaozeming\LumenPostgis\Geometries\GeomPoint;
+use App\Repositories\customerRepository;
+use App\Entities\Customer;
+use App\Validators\CustomerValidator;
 
 /**
- * Class OrderLogRepositoryEloquent
+ * Class CustomerRepositoryEloquent
  * @package namespace App\Repositories;
  */
-class OrderLogRepositoryEloquent extends BaseRepository implements OrderLogRepository
+class CustomerRepositoryEloquent extends BaseRepository implements CustomerRepository
 {
     /**
      * Specify Model class name
@@ -24,7 +21,7 @@ class OrderLogRepositoryEloquent extends BaseRepository implements OrderLogRepos
      */
     public function model()
     {
-        return OrderLog::class;
+        return Customer::class;
     }
 
     
@@ -36,8 +33,4 @@ class OrderLogRepositoryEloquent extends BaseRepository implements OrderLogRepos
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-
-
-
-
 }
