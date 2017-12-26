@@ -7,6 +7,7 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\MessageReceiver
  *

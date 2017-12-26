@@ -7,11 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\PlatformAccount
  *
- * @property int $id
- * @property int $platform_id
+ * @property string $id
  * @property int $balance
  * @property int $freeze
  * @property int $available
@@ -28,7 +28,6 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\PlatformAccount whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\PlatformAccount whereIncome($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\PlatformAccount wherePaid($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\PlatformAccount wherePlatformId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\PlatformAccount whereUpdatedAt($value)
  * @mixin \Eloquent
  */

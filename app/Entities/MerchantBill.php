@@ -7,10 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\MerchantBill
  *
- * @property int $id
+ * @property string $id
  * @property int $merchant_id
  * @property int $balance
  * @property int $freeze

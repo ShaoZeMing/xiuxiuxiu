@@ -7,10 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\OrderLog
  *
- * @property int $id
+ * @property string $id
  * @property int $type
  * @property int $order_id
  * @property mixed $data

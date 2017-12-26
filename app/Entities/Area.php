@@ -12,12 +12,12 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property int $id
  * @property string $name
  * @property int $parent_id
+ * @property-read \App\Entities\Area $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Area[] $sub
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Area whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Area whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Area whereParentId($value)
  * @mixin \Eloquent
- * @property-read \App\Entities\Area $parent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Area[] $sub
  */
 class Area extends Model implements Transformable
 {

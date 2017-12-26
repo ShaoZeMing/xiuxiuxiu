@@ -7,10 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\NoticeReceiver
  *
- * @property int $id
+ * @property string $id
  * @property int $state
  * @property int $notice_id
  * @property string $wx_msg_id
@@ -18,6 +19,8 @@ use App\Traits\SequenceTrait;
  * @property string $noticeable_type
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \App\Entities\Notice $notice
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $noticeable
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\NoticeReceiver whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\NoticeReceiver whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\NoticeReceiver whereNoticeId($value)
@@ -27,8 +30,6 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\NoticeReceiver whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\NoticeReceiver whereWxMsgId($value)
  * @mixin \Eloquent
- * @property-read \App\Entities\Notice $notice
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $noticeable
  */
 class NoticeReceiver extends BaseModel
 {

@@ -9,7 +9,7 @@ use App\Traits\SequenceTrait;
 /**
  * App\Entities\SiteBill
  *
- * @property int $id
+ * @property string $id
  * @property int $site_id
  * @property int $balance
  * @property int $freeze

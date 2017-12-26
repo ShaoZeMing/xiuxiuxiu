@@ -109,6 +109,14 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantSex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantState($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantSuccessCnt($value)
+ * @property int $merchant_province_id
+ * @property int $merchant_city_id
+ * @property int $merchant_district_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Customer[] $customers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Order[] $orders
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantCityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantDistrictId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Merchant whereMerchantProvinceId($value)
  */
 class Merchant extends BaseModel
 {
@@ -118,6 +126,18 @@ class Merchant extends BaseModel
     protected $postgisFields = [
         'merchant_geom',
     ];
+
+
+    public function getMerchantFaceAttribute($value)
+    {
+        if ($value) {
+            $img = parse_url($value)['path'];
+            $host = rtrim(config('filesystems.disks.admin.url'), '/').'/';
+            return $host . $img;
+        }
+        return $value;
+    }
+
 
     public function cats()
     {

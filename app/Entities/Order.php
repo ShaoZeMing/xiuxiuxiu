@@ -8,29 +8,34 @@ use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
 
+
 /**
  * App\Entities\Order
  *
- * @property int $id
+ * @property string $id
  * @property int $order_no
  * @property int $state
  * @property int $order_type
  * @property int $biz_type
  * @property int $cat_id
- * @property string $cat
+ * @property \App\Entities\Categorie $cat
  * @property int $brand_id
- * @property string $brand
+ * @property \App\Entities\Brand $brand
  * @property int $product_id
- * @property string $product
+ * @property \App\Entities\Product $product
  * @property int $malfunction_id
- * @property string $malfunction
+ * @property \App\Entities\Malfunction $malfunction
  * @property int $price
  * @property int $pay_price
  * @property string $order_desc
  * @property string $verify_code
  * @property int $pay_state
+ * @property int $createdable_id
+ * @property string $createdable_type
  * @property string $created_name
  * @property string $created_logo
+ * @property int $site_id
+ * @property string $site_name
  * @property int $worker_id
  * @property string $worker_name
  * @property string $worker_mobile
@@ -41,6 +46,9 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @property string $city
  * @property string $district
  * @property string $address
+ * @property int $province_id
+ * @property int $city_id
+ * @property int $district_id
  * @property string $full_address
  * @property float $order_lat
  * @property float $order_lng
@@ -56,6 +64,8 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @property string $inspected_desc
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $createdable
+ * @property-read \App\Entities\Worker $worker
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereAcceptedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereBizType($value)
@@ -67,16 +77,17 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCatId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereConfirmedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereConnectMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereConnectName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedLogo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereDistrict($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereDistrictId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereFinishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereFinishedDesc($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereFullAddress($value)
@@ -97,6 +108,9 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereProduct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereProvince($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereProvinceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereSiteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereSiteName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereState($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereVerifyCode($value)
@@ -105,16 +119,6 @@ use Shaozeming\LumenPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereWorkerMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereWorkerName($value)
  * @mixin \Eloquent
- * @property int $createdable_id
- * @property string $createdable_type
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereCreatedableType($value)
- * @property int $site_id
- * @property string $site_name
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $createdable
- * @property-read \App\Entities\Worker $worker
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereSiteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Order whereSiteName($value)
  */
 class Order extends BaseModel
 {

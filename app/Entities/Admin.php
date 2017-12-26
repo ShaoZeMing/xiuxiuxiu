@@ -10,7 +10,7 @@ use App\Traits\SequenceTrait;
 /**
  * App\Entities\Admin
  *
- * @property int $id
+ * @property string $id
  * @property string $mobile
  * @property string $name
  * @property string $email

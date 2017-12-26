@@ -7,10 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\Notice
  *
- * @property int $id
+ * @property string $id
  * @property int $state
  * @property int $type
  * @property int $order_id
@@ -18,6 +19,7 @@ use App\Traits\SequenceTrait;
  * @property mixed $content
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \App\Entities\Order $order
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Notice whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Notice whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Notice whereId($value)
@@ -27,7 +29,6 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Notice whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Notice whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read \App\Entities\Order $order
  */
 class Notice extends BaseModel
 {

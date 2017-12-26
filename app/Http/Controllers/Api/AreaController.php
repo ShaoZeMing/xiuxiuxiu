@@ -52,7 +52,7 @@ class AreaController extends Controller
     public function city(Request $request)
     {
         $provinceId = $request->get('q')?:0;
-        return Area::where('parent_id', $provinceId)->get(['id', DB::raw('name as text')]);
+        return Area::where('parent_id', $provinceId)->orderBy('id')->get(['id', DB::raw('name as text')]);
     }
 
 

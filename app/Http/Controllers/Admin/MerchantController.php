@@ -74,17 +74,15 @@ class MerchantController extends Controller
     {
         return Admin::grid(Merchant::class, function (Grid $grid) {
 
-            $grid->id('ID')->sortable();
-            $grid->merchant_name('名称');
-            $grid->merchant_mobile('手机号');
-            $grid->merchant_nickname('昵称');
-            $grid->merchant_face()->display(function ($avatar) {
+            $grid->column('id', 'ID')->sortable();
+            $grid->column('merchant_name', '名称');
+            $grid->column('merchant_mobile', '手机号');
+            $grid->column('merchant_face', '头像')->display(function ($avatar) {
                 return "<img src='{$avatar}' />";
             });
-            $grid->merchant_full_address('地址')->limit(30);
+            $grid->column('merchant_full_address', '地址')->limit(30);
             $grid->column('merchant_state', '状态')->switch();
             $grid->created_at('注册时间');
-            $grid->updated_at('修改时间');
             $grid->filter(function ($filter) {// 设置created_at字段的范围查询
                 // 去掉默认的id过滤器
                 $filter->disableIdFilter();
@@ -103,6 +101,7 @@ class MerchantController extends Controller
      */
     protected function form()
     {
+
         return Admin::form(Merchant::class, function (Form $form) {
             $form->display('id', 'id');
             $form->mobile('merchant_mobile', '电话');
@@ -110,22 +109,26 @@ class MerchantController extends Controller
             $form->text('merchant_nickname', '昵称');
             $form->image('merchant_face', '头像')->resize(200, 200)->uniqueName()->removable();;
             $form->multipleSelect('cats', '分类')->options(Categorie::all()->pluck('cat_name', 'id'));
-            $form->select('merchant_province', '省')->options(Area::where('parent_id', 0)->get()->pluck('name', 'id'))->load('merchant_city', '/api/city');
-            $form->select('merchant_city', '市')->load('merchant_district', '/api/city');
-            $form->select('merchant_district', '区');
+            $form->select('merchant_province_id', '省')->options(Area::where('parent_id', 0)->orderBy('id')->get()->pluck('name', 'id'))->load('merchant_city_id', '/api/city');
+            $form->select('merchant_city_id', '市')->load('merchant_district_id', '/api/city');
+            $form->select('merchant_district_id', '区');
             $form->switch('merchant_state', '状态')->default(1);
             $form->text('merchant_address', '地址');
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '修改时间');
 
+
+            $form->hidden('merchant_province');
+            $form->hidden('merchant_city');
+            $form->hidden('merchant_district');
             $form->hidden('merchant_full_address');
             $form->hidden('merchant_lng');
             $form->hidden('merchant_lat');
             $form->hidden('merchant_geom');
             $form->saving(function (Form $form) {
-                $form->merchant_province= Area::find($form->merchant_province)->name;
-                $form->merchant_city= Area::find($form->merchant_city)->name;
-                $form->merchant_district= Area::find($form->merchant_district)->name;
+                $form->merchant_province= Area::find($form->merchant_province_id)->name;
+                $form->merchant_city= Area::find($form->merchant_city_id)->name;
+                $form->merchant_district= Area::find($form->merchant_district_id)->name;
                 $form->merchant_full_address = $form->merchant_province . $form->merchant_city . $form->merchant_district . $form->merchant_address;
                 list($lng, $lat) = retry(2, function () use ($form) {
                     $geo = app('amap')->getLocation($form->merchant_full_address, $form->merchant_province . $form->merchant_city . $form->merchant_district);

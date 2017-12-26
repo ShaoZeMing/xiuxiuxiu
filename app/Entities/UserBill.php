@@ -10,7 +10,7 @@ use App\Traits\SequenceTrait;
 /**
  * App\Entities\UserBill
  *
- * @property int $id
+ * @property string $id
  * @property int $user_id
  * @property int $balance
  * @property int $freeze

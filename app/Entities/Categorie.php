@@ -7,44 +7,37 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\Categorie
  *
- * @property int $id
- * @property string $name
- * @property string $desc
- * @property int $parent_id
- * @property int $level
- * @property int $sort
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Brand[] $brands
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereDesc($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereLevel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property string $id
  * @property string $cat_name
  * @property string $cat_desc
  * @property int $cat_parent_id
  * @property int $cat_level
  * @property int $cat_state
  * @property int $cat_sort
+ * @property string $cat_logo
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Brand[] $brands
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Categorie[] $children
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\File[] $files
+ * @property-read mixed $categorie_logo
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Malfunction[] $malfunctions
  * @property-read \App\Entities\Categorie $parent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Product[] $products
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatDesc($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatLogo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCatState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Categorie whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Categorie extends BaseModel
 {
@@ -91,6 +84,18 @@ class Categorie extends BaseModel
         return $this->hasMany(Categorie::class,'cat_parent_id');
     }
 
+
+
+
+    public function getCategorieLogoAttribute($value)
+    {
+        if ($value) {
+            $img = parse_url($value)['path'];
+            $host = rtrim(config('filesystems.disks.admin.url'), '/').'/';
+            return $host . $img;
+        }
+        return $value;
+    }
 
 
 

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
+
 /**
  * App\Entities\SiteAccount
  *
- * @property int $id
- * @property int $site_id
+ * @property string $id
  * @property int $balance
  * @property int $freeze
  * @property int $available
@@ -27,7 +27,6 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteAccount whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteAccount whereIncome($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteAccount wherePaid($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteAccount whereSiteId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\SiteAccount whereUpdatedAt($value)
  * @mixin \Eloquent
  */

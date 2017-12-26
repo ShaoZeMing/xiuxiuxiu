@@ -7,10 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\Comment
  *
- * @property int $id
+ * @property string $id
  * @property int $type
  * @property int $stars
  * @property int $worker_id
@@ -21,6 +22,9 @@ use App\Traits\SequenceTrait;
  * @property string $other_content
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $commentable
+ * @property-read \App\Entities\Order $order
+ * @property-read \App\Entities\Worker $worker
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Comment whereCommentableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Comment whereCommentableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Comment whereContent($value)
@@ -33,9 +37,6 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Comment whereWorkerId($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $commentable
- * @property-read \App\Entities\Order $order
- * @property-read \App\Entities\Worker $worker
  */
 class Comment extends BaseModel
 {

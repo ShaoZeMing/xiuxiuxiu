@@ -10,8 +10,7 @@ use App\Traits\SequenceTrait;
 /**
  * App\Entities\UserAccount
  *
- * @property int $id
- * @property int $user_id
+ * @property string $id
  * @property int $balance
  * @property int $freeze
  * @property int $available
@@ -29,7 +28,6 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\UserAccount whereIncome($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\UserAccount wherePaid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\UserAccount whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\UserAccount whereUserId($value)
  * @mixin \Eloquent
  */
 class UserAccount extends BaseModel

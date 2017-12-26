@@ -7,10 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
 
+
 /**
  * App\Entities\File
  *
- * @property int $id
+ * @property string $id
  * @property string $filename
  * @property string $file_ext
  * @property string $file_size
@@ -23,6 +24,7 @@ use App\Traits\SequenceTrait;
  * @property int $image_type
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $uploadable
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\File whereBPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\File whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\File whereFileExt($value)
@@ -37,7 +39,6 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\File whereUploadableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\File whereUploadableType($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $uploadable
  */
 class File extends BaseModel
 {
