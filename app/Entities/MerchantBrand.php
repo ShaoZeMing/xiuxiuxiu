@@ -25,4 +25,5 @@ class MerchantBrand extends Model implements Transformable
     use TransformableTrait;
     protected $guarded = [];
 
+
 }

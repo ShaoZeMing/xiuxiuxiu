@@ -48,4 +48,10 @@ class MerchantBill extends BaseModel
     protected $guarded = [];
     public $incrementing = false;
 
+
+    public function merchant(){
+        return $this->belongsTo(Merchant::class);
+    }
+
+
 }

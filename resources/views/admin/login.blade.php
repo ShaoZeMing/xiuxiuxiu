@@ -55,9 +55,15 @@
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
-
+        <div class="col-xs-12 " >
+          <span  class="desc pull-left"> <a  href="{{ merchant_base_path('auth/register') }}">立即注册？</a></span>
+          <span  class="desc pull-right"> <a  href="{{ merchant_base_path('auth/forget') }}">忘记密码？</a></span>
+        </div>
+      </div>
+      <div class="row">
         <!-- /.col -->
-        <div class="col-xs-4 col-md-offset-4">
+        <div class="col-xs-12 ">
+
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('admin.login') }}</button>
         </div>

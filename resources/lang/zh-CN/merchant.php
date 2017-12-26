@@ -2,11 +2,16 @@
 
 return [
     'online'                => '在线',
+    'register'              => '注册',
     'login'                 => '登录',
+    'forget'                 => '忘记密码',
     'logout'                => '登出',
     'setting'               => '设置',
     'name'                  => '名称',
     'username'              => '用户名',
+    'mobile'                => '手机号',
+    'email'                 => '邮箱',
+    'user'                 => '用户',
     'password'              => '密码',
     'password_confirmation' => '确认密码',
     'remember_me'           => '记住我',
@@ -52,6 +57,8 @@ return [
     'save_succeeded'    => '保存成功 !',
     'refresh_succeeded' => '刷新成功 !',
     'login_successful'  => '登录成功 !',
+    'register_successful'  => '登录成功 !',
+    'forget_successful'  => '密码修改成功 !',
 
     'choose'       => '选择',
     'choose_file'  => '选择文件',

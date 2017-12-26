@@ -13,8 +13,8 @@ class HomeController extends Controller
 {
     public function index()
     {
+        trans();
         return Admin::content(function (Content $content) {
-
             $content->header('Dashboard');
             $content->description('Description...');
 
