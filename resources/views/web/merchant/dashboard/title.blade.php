@@ -26,7 +26,7 @@
 </style>
 
 <div class="title">
-    Laravel-商家端
+    Laravel-merchant
 </div>
 <div class="links">
     <a href="https://github.com/z-song/laravel-merchant" target="_blank">Github</a>

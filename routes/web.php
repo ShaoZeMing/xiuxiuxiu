@@ -31,8 +31,9 @@ Route::group([
 /**********这是企业权限控制路由************/
 use Illuminate\Routing\Router;
 
-Merchant::registerAuthRoutes();
 
+
+Merchant::registerAuthRoutes();
 Route::group([
     'prefix'        => config('merchant.route.prefix'),
     'namespace'     => config('merchant.route.namespace'),
@@ -40,5 +41,22 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
+    $router->get('auth/login', 'AuthController@getLogin');
+    $router->post('auth/login', 'AuthController@postLogin');
+});
+
+Route::group([
+    'prefix'        => config('merchant.route.prefix'),
+    'namespace'     => config('merchant.route.namespace'),
+    'middleware'    => ['web'],
+], function (Router $router) {
+    $router->get('auth/forget', 'AuthController@getForget');
+    $router->get('auth/register', 'AuthController@getRegister');
+    $router->post('auth/register', 'AuthController@postRegister');
+    $router->post('auth/forget', 'AuthController@postForget');
 
 });
+
+
+
+

@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-12-23.
+    * Generated on 2017-12-27.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -46,6 +46,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'image' => \Intervention\Image\ImageManager::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
+        'amap' => \App\Services\Vendor\Amap::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -183,6 +184,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'image' => \Intervention\Image\ImageManager::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
+        'amap' => \App\Services\Vendor\Amap::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -320,6 +322,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'image' => \Intervention\Image\ImageManager::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
+        'amap' => \App\Services\Vendor\Amap::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -457,6 +460,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'image' => \Intervention\Image\ImageManager::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
+        'amap' => \App\Services\Vendor\Amap::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -594,6 +598,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'image' => \Intervention\Image\ImageManager::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
+        'amap' => \App\Services\Vendor\Amap::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -731,6 +736,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'image' => \Intervention\Image\ImageManager::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
+        'amap' => \App\Services\Vendor\Amap::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -868,6 +874,7 @@ namespace PHPSTORM_META {
         'Curl' => \Ixudra\Curl\CurlService::class,
         'image' => \Intervention\Image\ImageManager::class,
         'sequence' => \App\Services\Vendor\Sequence::class,
+        'amap' => \App\Services\Vendor\Amap::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,

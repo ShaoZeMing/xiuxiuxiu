@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e131495e137b70257684f6454baa391d",
-    "content-hash": "94effcf24eb25654fd64e6656c046f52",
+    "hash": "26ad5fbf2012b439ce8399d29e86c9ab",
+    "content-hash": "495f7bd87a8f1d83e9751959cb33da41",
     "packages": [
         {
             "name": "bosnadev/database",
@@ -1725,16 +1725,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.27",
+            "version": "v5.5.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b4fb6eeb227b7327b4ca7f92263b693ec9ac9875"
+                "reference": "cfafae1f2043208390a7c984e3070696f4969605"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/laravel/framework/b4fb6eeb227b7327b4ca7f92263b693ec9ac9875.zip",
-                "reference": "b4fb6eeb227b7327b4ca7f92263b693ec9ac9875",
+                "url": "https://files.phpcomposer.com/files/laravel/framework/cfafae1f2043208390a7c984e3070696f4969605.zip",
+                "reference": "cfafae1f2043208390a7c984e3070696f4969605",
                 "shasum": ""
             },
             "require": {
@@ -1855,7 +1855,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-12-20 15:43:48"
+            "time": "2017-12-26 16:24:40"
         },
         {
             "name": "laravel/tinker",
@@ -2180,16 +2180,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.1.2",
+            "version": "v3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "08131e7ff29de6bb9f12275c7d35df71f25f4d89"
+                "reference": "579f4ce846734a1cf55d6a531d00ca07a43e3cda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/nikic/PHP-Parser/08131e7ff29de6bb9f12275c7d35df71f25f4d89.zip",
-                "reference": "08131e7ff29de6bb9f12275c7d35df71f25f4d89",
+                "url": "https://files.phpcomposer.com/files/nikic/PHP-Parser/579f4ce846734a1cf55d6a531d00ca07a43e3cda.zip",
+                "reference": "579f4ce846734a1cf55d6a531d00ca07a43e3cda",
                 "shasum": ""
             },
             "require": {
@@ -2227,7 +2227,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-11-04 11:48:34"
+            "time": "2017-12-26 14:43:21"
         },
         {
             "name": "overtrue/laravel-lang",
@@ -3047,12 +3047,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ShaoZeMing/laravel-merchant.git",
-                "reference": "f8119c8d06c3ea3de8e3232a8b1970404caa28e7"
+                "reference": "941e0a1c82da6d07d6e97429b0244dbee73ca0bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/ShaoZeMing/laravel-merchant/f8119c8d06c3ea3de8e3232a8b1970404caa28e7.zip",
-                "reference": "f8119c8d06c3ea3de8e3232a8b1970404caa28e7",
+                "url": "https://files.phpcomposer.com/files/ShaoZeMing/laravel-merchant/941e0a1c82da6d07d6e97429b0244dbee73ca0bf.zip",
+                "reference": "941e0a1c82da6d07d6e97429b0244dbee73ca0bf",
                 "shasum": ""
             },
             "require": {
@@ -3109,7 +3109,7 @@
                 "laravel",
                 "merchant"
             ],
-            "time": "2017-12-17 11:46:02"
+            "time": "2017-12-27 01:35:36"
         },
         {
             "name": "shaozeming/lumen-postgis",

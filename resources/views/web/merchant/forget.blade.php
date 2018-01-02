@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{config('merchant.title')}} | {{ trans('merchant.login') }}</title>
+  <title>{{config('merchant.title')}} | {{ trans('merchant.forget') }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.5 -->
@@ -25,13 +25,13 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="{{ merchant_base_path('/') }}"><b>登陆</b></a>
+    <a href="{{ merchant_base_path('/') }}"><b>{{config('merchant.name')}}</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">{{ trans('merchant.login') }}</p>
+    <p class="login-box-msg">{{ trans('merchant.forget') }}</p>
 
-    <form action="{{ merchant_base_path('auth/login') }}" method="post">
+    <form action="{{ merchant_base_path('auth/forget') }}" method="post">
       <div class="form-group has-feedback {!! !$errors->has('mobile') ?: 'has-error' !!}">
 
         @if($errors->has('mobile'))
@@ -54,17 +54,17 @@
         <input type="password" class="form-control" placeholder="{{ trans('merchant.password') }}" name="password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+
       <div class="row">
         <div class="col-xs-12 " >
-          <span  class="desc pull-left"> <a  href="{{ merchant_base_path('auth/register') }}">立即注册？</a></span>
-          <span  class="desc pull-right"> <a  href="{{ merchant_base_path('auth/forget') }}">忘记密码？</a></span>
+          <span  class="desc pull-left"> <a  href="{{ merchant_base_path('auth/login') }}">返回登录</a></span>
         </div>
       </div>
       <div class="row">
         <!-- /.col -->
         <div class="col-xs-12 ">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('merchant.login') }}</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('merchant.forget') }}</button>
         </div>
         <!-- /.col -->
       </div>
