@@ -9,11 +9,11 @@ use App\Entities\Product;
 use App\Entities\ServiceType;
 use App\Http\Controllers\Controller;
 use App\Repositories\ResolventRepositoryEloquent;
-use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
+use ShaoZeMing\Merchant\Controllers\ModelForm;
+use ShaoZeMing\Merchant\Facades\Merchant;
+use ShaoZeMing\Merchant\Form;
+use ShaoZeMing\Merchant\Grid;
+use ShaoZeMing\Merchant\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,7 +28,7 @@ class MalfunctionController extends Controller
      */
     public function index()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
             $content->header('故障列表');
             $content->description('所有故障的列表');
             $content->body($this->grid());
@@ -45,7 +45,7 @@ class MalfunctionController extends Controller
      */
     public function edit($id)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        return Merchant::content(function (Content $content) use ($id) {
 
             $content->header('编辑故障');
             $content->description('description');
@@ -61,7 +61,7 @@ class MalfunctionController extends Controller
      */
     public function create()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
 
             $content->header('添加故障');
             $content->description('description');
@@ -77,14 +77,14 @@ class MalfunctionController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Malfunction::class, function (Grid $grid) {
+        return Merchant::grid(Malfunction::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
             $grid->model()->orderBy('malfunction_sort');
             $grid->column('malfunction_name', '名称')->display(function($name) {
-                return "<a href='".url('admin/malfunctions/'.$this->id)."'>$name</a>";
+                return "<a href='".url('merchant/malfunctions/'.$this->id)."'>$name</a>";
             });
             $grid->column('cat.cat_name', '分类')->display(function($name) {
-                return "<a href='".url('admin/cats/'.$this->cat_id)."'>$name</a>";
+                return "<a href='".url('merchant/cats/'.$this->cat_id)."'>$name</a>";
             });
             $grid->products('关联产品')->display(function ($products) {
                 $products = array_map(function ($product) {
@@ -112,9 +112,9 @@ class MalfunctionController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Malfunction::class, function (Form $form) {
+        return Merchant::form(Malfunction::class, function (Form $form) {
             $form->display('id', 'ID');
-            $form->select('cat_id', '所属品类')->options(Categorie::all()->pluck('cat_name', 'id'))->load('products','/admin/api/cat/products');
+            $form->select('cat_id', '所属品类')->options(Categorie::all()->pluck('cat_name', 'id'))->load('products','/merchant/api/cat/products');
             $form->text('malfunction_name', '故障名称')->rules('required');
             $form->select('service_type_id', '服务类型')->options(ServiceType::all()->pluck('service_type_name', 'id'));
             $form->multipleSelect('products', '产品关联')->options(Product::all()->pluck('product_name', 'id'));

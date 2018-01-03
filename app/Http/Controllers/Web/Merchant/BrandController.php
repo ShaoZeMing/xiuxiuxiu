@@ -6,14 +6,13 @@ use App\Entities\Brand;
 use App\Entities\Categorie;
 use App\Http\Controllers\Controller;
 use App\Repositories\BrandRepositoryEloquent;
-use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
+use ShaoZeMing\Merchant\Controllers\ModelForm;
+use ShaoZeMing\Merchant\Facades\Merchant;
+use ShaoZeMing\Merchant\Form;
+use ShaoZeMing\Merchant\Grid;
+use ShaoZeMing\Merchant\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class BrandController extends Controller
 {
@@ -26,7 +25,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
             $content->header('品牌管理');
             $content->description('');
             $content->body($this->grid());
@@ -43,7 +42,7 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        return Merchant::content(function (Content $content) use ($id) {
 
             $content->header('品牌编辑');
             $content->description('');
@@ -59,7 +58,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
 
             $content->header('添加品牌');
             $content->description('');
@@ -75,13 +74,13 @@ class BrandController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Brand::class, function (Grid $grid) {
+        return Merchant::grid(Brand::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
             $grid->model()->orderBy('brand_sort');
             $grid->column('brand_name', '品牌名称');
             $grid->brand_logo('LOGO')->display(function ($name) {
-                return "<img src='". config('filesystems.disks.admin.url').'/'.$name."' width='80'>";
+                return "<img src='". config('filesystems.disks.merchant.url').'/'.$name."' width='80'>";
             });
             $grid->cats('经营品类')->display(function ($cats) {
                 $cats = array_map(function ($cat) {
@@ -107,7 +106,7 @@ class BrandController extends Controller
     protected function form()
     {
 
-        return Admin::form(Brand::class, function (Form $form) {
+        return Merchant::form(Brand::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('brand_name', '品牌名称')->rules('required');
             $parent=Brand::where('brand_parent_id',0)->where('id','!=',$form->model()->id)->get()->pluck('brand_name', 'id')->toArray();

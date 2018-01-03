@@ -6,11 +6,13 @@ use App\Entities\Area;
 use App\Entities\Categorie;
 use App\Entities\Merchant;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
+use ShaoZeMing\Merchant\Controllers\ModelForm;
+//use ShaoZeMing\Merchant\Facades\Merchant;
+use ShaoZeMing\Merchant\Form;
+use ShaoZeMing\Merchant\Grid;
+use ShaoZeMing\Merchant\Layout\Content;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Shaozeming\LumenPostgis\Geometries\GeomPoint;
 

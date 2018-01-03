@@ -8,11 +8,13 @@ use App\Entities\Malfunction;
 use App\Entities\Product;
 use App\Entities\ServiceType;
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
+use ShaoZeMing\Merchant\Controllers\ModelForm;
+use ShaoZeMing\Merchant\Facades\Merchant;
+use ShaoZeMing\Merchant\Form;
+use ShaoZeMing\Merchant\Grid;
+use ShaoZeMing\Merchant\Layout\Content;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceTypeController extends Controller
 {
@@ -25,7 +27,7 @@ class ServiceTypeController extends Controller
      */
     public function index()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
             $content->header('header');
             $content->description('description');
             $content->body($this->grid());
@@ -42,7 +44,7 @@ class ServiceTypeController extends Controller
      */
     public function edit($id)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        return Merchant::content(function (Content $content) use ($id) {
 
             $content->header('header');
             $content->description('description');
@@ -58,7 +60,7 @@ class ServiceTypeController extends Controller
      */
     public function create()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
 
             $content->header('header');
             $content->description('description');
@@ -74,7 +76,7 @@ class ServiceTypeController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(ServiceType::class, function (Grid $grid) {
+        return Merchant::grid(ServiceType::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
             $grid->model()->orderBy('service_type_sort');
@@ -95,7 +97,7 @@ class ServiceTypeController extends Controller
      */
     protected function form()
     {
-        return Admin::form(ServiceType::class, function (Form $form) {
+        return Merchant::form(ServiceType::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('service_type_name', '名称');
             $form->textarea('service_type_desc', '描述');

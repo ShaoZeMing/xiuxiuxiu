@@ -43,6 +43,33 @@ Route::group([
     $router->get('/', 'HomeController@index');
     $router->get('auth/login', 'AuthController@getLogin');
     $router->post('auth/login', 'AuthController@postLogin');
+
+    $router->resource('cats', CategorieController::class);
+    $router->get('api/cat','CategorieController@apiCats');
+    $router->get('api/cat/malfunctions','CategorieController@apiMalfunctions');
+    $router->get('api/cat/products','CategorieController@apiProducts');
+
+
+
+    $router->resource('brands', BrandController::class);
+    $router->get('api/brand/cats','BrandController@apiCats');
+
+
+
+    $router->resource('products', ProductController::class);
+    $router->get('api/product/malfunctions','ProductController@apiMalfunctions');
+
+
+    $router->resource('malfunctions', MalfunctionController::class);
+    $router->get('api/malfunction/resolvents','MalfunctionController@apiResolvents');
+
+
+    $router->resource('service-types', ServiceTypeController::class);
+
+
+    $router->resource('merchants', MerchantController::class);
+    $router->resource('test', ExampleController::class);
+
 });
 
 Route::group([

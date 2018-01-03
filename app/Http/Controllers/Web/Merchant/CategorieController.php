@@ -6,13 +6,12 @@ use App\Entities\Brand;
 use App\Entities\Categorie;
 use App\Entities\Malfunction;
 use App\Http\Controllers\Controller;
-use App\Repositories\CategorieRepository;
 use App\Repositories\CategorieRepositoryEloquent;
-use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
+use ShaoZeMing\Merchant\Controllers\ModelForm;
+use ShaoZeMing\Merchant\Facades\Merchant;
+use ShaoZeMing\Merchant\Form;
+use ShaoZeMing\Merchant\Grid;
+use ShaoZeMing\Merchant\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +26,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
 
             $content->header('分类管理');
             $content->description('description');
@@ -44,7 +43,7 @@ class CategorieController extends Controller
      */
     public function edit($id)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        return Merchant::content(function (Content $content) use ($id) {
 
             $content->header('编辑分类');
             $content->description('description');
@@ -60,7 +59,7 @@ class CategorieController extends Controller
      */
     public function create()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
 
             $content->header('新增分类');
             $content->description('description');
@@ -76,7 +75,7 @@ class CategorieController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Categorie::class, function (Grid $grid) {
+        return Merchant::grid(Categorie::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
             $grid->column('cat_name', '分类名称');
@@ -106,7 +105,7 @@ class CategorieController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Categorie::class, function (Form $form) {
+        return Merchant::form(Categorie::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('cat_name', '名称')->rules('required');
             $parent=Categorie::where('cat_parent_id',0)->where('id','!=',$form->getKey)->get()->pluck('cat_name', 'id')->toArray();

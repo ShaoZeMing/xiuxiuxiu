@@ -8,12 +8,13 @@ use App\Entities\Malfunction;
 use App\Entities\Product;
 use App\Http\Controllers\Controller;
 use App\Repositories\ProductRepository;
-use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
+use ShaoZeMing\Merchant\Controllers\ModelForm;
+use ShaoZeMing\Merchant\Facades\Merchant;
+use ShaoZeMing\Merchant\Form;
+use ShaoZeMing\Merchant\Grid;
+use ShaoZeMing\Merchant\Layout\Content;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -25,7 +26,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
             $content->header('产品管理');
             $content->description('这都是产品');
             $content->body($this->grid());
@@ -42,7 +43,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        return Merchant::content(function (Content $content) use ($id) {
             $content->header('编辑产品');
             $content->description('注意编辑');
             $content->body($this->form()->edit($id));
@@ -56,7 +57,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return Admin::content(function (Content $content) {
+        return Merchant::content(function (Content $content) {
 
             $content->header('创建产品');
             $content->description('描述');
@@ -72,14 +73,14 @@ class ProductController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Product::class, function (Grid $grid) {
+        return Merchant::grid(Product::class, function (Grid $grid) {
 
             $catId = request()->get('cat_id');//搜索分类下的产品
             $where = $catId ? ['cat_id' => $catId] : [];
             $grid->model()->where($where)->orderBy('product_sort');
 //            $grid->id('ID')->sortable();
             $grid->column('product_name', '产品名称')->display(function($name) {
-                return "<a href='".url('admin/products/'.$this->id)."'>$name</a>";
+                return "<a href='".url('merchant/products/'.$this->id)."'>$name</a>";
             });
             $grid->column('product_version', '产品型号');
             $grid->column('product_size', '产品规格');
@@ -106,13 +107,13 @@ class ProductController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Product::class, function (Form $form) {
+        return Merchant::form(Product::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('product_name', '产品名称')->rules('required');
             $form->text('product_version', '产品型号')->default('');
             $form->text('product_size', '产品规格')->default('');
-            $form->select('brand_id', '产品品牌')->options(Brand::all()->pluck('brand_name', 'id'))->load('cat_id','/admin/api/brand/cats');
-            $form->select('cat_id', '产品分类')->options(Categorie::all()->pluck('cat_name', 'id'))->load('malfunctions','/admin/api/cat/malfunctions');
+            $form->select('brand_id', '产品品牌')->options(Brand::all()->pluck('brand_name', 'id'))->load('cat_id','/merchant/api/brand/cats');
+            $form->select('cat_id', '产品分类')->options(Categorie::all()->pluck('cat_name', 'id'))->load('malfunctions','/merchant/api/cat/malfunctions');
             $form->multipleSelect('malfunctions', '故障类型')->options(Malfunction::all()->pluck('malfunction_name', 'id'));
             $form->textarea('product_desc', '描述');
             $form->number('product_sort', '排序')->setWidth(2);
