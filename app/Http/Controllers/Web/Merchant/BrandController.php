@@ -25,8 +25,11 @@ class BrandController extends Controller
      */
     public function index()
     {
+
+
+
         return Merchant::content(function (Content $content) {
-            $content->header('品牌管理');
+            $content->header('品牌理');
             $content->description('');
             $content->body($this->grid());
 
