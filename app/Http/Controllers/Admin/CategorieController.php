@@ -13,8 +13,13 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Layout\Row;
+use Encore\Admin\Tree;
+use Encore\Admin\Widgets\Box;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Encore\Admin\Layout\Column;
+
 
 class CategorieController extends Controller
 {
@@ -27,12 +32,60 @@ class CategorieController extends Controller
      */
     public function index()
     {
+//        return Admin::content(function (Content $content) {
+//
+//            $content->header('分类管理');
+//            $content->description('description');
+//
+//            $content->body($this->grid());
+//        });
+
         return Admin::content(function (Content $content) {
-
             $content->header('分类管理');
-            $content->description('description');
+            $content->row(function (Row $row) {
+                $row->column(6, $this->treeView()->render());
+                $row->column(6, function (Column $column) {
+                    $form = new \Encore\Admin\Widgets\Form();
+                    $form->action(admin_base_path('cats'));
+                    $form->select('cat_parent_id','父级')->options(Categorie::selectOptions());
+                    $form->text('cat_name', '名称')->rules('required');
+                    $form->textarea('cat_desc', '描述')->default('');
+                    $form->image('cat_logo', 'LOGO')->resize(200,200)->uniqueName()->removable();
+                    $form->multipleSelect('brands', '经营品牌')->options(Brand::all()->pluck('brand_name', 'id'));
+                    $form->switch('cat_state','状态')->default(1);
+//                    $form->hasMany('products','产品',function (Form\NestedForm $form) {
+//                        $form->text('product_name', '产品名称')->rules('required');
+//                        $form->select('brand_id', '产品品牌')->options(Brand::all()->pluck('brand_name', 'id'));
+//                        $form->text('product_version', '产品型号')->default('');
+//                        $form->text('product_size', '产品规格')->default('');
+//                        $form->textarea('product_desc', '产品描述')->default('');
+//                        $form->number('product_sort', '产品排序');
+//                        $form->switch('product_state','产品状态')->default(1);
+//                    });
+                    $column->append((new Box(trans('admin.new'), $form))->style('success'));
+                });
+            });
+//            $content->body(Categorie::tree(function ($tree) {
+//                $tree->branch(function ($branch) {
+//                    $src =  $branch['cat_logo'] ;
+//                    $logo = "<img src='$src' style='max-width:30px;max-height:30px' class='img'/>";
+//                    return "{$branch['id']} - {$branch['cat_name']} $logo";
+//                });
+//            }));
+        });
+    }
 
-            $content->body($this->grid());
+    /**
+     * @return \Encore\Admin\Tree
+     */
+    protected function treeView()
+    {
+        return Categorie::tree(function (Tree $tree) {
+            $tree->disableCreate();
+            $tree->branch(function ($branch) {
+                $payload = "<img src='{$branch['cat_logo']}' width='40'>&nbsp;<strong>{$branch['cat_name']}</strong>";
+                return $payload;
+            });
         });
     }
 
@@ -117,16 +170,15 @@ class CategorieController extends Controller
             $form->multipleSelect('brands', '经营品牌')->options(Brand::all()->pluck('brand_name', 'id'));
             $form->number('cat_sort', '排序');
             $form->switch('cat_state','状态')->default(1);
-            $form->hasMany('products','是否为该分类添加产品',function (Form\NestedForm $form) {
-                $form->text('product_name', '产品名称')->rules('required');
-                $form->select('brand_id', '产品品牌')->options(Brand::all()->pluck('brand_name', 'id'));
-                $form->text('product_version', '产品型号')->default('');
-                $form->text('product_size', '产品规格')->default('');
-                $form->textarea('product_desc', '产品描述')->default('');
-                $form->number('product_sort', '产品排序');
-                $form->switch('product_state','产品状态')->default(1);
-            });
-
+//            $form->hasMany('products','是否为该分类添加产品',function (Form\NestedForm $form) {
+//                $form->text('product_name', '产品名称')->rules('required');
+//                $form->select('brand_id', '产品品牌')->options(Brand::all()->pluck('brand_name', 'id'));
+//                $form->text('product_version', '产品型号')->default('');
+//                $form->text('product_size', '产品规格')->default('');
+//                $form->textarea('product_desc', '产品描述')->default('');
+//                $form->number('product_sort', '产品排序');
+//                $form->switch('product_state','产品状态')->default(1);
+//            });
         });
     }
 

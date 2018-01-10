@@ -77,11 +77,11 @@ class BrandController extends Controller
     {
         return Admin::grid(Brand::class, function (Grid $grid) {
 
-            $grid->id('ID')->sortable();
+//            $grid->id('ID')->sortable();
             $grid->model()->orderBy('brand_sort');
             $grid->column('brand_name', '品牌名称');
             $grid->brand_logo('LOGO')->display(function ($name) {
-                return "<img src='". config('filesystems.disks.admin.url').'/'.$name."' width='80'>";
+                return "<img src='{$name}' width='40'>";
             });
             $grid->cats('经营品类')->display(function ($cats) {
                 $cats = array_map(function ($cat) {

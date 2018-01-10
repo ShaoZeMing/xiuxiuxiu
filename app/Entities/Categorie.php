@@ -2,7 +2,10 @@
 
 namespace App\Entities;
 
+use Encore\Admin\Traits\AdminBuilder;
+use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use App\Traits\SequenceTrait;
@@ -41,9 +44,41 @@ use App\Traits\SequenceTrait;
  */
 class Categorie extends BaseModel
 {
+    use ModelTree, AdminBuilder;
     protected $guarded = [];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
 
+        $this->setParentColumn('cat_parent_id');
+        $this->setOrderColumn('cat_sort');
+        $this->setTitleColumn('cat_name');
+    }
+
+
+    /**
+     * Get options for Select field in form.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function selectOptions()
+    {
+        $options = (new static())->buildSelectOptions();
+
+        return collect($options)->prepend('无', 0)->all();
+    }
+
+//    /**
+//     * @return array
+//     */
+//    public function allNodes() : array
+//    {
+//        $orderColumn = DB::getQueryGrammar()->wrap($this->orderColumn);
+//        $byOrder = $orderColumn.' = 0,'.$orderColumn;
+//
+//        return static::with('brands')->orderByRaw($byOrder)->get()->toArray();
+//    }
 
     public function brands(){
         return $this->belongsToMany(Brand::class,'brand_categories','cat_id','brand_id');
@@ -87,7 +122,7 @@ class Categorie extends BaseModel
 
 
 
-    public function getCategorieLogoAttribute($value)
+    public function getCatLogoAttribute($value)
     {
         if ($value) {
             $img = parse_url($value)['path'];
