@@ -68,6 +68,9 @@ Route::group([
 
 
     $router->resource('merchants', MerchantController::class);
+    $router->post('api/merchants/{id}/cats', 'MerchantController@cats');
+    $router->post('api/merchants/{id}/brands', 'MerchantController@brands');
+
     $router->resource('test', ExampleController::class);
 
 });

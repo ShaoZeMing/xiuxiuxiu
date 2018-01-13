@@ -63,7 +63,7 @@
 </script>
 
 <!-- REQUIRED JS SCRIPTS -->
-<script src="{{ merchant_asset ("/vendor/laravel-merchant/nestable/jquery.nestable.js") }}"></script>
+{{--<script src="{{ merchant_asset ("/vendor/laravel-merchant/nestable/jquery.nestable.js") }}"></script>--}}
 <script src="{{ merchant_asset ("/vendor/laravel-merchant/toastr/build/toastr.min.js") }}"></script>
 <script src="{{ merchant_asset ("/vendor/laravel-merchant/bootstrap3-editable/js/bootstrap-editable.min.js") }}"></script>
 <script src="{{ merchant_asset ("/vendor/laravel-merchant/sweetalert/dist/sweetalert.min.js") }}"></script>

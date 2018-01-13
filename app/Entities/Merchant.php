@@ -153,7 +153,7 @@ class Merchant extends BaseModel
 
     public function brands()
     {
-        return $this->belongsToMany(Brand::class);
+        return $this->belongsToMany(Brand::class,'merchant_brands');
 
     }
 

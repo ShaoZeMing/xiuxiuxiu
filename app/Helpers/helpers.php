@@ -139,32 +139,12 @@ if (!function_exists('hashIdEncode')) {
     }
 }
 
-/*获取登陆者商家*/
-if (!function_exists('getMerchantInfo')) {
-    function getMerchantInfo()
-    {
-        $user = getAuthInfo();
-        if ($user->merchant_id != 0) {
-            $user = $user->merchant()->first();
-        }
-        return $user;
-    }
-}
 
-/*获取登陆者商家ID*/
-if (!function_exists('getMerchantInfo')) {
-    function getMerchantId()
+/*获取后台登陆者ID*/
+if (!function_exists('getAdminAuthInfo')) {
+    function getAdminAuthInfo()
     {
-        $user = getAuthInfo();
-        return $user->merchant_id;
-    }
-}
-
-/*获取登陆商家id*/
-if (!function_exists('getAuthInfo')) {
-    function getAuthInfo()
-    {
-        $user = auth()->user();
+        $user = auth('admin')->user();
         if ($user) {
             return $user;
         }
@@ -174,10 +154,10 @@ if (!function_exists('getAuthInfo')) {
 
 
 /*获取登陆id*/
-if (!function_exists('getAuthId')) {
-    function getAuthId()
+if (!function_exists('getAdminAuthId')) {
+    function getAdminAuthId()
     {
-        $user = getAuthInfo();
+        $user = getAdminAuthInfo();
         if ($user) {
             return $user->id;
         } else {
@@ -185,15 +165,66 @@ if (!function_exists('getAuthId')) {
         }
     }
 }
-if (!function_exists('getAuthName')) {
-    function getAuthName()
+if (!function_exists('getAdminAuthName')) {
+    function getAdminAuthName()
     {
-        $user = getAuthInfo();
+        $user = getAdminAuthInfo();
         if ($user) {
             return $user->name;
         } else {
             return 0;
         }
+    }
+}
+
+/*获取企业登陆信息*/
+if (!function_exists('getMerchantAuthInfo')) {
+    function getMerchantAuthInfo()
+    {
+        $user = auth('merchant')->user();
+        if ($user) {
+            return $user;
+        }
+        throw new Exception('未登录');
+    }
+}
+
+
+/*获取登陆id*/
+if (!function_exists('getMerchantAuthId')) {
+    function getMerchantAuthId()
+    {
+        $user = getMerchantAuthInfo();
+            return $user->id;
+
+    }
+}
+
+if (!function_exists('getMerchantAuthName')) {
+    function getMerchantAuthName()
+    {
+        $user = getMerchantAuthInfo();
+        return $user->name;
+
+    }
+}
+
+
+/*获取登陆者商家*/
+if (!function_exists('getMerchantInfo')) {
+    function getMerchantInfo()
+    {
+        $user = getMerchantAuthInfo();
+        return  $user->merchant;
+    }
+}
+
+/*获取登陆者商家ID*/
+if (!function_exists('getMerchantId')) {
+    function getMerchantId()
+    {
+        $user = getMerchantAuthInfo();
+        return $user->merchant_id;
     }
 }
 

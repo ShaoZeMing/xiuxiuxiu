@@ -2,14 +2,6 @@
 
 namespace App\Entities;
 
-use Encore\Admin\Traits\AdminBuilder;
-use Encore\Admin\Traits\ModelTree;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
-use App\Traits\SequenceTrait;
-
 
 /**
  * App\Entities\Categorie
@@ -44,30 +36,8 @@ use App\Traits\SequenceTrait;
  */
 class Categorie extends BaseModel
 {
-    use ModelTree, AdminBuilder;
     protected $guarded = [];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->setParentColumn('cat_parent_id');
-        $this->setOrderColumn('cat_sort');
-        $this->setTitleColumn('cat_name');
-    }
-
-
-    /**
-     * Get options for Select field in form.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function selectOptions()
-    {
-        $options = (new static())->buildSelectOptions();
-
-        return collect($options)->prepend('无', 0)->all();
-    }
 
 //    /**
 //     * @return array
@@ -80,16 +50,59 @@ class Categorie extends BaseModel
 //        return static::with('brands')->orderByRaw($byOrder)->get()->toArray();
 //    }
 
-    public function brands(){
-        return $this->belongsToMany(Brand::class,'brand_categories','cat_id','brand_id');
+
+    public static function getDelIds($id)
+    {
+        $ids = self::where('cat_parent_id',$id)->get(['id'])->toArray();
+        $ids = array_column($ids,'id');
+        $ids[] = $id;
+        return $ids;
+    }
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param $ids
+     * @return array
+     */
+    public static function getAddIds($ids)
+    {
+        static $rIds;
+
+        if(is_array($ids)){
+            foreach ($ids as $id){
+                $rIds[] = $id;
+                $mod =  self::find($id,['cat_parent_id']);
+                if($mod->count() && $mod->cat_parent_id){
+                    $rIds[] = $mod->cat_parent_id;
+                    self::getAddIds($mod->cat_parent_id);
+                }
+            }
+        }else{
+            $rIds[] = $ids;
+            $mod =  self::find($ids,['cat_parent_id']);
+            if($mod->count() && $mod->cat_parent_id){
+                $rIds[] = $mod->cat_parent_id;
+                self::getAddIds($mod->cat_parent_id);
+            }
+        }
+        return array_unique($rIds);
+    }
+
+
+
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class, 'brand_categories', 'cat_id', 'brand_id');
     }
 
     /**
      * 获取分类下所有的产品
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function products(){
-        return $this->hasMany(Product::class,'cat_id');
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'cat_id');
     }
 
     /**
@@ -97,8 +110,9 @@ class Categorie extends BaseModel
      * @email szm19920426@gmail.com
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function malfunctions(){
-        return $this->hasMany(Malfunction::class,'cat_id');
+    public function malfunctions()
+    {
+        return $this->hasMany(Malfunction::class, 'cat_id');
     }
 
     /**
@@ -106,8 +120,9 @@ class Categorie extends BaseModel
      * @email szm19920426@gmail.com
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function parent(){
-        return $this->belongsTo(Categorie::class,'cat_parent_id');
+    public function parent()
+    {
+        return $this->belongsTo(Categorie::class, 'cat_parent_id');
     }
 
     /**
@@ -115,26 +130,25 @@ class Categorie extends BaseModel
      * @email szm19920426@gmail.com
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function children(){
-        return $this->hasMany(Categorie::class,'cat_parent_id');
+    public function children()
+    {
+        return $this->hasMany(Categorie::class, 'cat_parent_id');
     }
-
-
 
 
     public function getCatLogoAttribute($value)
     {
         if ($value) {
             $img = parse_url($value)['path'];
-            $host = rtrim(config('filesystems.disks.admin.url'), '/').'/';
+            $host = rtrim(config('filesystems.disks.admin.url'), '/') . '/';
             return $host . $img;
         }
         return $value;
     }
 
 
-
-    public function  transform(){
+    public function transform()
+    {
 
     }
 

@@ -2,11 +2,8 @@
 
 namespace App\Entities;
 
-use App\Traits\HashIdsTrait;
-use Illuminate\Database\Eloquent\Model;
-use Prettus\Repository\Contracts\Transformable;
-use Prettus\Repository\Traits\TransformableTrait;
-use App\Traits\SequenceTrait;
+use ShaoZeMing\Merchant\Traits\AdminBuilder;
+use ShaoZeMing\Merchant\Traits\ModelTree;
 
 
 /**
@@ -38,57 +35,34 @@ use App\Traits\SequenceTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Brand whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Brand extends BaseModel
+class BrandM extends Brand
 {
 
-    protected $guarded = [];
+    use ModelTree, AdminBuilder;
 
+    public $table='brands';
 
-    /**
-     * @author ShaoZeMing
-     * @email szm19920426@gmail.com
-     * @param $id
-     * @return array
-     */
-    public static function getDelIds($id)
+    public function __construct(array $attributes = [])
     {
-        $ids = self::where('brand_parent_id',$id)->get(['id'])->toArray();
-        $ids = array_column($ids,'id');
-        $ids[] = $id;
-        return $ids;
+        parent::__construct($attributes);
+
+        $this->setParentColumn('brand_parent_id');
+        $this->setOrderColumn('brand_sort');
+        $this->setTitleColumn('brand_name');
     }
 
 
     /**
-     * @author ShaoZeMing
-     * @email szm19920426@gmail.com
-     * @param $ids
-     * @return array
+     * Get options for Select field in form.
+     *
+     * @return \Illuminate\Support\Collection
      */
-    public static function getAddIds($ids)
+    public static function selectOptions()
     {
-        static $rIds;
-
-        if(is_array($ids)){
-            foreach ($ids as $id){
-                $rIds[] = $id;
-                $mod =  self::find($id,['brand_parent_id']);
-                if($mod->count() && $mod->brand_parent_id){
-                    $rIds[] = $mod->brand_parent_id;
-                    self::getAddIds($mod->brand_parent_id);
-                }
-            }
-        }else{
-            $rIds[] = $ids;
-            $mod =  self::find($ids,['brand_parent_id']);
-            if($mod->count() && $mod->brand_parent_id){
-                $rIds[] = $mod->brand_parent_id;
-                self::getAddIds($mod->brand_parent_id);
-            }
-        }
-        return array_unique($rIds);
+        $cats = self::where('brand_state',1)->orWhere('created_id',getMerchantId())->get()->toArray();
+        $options = (new static())->buildSelectOptions($cats);
+        return collect($options)->prepend('无', 0)->all();
     }
-
 
     /**
      * @author ShaoZeMing

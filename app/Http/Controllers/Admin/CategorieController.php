@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entities\Brand;
-use App\Entities\Categorie;
+use App\Entities\CategorieA;
 use App\Entities\Malfunction;
 use App\Http\Controllers\Controller;
 use App\Repositories\CategorieRepository;
@@ -47,7 +47,7 @@ class CategorieController extends Controller
                 $row->column(6, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_base_path('cats'));
-                    $form->select('cat_parent_id','父级')->options(Categorie::selectOptions());
+                    $form->select('cat_parent_id','父级')->options(CategorieA::selectOptions());
                     $form->text('cat_name', '名称')->rules('required');
                     $form->textarea('cat_desc', '描述')->default('');
                     $form->image('cat_logo', 'LOGO')->resize(200,200)->uniqueName()->removable();
@@ -65,7 +65,7 @@ class CategorieController extends Controller
                     $column->append((new Box(trans('admin.new'), $form))->style('success'));
                 });
             });
-//            $content->body(Categorie::tree(function ($tree) {
+//            $content->body(CategorieA::tree(function ($tree) {
 //                $tree->branch(function ($branch) {
 //                    $src =  $branch['cat_logo'] ;
 //                    $logo = "<img src='$src' style='max-width:30px;max-height:30px' class='img'/>";
@@ -80,7 +80,7 @@ class CategorieController extends Controller
      */
     protected function treeView()
     {
-        return Categorie::tree(function (Tree $tree) {
+        return CategorieA::tree(function (Tree $tree) {
             $tree->disableCreate();
             $tree->branch(function ($branch) {
                 $payload = "<img src='{$branch['cat_logo']}' width='40'>&nbsp;<strong>{$branch['cat_name']}</strong>";
@@ -129,7 +129,7 @@ class CategorieController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Categorie::class, function (Grid $grid) {
+        return Admin::grid(CategorieA::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
             $grid->column('cat_name', '分类名称');
@@ -159,10 +159,10 @@ class CategorieController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Categorie::class, function (Form $form) {
+        return Admin::form(CategorieA::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('cat_name', '名称')->rules('required');
-            $parent=Categorie::where('cat_parent_id',0)->where('id','!=',$form->getKey)->get()->pluck('cat_name', 'id')->toArray();
+            $parent=CategorieA::where('cat_parent_id',0)->where('id','!=',$form->getKey)->get()->pluck('cat_name', 'id')->toArray();
             $parent[0]='无'; ksort($parent);
             $form->select('cat_parent_id', '父级')->options($parent);
             $form->textarea('cat_desc', '描述')->default('');
@@ -193,7 +193,7 @@ class CategorieController extends Controller
     public function apiCats(Request $request)
     {
         $q = $request->get('q');
-        $data =  Categorie::where('cat_name', 'like', "%$q%")->get(['id', 'cat_name as text']);
+        $data =  CategorieA::where('cat_name', 'like', "%$q%")->get(['id', 'cat_name as text']);
         return $data;
     }
 

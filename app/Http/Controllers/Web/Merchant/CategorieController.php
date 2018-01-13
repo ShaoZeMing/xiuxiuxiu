@@ -3,22 +3,30 @@
 namespace App\Http\Controllers\Web\Merchant;
 
 use App\Entities\Brand;
+use App\Entities\BrandM;
 use App\Entities\Categorie;
+use App\Entities\CategorieM;
 use App\Entities\Malfunction;
 use App\Http\Controllers\Controller;
 use App\Repositories\CategorieRepositoryEloquent;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use ShaoZeMing\Merchant\Controllers\ModelForm;
 use ShaoZeMing\Merchant\Facades\Merchant;
 use ShaoZeMing\Merchant\Form;
 use ShaoZeMing\Merchant\Grid;
+use ShaoZeMing\Merchant\Layout\Column;
 use ShaoZeMing\Merchant\Layout\Content;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use ShaoZeMing\Merchant\Layout\Row;
+use ShaoZeMing\Merchant\Tree;
+use ShaoZeMing\Merchant\Widgets\Box;
 
 class CategorieController extends Controller
 {
     use ModelForm;
 
+    public static $ids = [];
     /**
      * Index interface.
      *
@@ -29,9 +37,62 @@ class CategorieController extends Controller
         return Merchant::content(function (Content $content) {
 
             $content->header('分类管理');
-            $content->description('description');
+            $content->description('企业可在右侧搜索添加系统已有分类(推荐)，如系统分类未满足你的需求，可在右下角自定义添加。');
+            $content->row(function (Row $row) {
+                $row->column(6, $this->treeView()->render());
+                $row->column(6, function (Column $column) {
+                    $column->row(function (Row $row) {
+                        $row->column(12, function (Column $column) {
+                            Log::info('ids',[self::$ids,getMerchantId()]);
+                            $form = new \ShaoZeMing\Merchant\Widgets\Form();
+                            $form->action(merchant_base_path('api/merchants/'.getMerchantId().'/cats'));
+                            $form->multipleSelect('cats', '品类名称')->options(CategorieM::whereNotIn('id',self::$ids)->get()->pluck('cat_name', 'id'));
+                            $column->append((new Box('添加系统已有品类', $form))->style('success'));
+                        });
+                    });
+                    $column->row(function (Row $row) {
+                        $row->column(12, function (Column $column) {
+                            $form = new \ShaoZeMing\Merchant\Widgets\Form();
+                            $form->action(merchant_base_path('cats'));
+                            $form->select('cat_parent_id', '父级')->options(CategorieM::selectOptions());
+                            $form->text('cat_name', '名称')->rules('required');
+                            $form->textarea('cat_desc', '描述')->default('');
+                            $form->image('cat_logo', 'LOGO')->resize(200, 200)->uniqueName()->removable();
+                            $mBrands =  getMerchantInfo()->brands()->count();
+                            if($mBrands){
+                                $form->multipleSelect('brands', '经营品牌')->options(BrandM::selectOptions());
+                            }
+                            $form->hidden('cat_state', '状态')->default(0);
+                            $form->hidden('created_id')->default(getMerchantId());
+                            $column->append((new Box('添加自定义品类', $form))->style('success'));
+                        });
+                    });
+                });
+            });
+        });
+    }
 
-            $content->body($this->grid());
+    /**
+     * @return \Encore\Admin\Tree
+     */
+    protected function treeView()
+    {
+        return CategorieM::tree(function (Tree $tree) {
+            $tree->query(function ($model) {
+                $merchant =getMerchantInfo();
+                $cats = $merchant->cats();
+                self::$ids = array_column($cats->get()->toArray(),'id');
+                return $cats;
+            });
+//            $isSave = false;
+            $tree->branch(function ($branch){
+                $payload = "<img src='{$branch['cat_logo']}' width='40'>&nbsp;<strong>{$branch['cat_name']}</strong>";
+                return $payload;
+            });
+            $tree->disableCreate();
+            $tree->disableSave();
+//            $tree->disableRefresh();
+
         });
     }
 
@@ -45,9 +106,8 @@ class CategorieController extends Controller
     {
         return Merchant::content(function (Content $content) use ($id) {
 
-            $content->header('编辑分类');
-            $content->description('description');
-
+            $content->header('修改分类');
+            $content->description('为了数据清晰，不建议频繁修改');
             $content->body($this->form()->edit($id));
         });
     }
@@ -68,6 +128,42 @@ class CategorieController extends Controller
         });
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try{
+            Log::info('删除分类',[$id,__METHOD__]);
+            $merchant = getMerchantInfo();
+            $id= Categorie::getDelIds($id);
+            $res = $merchant->cats()->detach($id);
+            if ($res) {
+                return response()->json([
+                    'status'  => true,
+                    'message' => '删除成功',
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => false,
+                    'message' => "删除失败",
+                ]);
+            }
+        }catch (\Exception $e){
+            Log::error($e,[__METHOD__]);
+            return response()->json([
+                'status'  => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+
     /**
      * Make a grid builder.
      *
@@ -75,12 +171,12 @@ class CategorieController extends Controller
      */
     protected function grid()
     {
-        return Merchant::grid(Categorie::class, function (Grid $grid) {
+        return Merchant::grid(CategorieM::class, function (Grid $grid) {
 
-            $grid->id('ID')->sortable();
+            $grid->model()->OrderBy('cat_parent_id');
             $grid->column('cat_name', '分类名称');
             $grid->cat_logo('LOGO')->display(function ($name) {
-                return "<img src='". config('filesystems.disks.admin.url').'/'.$name."' width='80'>";
+                return "<img src='{$name}' width='40'>";
             });
             $grid->brands('关联品牌')->display(function ($datas) {
                 $datas = array_map(function ($data) {
@@ -92,7 +188,7 @@ class CategorieController extends Controller
             $grid->created_at('创建时间');
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
-                $filter->like('cat_name','名称');
+                $filter->like('cat_name', '名称');
                 $filter->between('created_at', '创建时间')->datetime();
             });
         });
@@ -105,30 +201,24 @@ class CategorieController extends Controller
      */
     protected function form()
     {
-        return Merchant::form(Categorie::class, function (Form $form) {
+        return Merchant::form(CategorieM::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('cat_name', '名称')->rules('required');
-            $parent=Categorie::where('cat_parent_id',0)->where('id','!=',$form->getKey)->get()->pluck('cat_name', 'id')->toArray();
-            $parent[0]='无'; ksort($parent);
-            $form->select('cat_parent_id', '父级')->options($parent);
+            $form->select('cat_parent_id', '父级')->options(CategorieM::selectOptions());
             $form->textarea('cat_desc', '描述')->default('');
-            $form->image('cat_logo', 'LOGO')->resize(200,200)->uniqueName()->removable();
-            $form->multipleSelect('brands', '经营品牌')->options(Brand::all()->pluck('brand_name', 'id'));
-            $form->number('cat_sort', '排序');
-            $form->switch('cat_state','状态')->default(1);
-            $form->hasMany('products','是否为该分类添加产品',function (Form\NestedForm $form) {
-                $form->text('product_name', '产品名称')->rules('required');
-                $form->select('brand_id', '产品品牌')->options(Brand::all()->pluck('brand_name', 'id'));
-                $form->text('product_version', '产品型号')->default('');
-                $form->text('product_size', '产品规格')->default('');
-                $form->textarea('product_desc', '产品描述')->default('');
-                $form->number('product_sort', '产品排序');
-                $form->switch('product_state','产品状态')->default(1);
+            $form->image('cat_logo', 'LOGO')->resize(200, 200)->uniqueName()->removable();
+            $mBrands =  getMerchantInfo()->brands()->count();
+            if($mBrands){
+                $form->multipleSelect('brands', '经营品牌')->options(BrandM::selectOptions());
+            }
+            $form->hidden('created_id')->default(getMerchantId());
+            $form->saved(function (Form $form){
+                $cats = Categorie::getAddIds([$form->model()->id]);
+                getMerchantInfo()->cats()->syncWithoutDetaching($cats);
             });
 
         });
     }
-
 
 
     /**
@@ -140,7 +230,7 @@ class CategorieController extends Controller
     public function apiCats(Request $request)
     {
         $q = $request->get('q');
-        $data =  Categorie::where('cat_name', 'like', "%$q%")->get(['id', 'cat_name as text']);
+        $data = CategorieM::where('cat_name', 'like', "%$q%")->get(['id', 'cat_name as text']);
         return $data;
     }
 
@@ -153,7 +243,7 @@ class CategorieController extends Controller
     public function apiMalfunctions(Request $request)
     {
         $q = $request->get('q');
-        $data =  Malfunction::where('cat_id', $q)->get(['id', DB::raw('malfunction_name as text')]);
+        $data = Malfunction::where('cat_id', $q)->get(['id', DB::raw('malfunction_name as text')]);
         return $data;
     }
 
@@ -163,9 +253,9 @@ class CategorieController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function apiProducts(Request $request,CategorieRepositoryEloquent $categorieRepository)
+    public function apiProducts(Request $request, CategorieRepositoryEloquent $categorieRepository)
     {
         $q = $request->get('q');
-        return  $categorieRepository->find($q)->products()->get(['products.id', DB::raw('product_name as text')]);
+        return $categorieRepository->find($q)->products()->get(['products.id', DB::raw('product_name as text')]);
     }
 }

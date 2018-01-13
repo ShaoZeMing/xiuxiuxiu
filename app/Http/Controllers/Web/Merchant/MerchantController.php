@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Web\Merchant;
 
 use App\Entities\Area;
+use App\Entities\Brand;
 use App\Entities\Categorie;
 use App\Entities\Merchant;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Shaozeming\LumenPostgis\Geometries\GeomPoint;
 use ShaoZeMing\Merchant\Controllers\ModelForm;
-//use ShaoZeMing\Merchant\Facades\Merchant;
 use ShaoZeMing\Merchant\Form;
 use ShaoZeMing\Merchant\Grid;
 use ShaoZeMing\Merchant\Layout\Content;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Shaozeming\LumenPostgis\Geometries\GeomPoint;
+
+//use ShaoZeMing\Merchant\Facades\Merchant;
 
 
 class MerchantController extends Controller
@@ -28,7 +29,7 @@ class MerchantController extends Controller
      */
     public function index()
     {
-        return Admin::content(function (Content $content) {
+        return \ShaoZeMing\Merchant\Facades\Merchant::content(function (Content $content) {
             $content->header('商家列表');
             $content->description('这些都是老板，好生对待');
             $content->body($this->grid());
@@ -45,7 +46,7 @@ class MerchantController extends Controller
      */
     public function edit($id)
     {
-        return Admin::content(function (Content $content) use ($id) {
+        return \ShaoZeMing\Merchant\Facades\Merchant::content(function (Content $content) use ($id) {
             $content->header('编辑商家');
             $content->description('注意哈，有些不能修改的要注意哈');
             $content->body($this->form()->edit($id));
@@ -59,12 +60,65 @@ class MerchantController extends Controller
      */
     public function create()
     {
-        return Admin::content(function (Content $content) {
+        return \ShaoZeMing\Merchant\Facades\Merchant::content(function (Content $content) {
 
             $content->header('注册商家');
             $content->description('注册这些商家');
             $content->body($this->form());
         });
+    }
+
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param $id
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     * 商家添加品类
+     */
+    public function cats($id, Request $request)
+    {
+        try {
+            $cats = $request->get('cats');
+            Log::info('添加ID', [$id, $cats]);
+            $cats = array_filter($cats);
+            $cats = Categorie::getAddIds($cats);
+            Log::info('整理ID', [$id, $cats]);
+            Merchant::find($id)->cats()->syncWithoutDetaching($cats);
+            return redirect(merchant_base_path('cats'))->with(['message' => '添加成功']);
+
+        } catch (\Exception $e) {
+            Log::error($e, [__METHOD__]);
+            return back()->withInput()->withErrors(['message' => $e->getMessage()]);
+        }
+
+    }
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param $id
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     * 商家添加品类
+     */
+    public function brands($id, Request $request)
+    {
+        try {
+            $brands = $request->get('brands');
+            Log::info('添加ID', [$id, $brands]);
+            $brands = array_filter($brands);
+            $brands = Brand::getAddIds($brands);
+            Log::info('整理ID', [$id, $brands]);
+            Merchant::find($id)->brands()->syncWithoutDetaching($brands);
+            return redirect(merchant_base_path('brands'))->with(['message' => '添加成功']);
+
+        } catch (\Exception $e) {
+            Log::error($e, [__METHOD__]);
+            return back()->withInput()->withErrors(['message' => $e->getMessage()]);
+        }
+
     }
 
     /**
@@ -74,7 +128,7 @@ class MerchantController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Merchant::class, function (Grid $grid) {
+        return \ShaoZeMing\Merchant\Facades\Merchant::grid(Merchant::class, function (Grid $grid) {
 
             $grid->column('id', 'ID')->sortable();
             $grid->column('merchant_name', '名称');
@@ -104,7 +158,7 @@ class MerchantController extends Controller
     protected function form()
     {
 
-        return Admin::form(Merchant::class, function (Form $form) {
+        return \ShaoZeMing\Merchant\Facades\Merchant::form(Merchant::class, function (Form $form) {
             $form->display('id', 'id');
             $form->mobile('merchant_mobile', '电话');
             $form->text('merchant_name', '名称');
@@ -128,9 +182,9 @@ class MerchantController extends Controller
             $form->hidden('merchant_lat');
             $form->hidden('merchant_geom');
             $form->saving(function (Form $form) {
-                $form->merchant_province= Area::find($form->merchant_province_id)->name;
-                $form->merchant_city= Area::find($form->merchant_city_id)->name;
-                $form->merchant_district= Area::find($form->merchant_district_id)->name;
+                $form->merchant_province = Area::find($form->merchant_province_id)->name;
+                $form->merchant_city = Area::find($form->merchant_city_id)->name;
+                $form->merchant_district = Area::find($form->merchant_district_id)->name;
                 $form->merchant_full_address = $form->merchant_province . $form->merchant_city . $form->merchant_district . $form->merchant_address;
                 list($lng, $lat) = retry(2, function () use ($form) {
                     $geo = app('amap')->getLocation($form->merchant_full_address, $form->merchant_province . $form->merchant_city . $form->merchant_district);
