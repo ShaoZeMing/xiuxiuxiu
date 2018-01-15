@@ -13570,7 +13570,7 @@ namespace  {
              * @static 
              */ 
             public static function paginate($perPage = null, $columns = array(), $pageName = 'page', $page = null)
-            {    
+            {
                 return \Illuminate\Database\Eloquent\Builder::paginate($perPage, $columns, $pageName, $page);
             }
          

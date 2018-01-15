@@ -64,13 +64,25 @@ class CategorieM  extends Categorie
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function selectOptions()
+    public static function selectOptions($prefix='')
     {
         $cats = self::where('cat_state',1)->orWhere('created_id',getMerchantId())->get()->toArray();
-        $options = (new static())->buildSelectOptions($cats);
+        $options = (new static())->buildSelectOptions($cats,0,$prefix);
         return collect($options)->prepend('无', 0)->all();
     }
 
+
+    /**
+     * Get options for Select field in form.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function selectMerchantOptions($prefix='')
+    {
+        $cats = getMerchantInfo()->cats()->get()->toArray();
+        $options = (new static())->buildSelectOptions($cats,0,$prefix);
+        return collect($options)->prepend('无', 0)->all();
+    }
 
 
     public function  transform(){

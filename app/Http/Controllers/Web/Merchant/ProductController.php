@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Web\Merchant;
 
-use App\Entities\Brand;
-use App\Entities\Categorie;
+use App\Entities\BrandM;
+use App\Entities\CategorieM;
 use App\Entities\Malfunction;
 use App\Entities\Product;
 use App\Http\Controllers\Controller;
@@ -92,8 +92,8 @@ class ProductController extends Controller
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
                 $filter->like('product_name','产品名称');
-                $filter->equal('brand_id','产品品牌')->select(Brand::all()->pluck('brand_name', 'id'));
-                $filter->equal('cat_id','产品分类')->select(Categorie::all()->pluck('cat_name', 'id'));
+                $filter->equal('brand_id','产品品牌')->select(BrandM::all()->pluck('brand_name', 'id'));
+                $filter->equal('cat_id','产品分类')->select(CategorieM::all()->pluck('cat_name', 'id'));
                 $filter->between('created_at', '创建时间')->datetime();
             });
 
@@ -108,16 +108,15 @@ class ProductController extends Controller
     protected function form()
     {
         return Merchant::form(Product::class, function (Form $form) {
-            $form->display('id', 'ID');
+//            $form->display('id', 'ID');
             $form->text('product_name', '产品名称')->rules('required');
             $form->text('product_version', '产品型号')->default('');
             $form->text('product_size', '产品规格')->default('');
-            $form->select('brand_id', '产品品牌')->options(Brand::all()->pluck('brand_name', 'id'))->load('cat_id','/merchant/api/brand/cats');
-            $form->select('cat_id', '产品分类')->options(Categorie::all()->pluck('cat_name', 'id'))->load('malfunctions','/merchant/api/cat/malfunctions');
+            $form->select('brand_id', '产品品牌')->options(BrandM::selectMerchantOptions('—'));
+            $form->select('cat_id', '产品分类')->options(CategorieM::selectMerchantOptions('—'))->load('malfunctions','/merchant/api/cat/malfunctions');
             $form->multipleSelect('malfunctions', '故障类型')->options(Malfunction::all()->pluck('malfunction_name', 'id'));
-            $form->textarea('product_desc', '描述');
-            $form->number('product_sort', '排序')->setWidth(2);
-            $form->switch('product_state','状态')->default(1);
+            $form->textarea('product_desc', '产品描述');
+            $form->switch('product_state','是否启用')->default(1);
         });
     }
 

@@ -157,6 +157,30 @@ class Merchant extends BaseModel
 
     }
 
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * 企业关联故障
+     */
+    public function malfunctions()
+    {
+        return $this->belongsToMany(Brand::class,'merchant_malfunctions');
+
+    }
+
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * 企业关联服务类型
+     */
+    public function serviceTypes()
+    {
+        return $this->belongsToMany(Brand::class,'merchant_service_types');
+
+    }
+
     public function sites()
     {
         return $this->belongsToMany(Site::class);

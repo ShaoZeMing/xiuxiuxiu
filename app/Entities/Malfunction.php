@@ -71,6 +71,15 @@ class Malfunction extends BaseModel
 
     }
 
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function merchants(){
+        return $this->belongsToMany(Merchant::class,'merchant_malfunctions');
+    }
+
 
     public function resolvents()
     {

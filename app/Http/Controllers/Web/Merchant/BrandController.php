@@ -224,6 +224,6 @@ class BrandController extends Controller
     public function apiCats(Request $request,BrandRepositoryEloquent $brandRepository)
     {
         $q = $request->get('q');
-        return  $brandRepository->find($q)->cats()->get(['categories.id', DB::raw('brand_name as text')]);
+        return  $brandRepository->find($q)->cats()->get(['categories.id', DB::raw('cat_name as text')]);
     }
 }
