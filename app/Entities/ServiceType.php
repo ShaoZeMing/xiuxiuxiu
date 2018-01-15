@@ -36,6 +36,8 @@ class ServiceType extends BaseModel
     protected $guarded = [];
 
 
+
+
     /**
      * @author ShaoZeMing
      * @email szm19920426@gmail.com

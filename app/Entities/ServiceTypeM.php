@@ -36,8 +36,12 @@ use Illuminate\Support\Facades\Request;
 class ServiceTypeM extends ServiceType
 {
 
-    public static $ids = [];
     public $table='service_types';
+
+
+    function paginate(){
+        dd(123);
+    }
 
     /**
      * Get options for Select field in form.
@@ -62,28 +66,5 @@ class ServiceTypeM extends ServiceType
 
 
 
-    public static function paginate($perPage = null, $columns = array(), $pageName = 'page', $page = null)
-    {
-        $perPage = Request::get('per_page', 10);
-
-        $page = Request::get('page', 1);
-
-        $start = ($page-1)*$perPage;
-
-        $merchant = getMerchantInfo();
-        $total = $merchant->serviceTypes();
-        self::$ids = array_column($total->get()->toArray(),'id');
-        Log::info('IIIIIDS',[self::$ids,__METHOD__]);
-        $data = $merchant->serviceTypes()->offset($start)->limit($perPage)->get();
-        dd($data);
-        $paginator = new LengthAwarePaginator($data, $total->count(), $perPage);
-        $paginator->setPath(url()->current());
-        return $paginator;
-    }
-
-    public static function with($relations)
-    {
-        return new static;
-    }
 
 }

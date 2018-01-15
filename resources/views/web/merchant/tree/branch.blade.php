@@ -2,7 +2,7 @@
     <div class="dd-handle">
         {!! $branchCallback($branch) !!}
         <span class="pull-right dd-nodrag">
-            @if($branch['created_id'] == getMerchantId())
+            @if(isset($branch['created_id']) && $branch['created_id']== getMerchantId())
                 <a href="{{ $path }}/{{ $branch[$keyName] }}/edit"><i class="fa fa-edit"></i></a>
             @endif
             <a href="javascript:void(0);" data-id="{{ $branch[$keyName] }}" class="tree_branch_delete"><i

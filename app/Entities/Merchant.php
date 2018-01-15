@@ -177,7 +177,7 @@ class Merchant extends BaseModel
      */
     public function serviceTypes()
     {
-        return $this->belongsToMany(Brand::class,'merchant_service_types');
+            return $this->belongsToMany(ServiceType::class,'merchant_service_types');
 
     }
 

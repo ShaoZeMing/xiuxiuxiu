@@ -64,12 +64,13 @@ Route::group([
     $router->get('api/malfunction/resolvents','MalfunctionController@apiResolvents');
 
 
-    $router->resource('service-types', ServiceTypeController::class);
+    $router->resource('service_types', ServiceTypeController::class);
 
 
     $router->resource('merchants', MerchantController::class);
     $router->post('api/merchants/{id}/cats', 'MerchantController@cats');
     $router->post('api/merchants/{id}/brands', 'MerchantController@brands');
+    $router->post('api/merchants/{id}/service_types', 'MerchantController@serviceTypes');
 
     $router->resource('test', ExampleController::class);
 

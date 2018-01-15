@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Web\Merchant;
 use App\Entities\Brand;
 use App\Entities\Categorie;
 use App\Entities\Malfunction;
+use App\Entities\MerchantServiceType;
 use App\Entities\Product;
 use App\Entities\ServiceTypeM;
+use App\Entities\ServiceTypeMG;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use ShaoZeMing\Merchant\Controllers\ModelForm;
@@ -43,10 +45,10 @@ class ServiceTypeController extends Controller
                     $column->row(function (Row $row) {
                         $row->column(12, function (Column $column) {
 
-                            Log::info('idssss',[ServiceTypeM::$ids,getMerchantId()]);
+                            Log::info('idssss',[self::$ids,getMerchantId()]);
                             $form = new \ShaoZeMing\Merchant\Widgets\Form();
                             $form->action(merchant_base_path('api/merchants/'.getMerchantId().'/service_types'));
-                            $form->multipleSelect('service_types', '服务类型名称')->options(ServiceTypeM::whereNotIn('id',ServiceTypeM::$ids)->get()->pluck('service_type_name', 'id'));
+                            $form->multipleSelect('service_types', '服务类型')->options(ServiceTypeM::whereNotIn('id',self::$ids)->get()->pluck('service_type_name', 'id'));
                             $column->append((new Box('添加系统已有服务类型', $form))->style('success'));
                         });
                     });
@@ -102,6 +104,40 @@ class ServiceTypeController extends Controller
         });
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try{
+            Log::info('删除服务类型',[$id,__METHOD__]);
+            $merchant = getMerchantInfo();
+            $res = $merchant->serviceTypes()->detach($id);
+            if ($res) {
+                return response()->json([
+                    'status'  => true,
+                    'message' => '删除成功',
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => false,
+                    'message' => "删除失败",
+                ]);
+            }
+        }catch (\Exception $e){
+            Log::error($e,[__METHOD__]);
+            return response()->json([
+                'status'  => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
     /**
      * Make a grid builder.
      *
@@ -111,14 +147,22 @@ class ServiceTypeController extends Controller
     {
         return Merchant::grid(ServiceTypeM::class, function (Grid $grid) {
 
-//            $grid->id('ID')->sortable();
-            $grid->model()->orderBy('service_type_sort');
+            $ids  = MerchantServiceType::where('merchant_id',getMerchantId())->get(['service_type_id'])->toArray();
+            self::$ids = array_column($ids, 'service_type_id');
+            $grid->model()->whereIn('id', self::$ids)->orderBy('service_type_sort');
+//            $grid->model()->orderBy('service_type_sort');
             $grid->column('service_type_name', '名称');
             $grid->service_type_desc('描述');
-//            $grid->created_at('创建时间');
-//            $grid->updated_at('修改时间');
+            $grid->actions(function (Grid\Displayers\Actions $actions)use($grid) {
+                if (ServiceTypeM::find($actions->getKey())->created_id != getMerchantId()) {
+                    $actions->disableEdit();
+                }
+            });
+            $grid->disableCreation();
+            $grid->disableExport();
             $grid->filter(function ($filter) {// 设置created_at字段的范围查询
-                $filter->between('created_at', 'Created Time')->datetime();
+                $filter->disableIdFilter();
+                $filter->like('service_type_name','类型名称');
             });
         });
     }
@@ -136,6 +180,10 @@ class ServiceTypeController extends Controller
             $form->textarea('service_type_desc', '描述');
 //            $form->number('service_type_sort', '排序');
 //            $form->switch('service_type_state','状态')->default(1);
+            $form->hidden('created_id')->default(getMerchantId());
+            $form->saved(function (Form $form){
+                getMerchantInfo()->brands()->syncWithoutDetaching($form->model()->id);
+            });
         });
     }
 }

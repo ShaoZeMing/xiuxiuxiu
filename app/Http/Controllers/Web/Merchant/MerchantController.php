@@ -6,6 +6,7 @@ use App\Entities\Area;
 use App\Entities\Brand;
 use App\Entities\Categorie;
 use App\Entities\Merchant;
+use App\Entities\ServiceType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -113,6 +114,30 @@ class MerchantController extends Controller
             Log::info('整理ID', [$id, $brands]);
             Merchant::find($id)->brands()->syncWithoutDetaching($brands);
             return redirect(merchant_base_path('brands'))->with(['message' => '添加成功']);
+
+        } catch (\Exception $e) {
+            Log::error($e, [__METHOD__]);
+            return back()->withInput()->withErrors(['message' => $e->getMessage()]);
+        }
+
+    }
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param $id
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     * 商家添加品类
+     */
+    public function serviceTypes($id, Request $request)
+    {
+        try {
+            $serviceTypes = $request->get('service_types');
+            Log::info('添加ID', [$id, $serviceTypes]);
+            $serviceTypes = array_filter($serviceTypes);
+            Log::info('整理ID', [$id, $serviceTypes]);
+            Merchant::find($id)->serviceTypes()->syncWithoutDetaching($serviceTypes);
+            return redirect(merchant_base_path('service_types'))->with(['message' => '添加成功']);
 
         } catch (\Exception $e) {
             Log::error($e, [__METHOD__]);
