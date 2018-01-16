@@ -38,7 +38,6 @@ class ServiceTypeController extends Controller
         return Merchant::content(function (Content $content) {
             $content->header('服务类型管理');
             $content->description('工单需要服务的类型，比如安装，维修，送修，机修，换机');
-//            $content->body($this->grid());
             $content->row(function (Row $row) {
                 $row->column(6, $this->grid()->render());
                 $row->column(6, function (Column $column) {
@@ -150,7 +149,6 @@ class ServiceTypeController extends Controller
             $ids  = MerchantServiceType::where('merchant_id',getMerchantId())->get(['service_type_id'])->toArray();
             self::$ids = array_column($ids, 'service_type_id');
             $grid->model()->whereIn('id', self::$ids)->orderBy('service_type_sort');
-//            $grid->model()->orderBy('service_type_sort');
             $grid->column('service_type_name', '名称');
             $grid->service_type_desc('描述');
             $grid->actions(function (Grid\Displayers\Actions $actions)use($grid) {
@@ -175,14 +173,11 @@ class ServiceTypeController extends Controller
     protected function form()
     {
         return Merchant::form(ServiceTypeM::class, function (Form $form) {
-//            $form->display('id', 'ID');
             $form->text('service_type_name', '名称');
             $form->textarea('service_type_desc', '描述');
-//            $form->number('service_type_sort', '排序');
-//            $form->switch('service_type_state','状态')->default(1);
             $form->hidden('created_id')->default(getMerchantId());
             $form->saved(function (Form $form){
-                getMerchantInfo()->brands()->syncWithoutDetaching($form->model()->id);
+                getMerchantInfo()->serviceTypes()->syncWithoutDetaching($form->model()->id);
             });
         });
     }

@@ -53,10 +53,21 @@ class Categorie extends BaseModel
 
     public static function getDelIds($id)
     {
+        static $rIds;
+        $rIds[] = $id;
         $ids = self::where('cat_parent_id',$id)->get(['id'])->toArray();
         $ids = array_column($ids,'id');
-        $ids[] = $id;
-        return $ids;
+        foreach ($ids as $v){
+            $rIds[] = $v;
+            $mod =  self::where('cat_parent_id',$v)->get();
+            if($mod->count() && $mod->id){
+                $idss = array_column($mod->toArray(),'id');
+                foreach ($idss as $vv)
+                $rIds[] = $vv;
+                self::getDelIds($vv);
+            }
+        }
+        return $rIds;
     }
 
     /**

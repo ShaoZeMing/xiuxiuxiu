@@ -147,7 +147,7 @@ class Merchant extends BaseModel
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class,'merchant_products');
 
     }
 
@@ -165,7 +165,7 @@ class Merchant extends BaseModel
      */
     public function malfunctions()
     {
-        return $this->belongsToMany(Brand::class,'merchant_malfunctions');
+        return $this->belongsToMany(Malfunction::class,'merchant_malfunctions');
 
     }
 

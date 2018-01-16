@@ -38,11 +38,6 @@ class ServiceTypeM extends ServiceType
 
     public $table='service_types';
 
-
-    function paginate(){
-        dd(123);
-    }
-
     /**
      * Get options for Select field in form.
      *

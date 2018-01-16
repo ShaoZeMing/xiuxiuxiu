@@ -24,6 +24,8 @@ class MerchantProduct extends Model implements Transformable
 {
     use TransformableTrait;
 
+    public $table='merchant_products';
+
     protected $guarded = [];
 
 }

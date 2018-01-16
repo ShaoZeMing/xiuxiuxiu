@@ -243,7 +243,8 @@ class CategorieController extends Controller
     public function apiMalfunctions(Request $request)
     {
         $q = $request->get('q');
-        $data = Malfunction::where('cat_id', $q)->get(['id', DB::raw('malfunction_name as text')]);
+        $q = Categorie::getDelIds($q);
+        $data = Malfunction::whereIn('cat_id', $q)->get(['id', DB::raw('malfunction_name as text')]);
         return $data;
     }
 
