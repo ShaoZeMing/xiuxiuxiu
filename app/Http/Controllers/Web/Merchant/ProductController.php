@@ -144,7 +144,6 @@ class ProductController extends Controller
     protected function form()
     {
         return Merchant::form(Product::class, function (Form $form) {
-//            $form->display('id', 'ID');
             $form->text('product_name', '产品名称')->rules('required');
             $form->text('product_version', '产品型号')->default('&nbsp;');
             $form->text('product_size', '产品规格')->default('&nbsp;');
@@ -152,7 +151,6 @@ class ProductController extends Controller
             $form->select('cat_id', '产品分类')->options(CategorieM::selectMerchantOptions('—'))->load('malfunctions','/merchant/api/cat/malfunctions');
             $form->multipleSelect('malfunctions', '故障类型')->options(getMerchantInfo()->malfunctions()->get()->pluck('malfunction_name', 'id'));
             $form->textarea('product_desc', '产品描述');
-//            $form->switch('product_state','是否启用')->default(1);
             $form->saved(function (Form $form){
                 getMerchantInfo()->products()->syncWithoutDetaching($form->model()->id);
             });

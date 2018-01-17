@@ -145,6 +145,30 @@ class MerchantController extends Controller
         }
 
     }
+    /**
+     * @author ShaoZeMing
+     * @email szm19920426@gmail.com
+     * @param $id
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     * 商家添加品类
+     */
+    public function malfunctions($id, Request $request)
+    {
+        try {
+            $malfunctions = $request->get('malfunctions');
+            Log::info('添加ID', [$id, $malfunctions]);
+            $malfunctions = array_filter($malfunctions);
+            Log::info('整理ID', [$id, $malfunctions]);
+            Merchant::find($id)->malfunctions()->syncWithoutDetaching($malfunctions);
+            return redirect(merchant_base_path('malfunctions'))->with(['message' => '添加成功']);
+
+        } catch (\Exception $e) {
+            Log::error($e, [__METHOD__]);
+            return back()->withInput()->withErrors(['message' => $e->getMessage()]);
+        }
+
+    }
 
     /**
      * Make a grid builder.

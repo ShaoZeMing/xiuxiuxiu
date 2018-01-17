@@ -243,8 +243,13 @@ class CategorieController extends Controller
     public function apiMalfunctions(Request $request)
     {
         $q = $request->get('q');
+        $mftIds = cache(getMerchantId().'_mft_ids')?:[];
+        if(!$q){
+            $data = Malfunction::whereNotIn('id', $mftIds)->get(['id', DB::raw('malfunction_name as text')]);
+            return $data;
+        }
         $q = Categorie::getDelIds($q);
-        $data = Malfunction::whereIn('cat_id', $q)->get(['id', DB::raw('malfunction_name as text')]);
+        $data = Malfunction::whereNotIn('id', $mftIds)->whereIn('cat_id', $q)->get(['id', DB::raw('malfunction_name as text')]);
         return $data;
     }
 

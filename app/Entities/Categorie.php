@@ -60,7 +60,8 @@ class Categorie extends BaseModel
         foreach ($ids as $v){
             $rIds[] = $v;
             $mod =  self::where('cat_parent_id',$v)->get();
-            if($mod->count() && $mod->id){
+            \Log::info('循环获取CID',[$mod->count()]);
+            if($mod->count()){
                 $idss = array_column($mod->toArray(),'id');
                 foreach ($idss as $vv)
                 $rIds[] = $vv;

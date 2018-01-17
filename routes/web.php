@@ -71,6 +71,7 @@ Route::group([
     $router->post('api/merchants/{id}/cats', 'MerchantController@cats');
     $router->post('api/merchants/{id}/brands', 'MerchantController@brands');
     $router->post('api/merchants/{id}/service_types', 'MerchantController@serviceTypes');
+    $router->post('api/merchants/{id}/malfunctions', 'MerchantController@malfunctions');
 
     $router->resource('test', ExampleController::class);
 
