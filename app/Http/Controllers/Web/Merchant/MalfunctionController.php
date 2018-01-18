@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Web\Merchant;
 
-use App\Entities\Brand;
-use App\Entities\Categorie;
 use App\Entities\CategorieM;
 use App\Entities\Malfunction;
 use App\Entities\MerchantMalfunction;
-use App\Entities\Product;
-use App\Entities\ServiceType;
 use App\Entities\ServiceTypeM;
 use App\Http\Controllers\Controller;
 use App\Repositories\ResolventRepositoryEloquent;
@@ -136,10 +132,8 @@ class MalfunctionController extends Controller
     public function create()
     {
         return Merchant::content(function (Content $content) {
-
             $content->header('添加故障');
             $content->description('description');
-
             $content->body($this->form());
         });
     }
@@ -191,7 +185,6 @@ class MalfunctionController extends Controller
     protected function form()
     {
         return Merchant::form(Malfunction::class, function (Form $form) {
-//            $form->display('id', 'ID');
             $form->select('cat_id', '所属品类')->options(CategorieM::selectMerchantOptions('—'))->load('products','/merchant/api/cat/products');
             $form->text('malfunction_name', '故障名称')->rules('required');
             $form->select('service_type_id', '服务类型')->options(ServiceTypeM::selectMerchantOptions());
