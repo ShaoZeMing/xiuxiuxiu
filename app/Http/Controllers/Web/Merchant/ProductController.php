@@ -49,7 +49,7 @@ class ProductController extends Controller
     {
         return Merchant::content(function (Content $content) use ($id) {
             $content->header('编辑产品');
-            $content->description('注意编辑');
+            $content->description('编辑需谨慎');
             $content->body($this->form()->edit($id));
         });
     }
@@ -64,7 +64,7 @@ class ProductController extends Controller
         return Merchant::content(function (Content $content) {
 
             $content->header('创建产品');
-            $content->description('描述');
+            $content->description('创建你自己的产品');
 
             $content->body($this->form());
         });
