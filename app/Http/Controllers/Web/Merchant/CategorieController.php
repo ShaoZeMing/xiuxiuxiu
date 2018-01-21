@@ -54,7 +54,7 @@ class CategorieController extends Controller
                         $row->column(12, function (Column $column) {
                             $form = new \ShaoZeMing\Merchant\Widgets\Form();
                             $form->action(merchant_base_path('cats'));
-                            $form->select('cat_parent_id', '父级')->options(CategorieM::selectOptions());
+                            $form->select('cat_parent_id', '父级')->options(CategorieM::selectMerchantOptions());
                             $form->text('cat_name', '名称')->rules('required');
                             $form->textarea('cat_desc', '描述')->default('');
                             $form->image('cat_logo', 'LOGO')->resize(200, 200)->uniqueName()->removable();
@@ -243,6 +243,7 @@ class CategorieController extends Controller
     public function apiMalfunctions(Request $request)
     {
         $q = $request->get('q');
+        Log::info($q,[__METHOD__]);
         $mftIds = cache(getMerchantId().'_mft_ids')?:[];
         if(!$q){
             $data = Malfunction::whereNotIn('id', $mftIds)->get(['id', DB::raw('malfunction_name as text')]);

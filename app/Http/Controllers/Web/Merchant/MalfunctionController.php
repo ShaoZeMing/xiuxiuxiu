@@ -44,7 +44,7 @@ class MalfunctionController extends Controller
                             Log::info(cache(getMerchantId().'_mft_ids'),['缓存']);
                             $form = new \ShaoZeMing\Merchant\Widgets\Form();
                             $form->action(merchant_base_path('api/merchants/'.getMerchantId().'/malfunctions'));
-                            $form->select('cat_id', '产品分类')->options(CategorieM::selectMerchantOptions('—'))->load('malfunctions','/merchant/api/cat/malfunctions');
+                            $form->select('cat', '产品分类')->options(CategorieM::selectMerchantOptions('—'))->load('malfunctions','/merchant/api/cat/malfunctions');
                             $form->multipleSelect('malfunctions', '故障类型')->options(Malfunction::whereNotIn('id',self::$ids)->get()->pluck('malfunction_name', 'id'));
                             $column->append((new Box('添加系统已有故障', $form))->style('success'));
                         });
