@@ -104,7 +104,8 @@
                 }
 
                 e.preventDefault();
-                list.dragStart(e.touches ? e.touches[0] : e);
+                //禁止拖拽
+                // list.dragStart(e.touches ? e.touches[0] : e);
             };
 
             var onMoveEvent = function(e)
