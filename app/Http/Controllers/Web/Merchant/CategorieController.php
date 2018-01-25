@@ -263,6 +263,11 @@ class CategorieController extends Controller
     public function apiProducts(Request $request, CategorieRepositoryEloquent $categorieRepository)
     {
         $q = $request->get('q');
-        return $categorieRepository->find($q)->products()->get(['products.id', DB::raw('product_name as text')]);
+        if(!$q){
+            return [];
+        }
+        $res = getMerchantInfo()->products()->get(['id'])->toArray();
+        $ids = array_column($res,'id');
+        return $categorieRepository->find($q)->products()->whereIn('id',$ids)->get(['products.id', DB::raw('product_name as text')]);
     }
 }

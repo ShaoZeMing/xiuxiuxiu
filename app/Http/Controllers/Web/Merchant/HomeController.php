@@ -17,19 +17,14 @@ class HomeController extends Controller
 
             $content->header('Dashboard');
             $content->description('Description...');
-
-            $content->row(Dashboard::title());
-
+            $content->row(view('web.merchant.order.create'));
             $content->row(function (Row $row) {
-
                 $row->column(4, function (Column $column) {
                     $column->append(Dashboard::environment());
                 });
-
                 $row->column(4, function (Column $column) {
                     $column->append(Dashboard::extensions());
                 });
-
                 $row->column(4, function (Column $column) {
                     $column->append(Dashboard::dependencies());
                 });

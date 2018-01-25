@@ -9,6 +9,7 @@ use App\Entities\MerchantProduct;
 use App\Entities\Product;
 use App\Http\Controllers\Controller;
 use App\Repositories\ProductRepository;
+use App\Repositories\ProductRepositoryEloquent;
 use Illuminate\Support\Facades\Log;
 use ShaoZeMing\Merchant\Controllers\ModelForm;
 use ShaoZeMing\Merchant\Facades\Merchant;
@@ -164,10 +165,13 @@ class ProductController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function apiMalfunctions(Request $request,ProductRepository $productRepository)
+    public function apiMalfunctions(Request $request,ProductRepositoryEloquent $productRepository)
     {
         $q = $request->get('q');
-        return  $productRepository->find($q)->malfunctions()->get(['malfunctions.id', DB::raw('malfunctions_name as text')]);
+        if(!$q){
+            return [];
+        }
+        return  $productRepository->find($q)->malfunctions()->get(['id', DB::raw('malfunction_name as text')]);
     }
 
 }

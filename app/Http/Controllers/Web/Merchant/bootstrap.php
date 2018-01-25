@@ -20,4 +20,5 @@
 
 ShaoZeMing\Merchant\Form::forget(['map', 'editor']);
 
+//Merchant::js('https://cdn.bootcss.com/Chart.js/2.7.1/Chart.min.js');
 app('view')->prependNamespace('merchant', resource_path('views/web/merchant'));

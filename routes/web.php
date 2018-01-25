@@ -75,6 +75,9 @@ Route::group([
 
     $router->resource('test', ExampleController::class);
 
+
+    $router->resource('orders', OrderController::class);
+
 });
 
 Route::group([

@@ -15,9 +15,12 @@ use ShaoZeMing\Merchant\Controllers\ModelForm;
 use ShaoZeMing\Merchant\Facades\Merchant;
 use ShaoZeMing\Merchant\Form;
 use ShaoZeMing\Merchant\Grid;
+use ShaoZeMing\Merchant\Layout\Column;
 use ShaoZeMing\Merchant\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use ShaoZeMing\Merchant\Layout\Row;
+use ShaoZeMing\Merchant\Widgets\Box;
 
 class OrderController extends Controller
 {
@@ -33,9 +36,21 @@ class OrderController extends Controller
     {
         return Merchant::content(function (Content $content) {
             $content->header('工单管理');
-            $content->description('这些都是工单');
-            $content->body($this->grid());
-
+//            $content->description('这些都是工单');
+            $content->row(function (Row $row) {
+                $row->column(2, function (Column $column) {
+//                    $box =new Box('二级列表', view('web.merchant.order.left_list'));
+//                    $box->removable();
+//                    $box->collapsable();
+//                    $box->style('info');
+//                    $box->solid();
+//                    $column->append($box);
+                    $column->append( view('web.merchant.order.left_list'));
+                });
+                $row->column(10, function (Column $column) {
+                    $column->append($this->grid());
+                });
+            });
         });
 
     }
@@ -66,8 +81,20 @@ class OrderController extends Controller
 
             $content->header('创建产品');
             $content->description('创建你自己的产品');
-
-            $content->body($this->form());
+            $content->row(function (Row $row) {
+                $row->column(2, function (Column $column) {
+//                    $box =new Box('二级列表', view('web.merchant.order.left_list'));
+//                    $box->removable();
+//                    $box->collapsable();
+//                    $box->style('info');
+//                    $box->solid();
+//                    $column->append($box);
+                    $column->append( view('web.merchant.order.left_list'));
+                });
+                $row->column(10, function (Column $column) {
+                    $column->append($this->form());
+                });
+            });
         });
     }
 
@@ -145,13 +172,10 @@ class OrderController extends Controller
      */
     protected function form()
     {
-        return Merchant::form(Product::class, function (Form $form) {
-            $form->text('product_name', '产品名称')->rules('required');
-            $form->text('product_version', '产品型号')->default('&nbsp;');
-            $form->text('product_size', '产品规格')->default('&nbsp;');
-            $form->select('brand_id', '产品品牌')->options(BrandM::selectMerchantOptions('—'));
-            $form->select('cat_id', '产品分类')->options(CategorieM::selectMerchantOptions('—'))->load('malfunctions','/merchant/api/cat/malfunctions');
-            $form->multipleSelect('malfunctions', '故障类型')->options(getMerchantInfo()->malfunctions()->get()->pluck('malfunction_name', 'id'));
+        return Merchant::form(Order::class, function (Form $form) {
+            $form->select('cat_id', '品类')->options(CategorieM::selectMerchantOptions('—'))->load('product_id','/merchant/api/cat/products');
+            $form->select('product_id', '产品')->options(getMerchantInfo()->products()->get()->pluck('product_name', 'id'))->load('malfunction_id','/merchant/api/product/malfunctions');
+            $form->select('malfunction_id', '故障类型')->options(getMerchantInfo()->malfunctions()->get()->pluck('malfunction_name', 'id'));
             $form->textarea('product_desc', '产品描述');
             $form->saved(function (Form $form){
                 getMerchantInfo()->products()->syncWithoutDetaching($form->model()->id);
